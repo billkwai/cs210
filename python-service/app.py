@@ -19,6 +19,8 @@ CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PUT,GET,OPTIONS"}})
 
 NO_INITIAL_COINS = 1000
+USERNAME_INVALID = -1
+PASSWORD_INCORRECT = -2
 
 #DB_NAME = 'employees'
 
@@ -308,7 +310,8 @@ def loginPlayer():
         print("Reached post query")
         rv = cur.fetchone()
         if rv is None:
-            abort(404)
+            message = {'status': USERNAME_INVALID, 'message': 'No matching username/email found'}
+            return jsonify(message)
         #print("returned value's password is "+rv['password'])
 
         for key in rv.keys():
@@ -326,7 +329,7 @@ def loginPlayer():
         if pw_correct:
             message = {'status': 1, 'message': 'The password is correct.', 'id': rv['id']}
         else:
-            message = {'status': -1, 'message': 'The password is incorrect.'}
+            message = {'status': PASSWORD_INCORRECT, 'message': 'The password is incorrect.'}
 
         return jsonify(message)
     except Exception as e:
