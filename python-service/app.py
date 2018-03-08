@@ -140,6 +140,7 @@ def setupDBS():
                   id INTEGER NOT NULL AUTO_INCREMENT,
                   firstname VARCHAR(255) NOT NULL,
                   lastname VARCHAR(255) NOT NULL,
+                  username VARCHAR(255) NOT NULL,
                   password VARCHAR(255) NOT NULL,
                   salted VARCHAR(255) NOT NULL,
                   email VARCHAR(255) NOT NULL,
@@ -200,6 +201,7 @@ def setupDBS():
                   FOREIGN KEY (category_id) REFERENCES CATEGORIES(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT
                   ) ENGINE=INNODB; ''')
+      
     except Exception as e:
       print(e)
 
@@ -225,7 +227,7 @@ def players():
 def get_player(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''SELECT ID, FIRSTNAME, LASTNAME, EMAIL, PHONE, BIRTHDATE, TITLE, DEPARTMENT FROM PLAYERS WHERE ID = %s'''%(player_id))
+    cur.execute('''SELECT * FROM PLAYERS WHERE ID = %s'''%(player_id))
     rv = cur.fetchone()    
     if rv is None:
         abort(404)
@@ -277,10 +279,11 @@ def create_player():
         #hashed_pw = bcrypt.hashpw(bytes(request.json['password'], encoding='utf-8'), bcrypt.gensalt())
         hashed_pw = hashlib.pbkdf2_hmac('sha256', bytes(request.json['password'], encoding='utf-8'), salt, int_iter)
         hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
-        cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, PASSWORD, SALTED, EMAIL, PHONE, BIRTHDATE, COLLEGE_ID, COMPANY_ID, COINS) 
-                    VALUES('%s','%s','%s','%s','%s','%s','%s','%s', '%s', '%d') '''%(request.json['firstName'],request.json['lastName'],
+        print (hashed_pw_db)
+        cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED, EMAIL, PHONE, BIRTHDATE, COINS)# COLLEGE_ID, COMPANY_ID, COINS) 
+                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', '%d') '''%(request.json['firstName'],request.json['lastName'],request.json['username'],
                         hashed_pw_db, salted_db, #hash, 
-                    request.json['email'],request.json['phone'],request.json['birthDate'], request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
+                    request.json['email'],request.json['phone'],request.json['birthDate'], NO_INITIAL_COINS))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
         conn.commit()
         message = {'status': 'New player record is created succesfully'}
         cur.close()  
@@ -289,6 +292,47 @@ def create_player():
         message = {'status': 'The creation of the new player failed. DB exception: %s' % e}
     conn.close()
     return jsonify(message)
+
+@app.route('/players/login', methods=['GET'])
+def loginPlayer():
+    conn = creatConnection()
+    cur = conn.cursor()
+    username = request.json['username']
+    password = request.json['password']
+    print("Reached login endpoint with username %s and password %s"%( username, password))
+    try:
+        if '@' in username:
+            cur.execute('''SELECT id, username, password, salted, email FROM PLAYERS WHERE email='%s'; '''%(username));#%(username));
+        else:
+            cur.execute('''SELECT id, username, password, salted, email FROM PLAYERS WHERE username='%s'; '''%(username));#%(username));
+        print("Reached post query")
+        rv = cur.fetchone()
+        if rv is None:
+            abort(404)
+        #print("returned value's password is "+rv['password'])
+
+        for key in rv.keys():
+          print (key)
+
+        salted_db = rv['salted']
+        hashed_pw_db = rv['password']
+        salted_combo = binascii.unhexlify(salted_db.encode('utf-8'))
+        salt = salted_combo[0:8] + salted_combo[11:]
+        int_iter = int.from_bytes(salted_combo[8:11], 'big')
+        entered_pw_hashed = hashlib.pbkdf2_hmac('sha256', bytes(password, encoding = 'utf-8'), salt, int_iter)
+        pw_correct = (entered_pw_hashed == binascii.unhexlify(hashed_pw_db.encode('utf-8')))
+        #print("The entered password hashed is "+binascii.hexlify(entered_pw_hashed).decode('utf-8'))
+        print ("The password's truth is "+str(pw_correct))
+        if pw_correct:
+            message = {'status': 1, 'message': 'The password is correct.', 'id': rv['id']}
+        else:
+            message = {'status': -1, 'message': 'The password is incorrect.'}
+
+        return jsonify(message)
+    except Exception as e:
+        logging.error('DB exception: %s' % e)
+    conn.close()
+    return "Login"
 
 @app.route('/players/<int:player_id>', methods=['PUT'])
 def update_player(player_id):
