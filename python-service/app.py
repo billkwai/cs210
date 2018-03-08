@@ -20,7 +20,10 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PU
 
 NO_INITIAL_COINS = 1000
 USERNAME_INVALID = -1
+USERNAME_VALID = 1
 PASSWORD_INCORRECT = -2
+PASSWORD_CORRECT = 1
+DB_EXCEPTION_THROWN = -3
 
 #DB_NAME = 'employees'
 
@@ -295,27 +298,47 @@ def create_player():
     conn.close()
     return jsonify(message)
 
-@app.route('/players/login', methods=['GET'])
-def loginPlayer():
+@app.route('/players/username_exists', methods=['GET'])
+def username_exists():
     conn = creatConnection()
     cur = conn.cursor()
-    username = request.json['username']
-    password = request.json['password']
-    print("Reached login endpoint with username %s and password %s"%( username, password))
+    username = request.args.get('username')
     try:
+
         if '@' in username:
-            cur.execute('''SELECT id, username, password, salted, email FROM PLAYERS WHERE email='%s'; '''%(username));#%(username));
+            cur.execute('''SELECT id FROM PLAYERS WHERE email='%s'; '''%(username));#%(username));
         else:
-            cur.execute('''SELECT id, username, password, salted, email FROM PLAYERS WHERE username='%s'; '''%(username));#%(username));
+            cur.execute('''SELECT id FROM PLAYERS WHERE username='%s'; '''%(username));#%(username));
+    
+        rv = cur.fetchone()
+        if rv is None:
+            message = {'status': USERNAME_INVALID, 'message': 'No matching username/email found'}
+        else:
+            message = {'status': USERNAME_VALID, 'message': 'Matching username/email found', 'id': rv['id']}
+
+    except Exception as e:
+        logging.error('DB exception: %s' % e)
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown'}
+
+    cur.close()
+    conn.close()
+    return jsonify(message)
+
+@app.route('/players/<int:player_id>/login', methods=['GET'])
+def loginPlayer(player_id):
+    conn = creatConnection()
+    cur = conn.cursor()
+    password = request.args.get('password')
+    #print("Reached login endpoint with username %s and password %s"%( username, password))
+    try:
+
+        cur.execute('''SELECT password, salted FROM PLAYERS WHERE id=%d; '''%(player_id));#%(username));
         print("Reached post query")
         rv = cur.fetchone()
         if rv is None:
             message = {'status': USERNAME_INVALID, 'message': 'No matching username/email found'}
             return jsonify(message)
         #print("returned value's password is "+rv['password'])
-
-        for key in rv.keys():
-          print (key)
 
         salted_db = rv['salted']
         hashed_pw_db = rv['password']
@@ -327,15 +350,18 @@ def loginPlayer():
         #print("The entered password hashed is "+binascii.hexlify(entered_pw_hashed).decode('utf-8'))
         print ("The password's truth is "+str(pw_correct))
         if pw_correct:
-            message = {'status': 1, 'message': 'The password is correct.', 'id': rv['id']}
+            message = {'status': PASSWORD_CORRECT, 'message': 'The password is correct.'}
         else:
             message = {'status': PASSWORD_INCORRECT, 'message': 'The password is incorrect.'}
 
-        return jsonify(message)
     except Exception as e:
         logging.error('DB exception: %s' % e)
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown.'}
+
+    cur.close()
     conn.close()
-    return "Login"
+
+    return jsonify(message)
 
 @app.route('/players/<int:player_id>', methods=['PUT'])
 def update_player(player_id):
