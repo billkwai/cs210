@@ -18,7 +18,7 @@ app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PUT,GET,OPTIONS"}})
 
-NO_INITIAL_COINS = 1000
+NO_INITIAL_COINS = 2500
 USERNAME_INVALID = -1
 USERNAME_VALID = 1
 PASSWORD_INCORRECT = -2
@@ -206,9 +206,28 @@ def setupDBS():
                   FOREIGN KEY (category_id) REFERENCES CATEGORIES(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT
                   ) ENGINE=INNODB; ''')
+
+      cur.execute('''CREATE TABLE PICKS (
+                  id INTEGER NOT NULL AUTO_INCREMENT,
+                  player_id INTEGER NOT NULL,
+                  event_id INTEGER NOT NULL,
+                  picked_entity1 BOOL NOT NULL,
+                  entity1_pool  INTEGER NOT NULL,
+                  entity2_pool  INTEGER NOT NULL,
+                  correct_payout  FLOAT NOT NULL,
+                  bet_size INTEGER NOT NULL,
+                  PRIMARY KEY (id),
+                  FOREIGN KEY (player_id) REFERENCES PLAYERS(id)
+                  ON UPDATE CASCADE ON DELETE RESTRICT,
+                  FOREIGN KEY (event_id) REFERENCES EVENTS(id)
+                  ON UPDATE CASCADE ON DELETE RESTRICT
+                  ) ENGINE=INNODB; ''')
       
     except Exception as e:
       print(e)
+
+
+
 
     conn.commit()
     cur.close()
@@ -262,6 +281,26 @@ def fill_our_data_companies():
     return "Successfully added the data"
 
 
+@app.route('/players/<int:player_id>/picks', methods=['POST'])
+def make_pick(player_id)
+    conn = creatConnection()
+    cur = conn.cursor()
+    try:
+        entity1_pool = request.json['entity1_pool']
+        entity2_pool = request.json['entity2_pool']
+        bet_size = request.json['bet_size']
+        payout = (float(entity1_pool + entity2_pool) / float(entity1_pool)) * bet_size
+        cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size)
+                    VALUES(%d, %d, %d, %d, %d, %f, %d) '''%(player_id, request.json['event_id'], request.json['picked_entity1'],
+                      entity1_pool, entity2_pool, payout, bet_size))
+        conn.commit()
+        message = {'status': 'The player record is updated succesfully'}
+        cur.close()  
+    except Exception as e:
+        logging.error('DB exception: %s' % e)   
+        message = {'status': 'Player update failed.'}
+    conn.close()
+    return jsonify(message)
 
 @app.route('/players', methods=['POST'])
 def create_player():
