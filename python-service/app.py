@@ -18,9 +18,13 @@ app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PUT,GET,OPTIONS"}})
 
-NO_INITIAL_COINS = 2500
+NO_INITIAL_COINS = 2500.0
+INITIAL_PICK_BUFFER = 250
 USERNAME_INVALID = -1
 USERNAME_VALID = 1
+POST_SUCCESSFUL = 1
+PUT_SUCCESSFUL = 1
+DELETE_SUCCESSFUL = 1
 PASSWORD_INCORRECT = -2
 PASSWORD_CORRECT = 1
 DB_EXCEPTION_THROWN = -3
@@ -153,7 +157,7 @@ def setupDBS():
                   birthdate VARCHAR(10) NOT NULL,
                   college_id INT,
                   company_id INT,
-                  coins INTEGER NOT NULL,
+                  coins FLOAT NOT NULL,
                   PRIMARY KEY (id),
                   FOREIGN KEY (college_id) REFERENCES COLLEGES(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -197,7 +201,9 @@ def setupDBS():
                   event_time TIMESTAMP NOT NULL,
                   entity1_pool INTEGER NOT NULL,
                   entity2_pool INTEGER NOT NULL,
-                  active  BOOL NOT NULL,
+                  picking_active  BOOL NOT NULL,
+                  event_active  BOOL  NOT NULL,
+                  entity1_won  BOOL,
                   PRIMARY KEY (id),
                   FOREIGN KEY (entity1_id) REFERENCES ENTITIES(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -291,15 +297,26 @@ def make_pick(player_id):
         entity1_pool = request.json['entity1_pool']
         entity2_pool = request.json['entity2_pool']
         bet_size = request.json['bet_size']
-        payout = (float(entity1_pool + entity2_pool) / float(entity1_pool)) * bet_size
+        event_id = request.json['event_id']
+        picked_entity1 = request.json['picked_entity1']
+        denom =  entity1_pool if picked_entity1 else entity2_pool
+        payout = (float(entity1_pool + entity2_pool) / float(denom)) * bet_size
         cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size, pick_timestamp)
                     VALUES(%d, %d, %d, %d, %d, %f, %d, UTC_TIMESTAMP()) '''%(player_id, request.json['event_id'], request.json['picked_entity1'],
                       entity1_pool, entity2_pool, payout, bet_size))
+        
+        if (picked_entity1):
+            cur.execute(''' UPDATE EVENTS SET entity1_pool = entity1_pool + %d WHERE id = %d; '''%(bet_size, event_id))
+        else:
+            cur.execute(''' UPDATE EVENTS SET entity2_pool = entity2_pool + %d WHERE id = %d; '''%(bet_size, event_id))
+
+        cur.execute(''' UPDATE PLAYERS SET coins = coins - %d WHERE id = %d; ''' % (bet_size, player_id))
+
         conn.commit()
-        message = {'status': 'The pick record was created succesfully'}
+        message = {'status': POST_SUCCESSFUL, 'message' : 'The pick record was created succesfully'}
     except Exception as e:
         logging.error('DB exception: %s' % e)   
-        message = {'status': 'Pick creation failed.'}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'Pick creation failed.'}
 
     cur.close()
     conn.close()
@@ -313,7 +330,7 @@ def get_past_events(player_id):
     cur.execute(''' SELECT one.id AS entity1_id, one.name as entity1_name, two.id AS entity2_id,
       two.name as entity2_name, p.pick_timestamp, p.picked_entity1, p.entity1_pool, p.entity2_pool,p.correct_payout
       FROM EVENTS AS e JOIN ENTITIES AS one ON e.entity1_id = one.id JOIN ENTITIES AS two ON e.entity2_id = two.id
-      JOIN PICKS AS p ON e.id = p.event_id WHERE player_id = %d AND active = 1
+      JOIN PICKS AS p ON e.id = p.event_id WHERE player_id = %d AND picking_active = 1
       ORDER BY pick_timestamp DESC; ''' % (player_id))
     #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
      #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
@@ -333,7 +350,7 @@ def get_current_events(player_id):
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
         LEFT JOIN PICKS ON (e.id = PICKS.event_id AND PICKS.player_id = %d)
-        WHERE PICKS.event_id IS NULL AND active = 1; ''' % (player_id))
+        WHERE PICKS.event_id IS NULL AND picking_active = 1; ''' % (player_id))
     #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
      #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
       #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
@@ -366,23 +383,23 @@ def create_player():
         hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
         print (hashed_pw_db)
         cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED, EMAIL, PHONE, BIRTHDATE, COINS)# COLLEGE_ID, COMPANY_ID, COINS) 
-                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', '%d') '''%(request.json['firstName'],request.json['lastName'],request.json['username'],
+                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', '%f') '''%(request.json['firstName'],request.json['lastName'],request.json['username'],
                         hashed_pw_db, salted_db, #hash, 
                     request.json['email'],request.json['phone'],request.json['birthDate'], NO_INITIAL_COINS))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
         conn.commit()
-        message = {'status': 'New player record is created succesfully'}
+        message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully'}
         cur.close()  
     except Exception as e:
         logging.error('DB exception: %s' % e)
-        message = {'status': 'The creation of the new player failed. DB exception: %s' % e}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
     conn.close()
     return jsonify(message)
 
-@app.route('/players/username_exists', methods=['GET'])
+@app.route('/players/username_exists', methods=['POST'])
 def username_exists():
     conn = creatConnection()
     cur = conn.cursor()
-    username = request.args.get('username')
+    username = request.json['username']
     try:
 
         if '@' in username:
@@ -404,11 +421,11 @@ def username_exists():
     conn.close()
     return jsonify(message)
 
-@app.route('/players/<int:player_id>/login', methods=['GET'])
+@app.route('/players/<int:player_id>/login', methods=['POST'])
 def loginPlayer(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    password = request.args.get('password')
+    password = request.json['password']
     #print("Reached login endpoint with username %s and password %s"%( username, password))
     try:
 
@@ -452,11 +469,11 @@ def update_player(player_id):
                    WHERE ID=%s '''%(request.json['firstName'],request.json['lastName'], request.json['password'],
                    request.json['email'],request.json['phone'],request.json['birthDate'],request.json['college'],request.json['company'],player_id))    
         conn.commit()
-        message = {'status': 'The player record is updated succesfully'}
+        message = {'status': PUT_SUCCESSFUL, 'message': 'The player record is updated succesfully'}
         cur.close()  
     except Exception as e:
         logging.error('DB exception: %s' % e)   
-        message = {'status': 'Player update failed.'}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'Player update failed.'}
     conn.close()
     return jsonify(message)
 
@@ -466,12 +483,12 @@ def delete_player(player_id):
     cur = conn.cursor()
     try:
         cur.execute('''DELETE FROM PLAYERS WHERE ID=%s '''%(player_id))    
-        message = {'status': 'The player record is deleted succesfully'}
+        message = {'status': DELETE_SUCCESSFUL, 'message': 'The player record is deleted succesfully'}
         conn.commit()
         cur.close()  
     except Exception as e:
         logging.error('DB exception: %s' % e)   
-        message = {'status': 'Player delete failed.'}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'Player delete failed.'}
     conn.close()
     return jsonify(message)
 
