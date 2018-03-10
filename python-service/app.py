@@ -217,6 +217,7 @@ def setupDBS():
                   correct_payout  FLOAT NOT NULL,
                   bet_size INTEGER NOT NULL,
                   pick_timestamp TIMESTAMP NOT NULL,
+                  pick_correct BOOL,
                   PRIMARY KEY (id),
                   FOREIGN KEY (player_id) REFERENCES PLAYERS(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -304,6 +305,25 @@ def make_pick(player_id):
     conn.close()
     return jsonify(message)
 
+
+@app.route('/players/<int:player_id>/picks/live', methods =['GET'])
+def get_past_events(player_id):
+    conn = creatConnection()
+    cur = conn.cursor()
+    cur.execute(''' SELECT one.id AS entity1_id, one.name as entity1_name, two.id AS entity2_id,
+      two.name as entity2_name, p.pick_timestamp, p.picked_entity1, p.entity1_pool, p.entity2_pool,p.correct_payout
+      FROM EVENTS AS e JOIN ENTITIES AS one ON e.entity1_id = one.id JOIN ENTITIES AS two ON e.entity2_id = two.id
+      JOIN PICKS AS p ON e.id = p.event_id WHERE player_id = %d AND active = 1
+      ORDER BY pick_timestamp DESC; ''' % (player_id))
+    #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
+     #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
+      #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
+       # WHERE PICKS.event_id IS NULL; ''' % (player_id))
+
+    rv = cur.fetchall()
+    return jsonify(rv)
+
+
 @app.route('/players/<int:player_id>/events/current', methods =['GET'])
 def get_current_events(player_id):
     conn = creatConnection()
@@ -321,19 +341,6 @@ def get_current_events(player_id):
 
     rv = cur.fetchall()
     return jsonify(rv)
-
-@app.route('/players/<int:player_id>/events/past', methods =['GET'])
-def get_past_events(player_id):
-    conn = creatConnection()
-    cur = conn.cursor()
-    cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
-        EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
-        LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
-        WHERE PICKS.event_id IS NULL; ''' % (player_id))
-
-    rv = cur.fetchall()
-    return jsonify(rv)
-
 
 
 @app.route('/players', methods=['POST'])
