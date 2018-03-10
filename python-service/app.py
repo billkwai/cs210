@@ -216,6 +216,7 @@ def setupDBS():
                   entity2_pool  INTEGER NOT NULL,
                   correct_payout  FLOAT NOT NULL,
                   bet_size INTEGER NOT NULL,
+                  pick_timestamp TIMESTAMP NOT NULL,
                   PRIMARY KEY (id),
                   FOREIGN KEY (player_id) REFERENCES PLAYERS(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -282,7 +283,7 @@ def fill_our_data_companies():
 
 
 @app.route('/players/<int:player_id>/picks', methods=['POST'])
-def make_pick(player_id)
+def make_pick(player_id):
     conn = creatConnection()
     cur = conn.cursor()
     try:
@@ -290,17 +291,50 @@ def make_pick(player_id)
         entity2_pool = request.json['entity2_pool']
         bet_size = request.json['bet_size']
         payout = (float(entity1_pool + entity2_pool) / float(entity1_pool)) * bet_size
-        cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size)
-                    VALUES(%d, %d, %d, %d, %d, %f, %d) '''%(player_id, request.json['event_id'], request.json['picked_entity1'],
+        cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size, pick_timestamp)
+                    VALUES(%d, %d, %d, %d, %d, %f, %d, UTC_TIMESTAMP()) '''%(player_id, request.json['event_id'], request.json['picked_entity1'],
                       entity1_pool, entity2_pool, payout, bet_size))
         conn.commit()
-        message = {'status': 'The player record is updated succesfully'}
-        cur.close()  
+        message = {'status': 'The pick record was created succesfully'}
     except Exception as e:
         logging.error('DB exception: %s' % e)   
-        message = {'status': 'Player update failed.'}
+        message = {'status': 'Pick creation failed.'}
+
+    cur.close()
     conn.close()
     return jsonify(message)
+
+@app.route('/players/<int:player_id>/events/current', methods =['GET'])
+def get_current_events(player_id):
+    conn = creatConnection()
+    cur = conn.cursor()
+    cur.execute('''  SELECT entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
+        event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
+        JOIN ENTITIES AS one ON e.entity1_id = one.id
+        JOIN ENTITIES AS two ON e.entity2_id = two.id
+        LEFT JOIN PICKS ON (e.id = PICKS.event_id AND PICKS.player_id = %d)
+        WHERE PICKS.event_id IS NULL AND active = 1; ''' % (player_id))
+    #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
+     #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
+      #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
+       # WHERE PICKS.event_id IS NULL; ''' % (player_id))
+
+    rv = cur.fetchall()
+    return jsonify(rv)
+
+@app.route('/players/<int:player_id>/events/past', methods =['GET'])
+def get_past_events(player_id):
+    conn = creatConnection()
+    cur = conn.cursor()
+    cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
+        EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
+        LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
+        WHERE PICKS.event_id IS NULL; ''' % (player_id))
+
+    rv = cur.fetchall()
+    return jsonify(rv)
+
+
 
 @app.route('/players', methods=['POST'])
 def create_player():
