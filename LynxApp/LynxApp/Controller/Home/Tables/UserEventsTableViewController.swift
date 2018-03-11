@@ -10,7 +10,7 @@ import UIKit
 
 class UserEventsTableViewController: UITableViewController {
 
-    var userEvents: [OpenUserEvent]?
+    var userEvents: [UserEvent]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +20,15 @@ class UserEventsTableViewController: UITableViewController {
     }
     
     func loadUserEvents() {
-        // will need to be async
-        // will user current user data from initial log in
-        userEvents = DatabaseService.fetchCurrentUser(json: TestData.currentUser).openUserEvents
-        self.tableView.reloadData()
+
+        if let user = SessionState.currentUser {
+            DatabaseService.getUserEvents(id: String(user.id)) { events in
+                
+                self.userEvents = events
+                self.tableView.reloadData()
+                
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,10 +57,10 @@ class UserEventsTableViewController: UITableViewController {
         if self.userEvents != nil && self.userEvents!.count >= indexPath.row {
             
             let event = self.userEvents![indexPath.row]
-            cell.chosenTeamLabel.text = event.chosenTeam
-            cell.opposingTeamLabel.text = event.opposingTeam
-            cell.oddsLabel.text = String(event.oddsChosenTeam) + "/" + String(event.oddsOpposingTeam)
-            cell.coinDepositLabel.text = String(event.coinDeposit)
+            //cell.chosenTeamLabel.text = event.chosenTeam
+            //cell.opposingTeamLabel.text = event.opposingTeam
+           // cell.oddsLabel.text = String(event.oddsChosenTeam) + "/" + String(event.oddsOpposingTeam)
+            //cell.coinDepositLabel.text = String(event.coinDeposit)
         }
         
         

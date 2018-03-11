@@ -26,6 +26,7 @@ struct StoryboardConstants {
     
     static var RegistrationVC = "registrationViewController"
     static var LoginVC = "loginViewController"
+    static var MenuVC = "menuViewController"
 
     
     

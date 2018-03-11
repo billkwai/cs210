@@ -14,7 +14,7 @@ class RegistrationViewController: UITableViewController {
     @IBOutlet weak var firstNameInput: UITextField!
     @IBOutlet weak var lastNameInput: UITextField!
     @IBOutlet weak var birthDateInput: UITextField!
-    @IBOutlet weak var collegeInput: UITextField!
+    @IBOutlet weak var usernameInput: UITextField!
     @IBOutlet weak var emailInput: UITextField!
     @IBOutlet weak var phoneNumberInput: UITextField!
     @IBOutlet weak var passwordInput: UITextField!
@@ -45,7 +45,7 @@ class RegistrationViewController: UITableViewController {
             valid = false
         } else if (birthDateInput.text == "") {
             valid = false
-        } else if (collegeInput.text == "") {
+        } else if (usernameInput.text == "") {
             valid = false
         } else if (emailInput.text == "") {
             valid = false
@@ -78,14 +78,39 @@ class RegistrationViewController: UITableViewController {
     @IBAction func registerPressed(_ sender: Any) {
         
         if (verifyInputs()) {
-            
-            // TODO - Make GET request to database to make sure
-            // user does not already exist
+                        
+            if (DatabaseService.checkIfUserExists(name: usernameInput.text!) == nil) {  // check username
+                
+                if (DatabaseService.checkIfUserExists(name: emailInput.text!) == nil) { // check email
+                    
+                    if (DatabaseService.createUser(firstName: firstNameInput.text!, lastName: lastNameInput.text!, username: usernameInput.text!, email: emailInput.text!, phone: Int(phoneNumberInput.text!)!, birthDate: birthDateInput.text!, password: passwordInput.text!)) {
+                        
+                        if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
+
+                            if let user = DatabaseService.getUser(id: String(id)) {
+                                let saveUserId = KeychainWrapper.standard.set(id, forKey: "userId")
+                                if (saveUserId) {
+                                    SessionState.currentUser = user
+                                    performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
+                                } else {
+                                    // TODO: report keychain error
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                } else {
+                    informUserEmailAlreadyExists()
+                }
+                
+            } else {
+                informUserNameAlreadyExists()
+            }
             
             // TODO - Make POST request to database to create User
-            
-            SessionState.currentUser = DatabaseService.fetchCurrentUser(json: TestData.currentUser)
-            performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
+           // SessionState.currentUser = DatabaseService.fetchTestCurrentUser(json: TestData.currentUser)
+            //performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
 
             
         }
@@ -100,6 +125,23 @@ class RegistrationViewController: UITableViewController {
         let result = emailTest.evaluate(with: testStr)
         return result
     }
+    
+    private func informUserNameAlreadyExists() {
+        OperationQueue.main.addOperation {
+            let alert = UIAlertController(title: "Username Found", message: "An account with that username already exists.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func informUserEmailAlreadyExists() {
+        OperationQueue.main.addOperation {
+            let alert = UIAlertController(title: "Email Found", message: "An account with that email already exists.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     
     private func informUserFieldEmpty() {
         OperationQueue.main.addOperation {

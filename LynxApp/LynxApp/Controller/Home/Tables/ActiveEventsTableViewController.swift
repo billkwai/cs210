@@ -10,7 +10,7 @@ import UIKit
 
 class ActiveEventsTableViewController: UITableViewController {
     
-    var activeEvents: [Event]?
+    var activeEvents: [ActiveEvent]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +20,19 @@ class ActiveEventsTableViewController: UITableViewController {
     }
     
     func loadActiveEvents() {
-        // will need to be async
-        activeEvents = DatabaseService.fetchTestEvents(json: TestData.events)
-        self.tableView.reloadData()
+        
+        if let user = SessionState.currentUser {
+            
+            // make async request for active user events (TODO: do before displaying menu?)
+            
+            DatabaseService.getActiveEvents(id: String(user.id)) { events in
+                
+                self.activeEvents = events
+                self.tableView.reloadData()
+                
+            }
+               
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,9 +60,9 @@ class ActiveEventsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.ActiveEventCell, for: indexPath) as! ActiveEventCell
             if self.activeEvents != nil && self.activeEvents!.count >= indexPath.row {
                 let event = self.activeEvents![indexPath.row]
-                cell.team1Button.setTitle(event.team1, for: .normal)
-                cell.team2Button.setTitle(event.team2, for: .normal)
-                cell.oddsLabel.text = String(event.oddsTeam1) + "/" + String(event.oddsTeam2)
+                cell.team1Button.setTitle(event.entity1, for: .normal)
+                cell.team2Button.setTitle(event.entity2, for: .normal)
+                cell.oddsLabel.text = String(event.poolEntity1) + "/" + String(event.poolEntity2)
             }
 
 
