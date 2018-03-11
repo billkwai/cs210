@@ -302,7 +302,7 @@ def make_pick(player_id):
         denom =  entity1_pool if picked_entity1 else entity2_pool
         payout = (float(entity1_pool + entity2_pool) / float(denom)) * bet_size
         cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size, pick_timestamp)
-                    VALUES(%d, %d, %d, %d, %d, %f, %d, UTC_TIMESTAMP()) '''%(player_id, request.json['event_id'], request.json['picked_entity1'],
+                    VALUES(%d, %d, %d, %d, %d, %f, %d, UTC_TIMESTAMP()) '''%(player_id, event_id, picked_entity1,
                       entity1_pool, entity2_pool, payout, bet_size))
         
         if (picked_entity1):
@@ -323,14 +323,15 @@ def make_pick(player_id):
     return jsonify(message)
 
 
-@app.route('/players/<int:player_id>/picks/live', methods =['GET'])
+@app.route('/players/<int:player_id>/picks', methods =['GET'])
 def get_past_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute(''' SELECT one.id AS entity1_id, one.name as entity1_name, two.id AS entity2_id,
-      two.name as entity2_name, p.pick_timestamp, p.picked_entity1, p.entity1_pool, p.entity2_pool,p.correct_payout
+    cur.execute(''' SELECT e.id AS event_id, one.id AS entity1_id, e.picking_active, e.event_active,
+      p.pick_correct, one.name as entity1_name, two.id AS entity2_id, two.name as entity2_name,
+      p.pick_timestamp, p.picked_entity1, p.entity1_pool,p.entity2_pool,p.correct_payout
       FROM EVENTS AS e JOIN ENTITIES AS one ON e.entity1_id = one.id JOIN ENTITIES AS two ON e.entity2_id = two.id
-      JOIN PICKS AS p ON e.id = p.event_id WHERE player_id = %d AND picking_active = 1
+      JOIN PICKS AS p ON e.id = p.event_id WHERE player_id = %d
       ORDER BY pick_timestamp DESC; ''' % (player_id))
     #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
      #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
@@ -341,11 +342,42 @@ def get_past_events(player_id):
     return jsonify(rv)
 
 
+@app.route('/events/<int:event_id>/broadcast_result', methods = ['POST'])
+def broadcast_event_result(event_id):
+    conn = creatConnection()
+    cur = conn.cursor()
+    entity1_won = request.json['entity1_won']
+    print ("The id is %d and entity1_won is %d"%(event_id, entity1_won))
+    try:    
+        cur.execute(''' UPDATE EVENTS SET event_active = 0, entity1_won = %d WHERE id = %d;''' % (entity1_won, event_id))
+        print ("The id is %d and entity1_won is %d"%(event_id, entity1_won))
+
+        cur.execute(''' UPDATE PICKS SET pick_correct = IF(PICKS.picked_entity1 = %d, 1, 0)
+                    WHERE event_id = %d; ''' % (entity1_won, event_id))
+
+        cur.execute(''' UPDATE PLAYERS
+                    INNER JOIN PICKS ON PLAYERS.id = PICKS.player_id
+                    SET PLAYERS.coins = IF(PICKS.picked_entity1 = %d, PLAYERS.coins + PICKS.correct_payout, PLAYERS.COINS)
+                    WHERE PICKS.event_id = %d; ''' % (entity1_won, event_id))
+
+        message = {'status': POST_SUCCESSFUL, 'message': 'The broadcast of the event was successful'}
+
+    except Exception as e:
+        logging.error('DB exception: %s' % e)
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
+    
+    cur.close()
+    conn.close()
+    return jsonify(message)
+
+
+
+
 @app.route('/players/<int:player_id>/events/current', methods =['GET'])
 def get_current_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''  SELECT entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
+    cur.execute('''  SELECT e.id as event_id, entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
