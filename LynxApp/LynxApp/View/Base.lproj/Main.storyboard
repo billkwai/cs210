@@ -13,7 +13,7 @@
         <!--Menu View Controller-->
         <scene sceneID="yS1-yO-Obh">
             <objects>
-                <viewController storyboardIdentifier="MenuViewController" id="dii-J3-FAH" customClass="MenuViewController" customModule="LynxApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menuViewController" id="dii-J3-FAH" customClass="MenuViewController" customModule="LynxApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1N4-pO-1V5"/>
                         <viewControllerLayoutGuide type="bottom" id="4wJ-zd-6ZQ"/>
@@ -176,7 +176,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wyq-om-e1g">
                                         <rect key="frame" x="0.0" y="0.0" width="175" height="60"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2fi-dO-BLf">
+                                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email or User Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2fi-dO-BLf">
                                                 <rect key="frame" x="0.0" y="0.0" width="175" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -508,7 +508,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="j12-E3-xdq">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="College" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9O-Cd-4EC">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9O-Cd-4EC">
                                                             <rect key="frame" x="0.0" y="0.0" width="187.5" height="43.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -699,13 +699,13 @@
                     </tableView>
                     <connections>
                         <outlet property="birthDateInput" destination="ube-iN-fNS" id="yUw-XX-F7E"/>
-                        <outlet property="collegeInput" destination="dDR-Uf-pZx" id="i5s-Hs-Fxi"/>
                         <outlet property="confirmPasswordInput" destination="ALD-ZX-Qb4" id="hxZ-bc-GNV"/>
                         <outlet property="emailInput" destination="4XF-SP-jHT" id="RjT-Oa-3kS"/>
                         <outlet property="firstNameInput" destination="RGg-dP-fWA" id="ju4-If-L67"/>
                         <outlet property="lastNameInput" destination="v8m-z9-R0e" id="hud-hj-vON"/>
                         <outlet property="passwordInput" destination="PIc-Wo-B9e" id="J50-7X-b0T"/>
                         <outlet property="phoneNumberInput" destination="y6R-zc-cWw" id="hEk-Zf-5K8"/>
+                        <outlet property="usernameInput" destination="dDR-Uf-pZx" id="vXY-Oa-e2z"/>
                         <segue destination="dii-J3-FAH" kind="show" identifier="registrationToHomeSegue" id="Dom-BD-Lab"/>
                     </connections>
                 </tableViewController>

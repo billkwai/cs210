@@ -29,15 +29,11 @@ class LoginViewController: UIViewController {
     }
     
     private func verifyInput() -> Bool {
-        // TODO - make verification more robust and informative
         if (emailInput.text == "") {
             informUserFieldEmpty()
             return false
         } else if (passwordInput.text == "") {
             informUserFieldEmpty()
-            return false
-        } else if (!isValidEmail(testStr: emailInput.text!)) {
-            informUserEntryInvalid()
             return false
         }
         return true
@@ -50,14 +46,32 @@ class LoginViewController: UIViewController {
         
         if (verifyInput()) {
             
-            // TODO - make GET request to database to determine if
-            // user exists
-            
-            // TODO - If user exists, verify password matches
-            
-            SessionState.currentUser = DatabaseService.fetchCurrentUser(json: TestData.currentUser)
-            performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
-
+            if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) {
+                
+                let correctPassword = DatabaseService.login(id: String(id), password: passwordInput.text!)
+                
+                if (correctPassword) {
+                    
+                    if let user = DatabaseService.getUser(id: String(id)) {
+                        let saveUserId = KeychainWrapper.standard.set(id, forKey: "userId")
+                        if (saveUserId) {
+                            SessionState.currentUser = user
+                            performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
+                        } else {
+                            // TODO: report keychain error
+                        }
+                        
+                    }
+                    
+                } else {
+                    
+                   informUserInformationIncorrect()
+                    
+                }
+                
+            } else {
+                informUserInformationIncorrect()
+            }
             
         }
         
@@ -72,6 +86,14 @@ class LoginViewController: UIViewController {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         let result = emailTest.evaluate(with: testStr)
         return result
+    }
+    
+    private func informUserInformationIncorrect() {
+        OperationQueue.main.addOperation {
+            let alert = UIAlertController(title: "Email or password incorrect", message: "We couldn't find the information you entered.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     private func informUserFieldEmpty() {

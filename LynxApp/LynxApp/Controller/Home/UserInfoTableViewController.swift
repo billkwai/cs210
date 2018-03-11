@@ -18,7 +18,7 @@ class UserInfoTableViewController: UITableViewController {
         super.viewDidLoad()
 
         if let user = SessionState.currentUser {
-            nameLabel.text = user.firstName
+            nameLabel.text = user.username
             coinBalanceLabel.text = String(user.coins)
             
         }

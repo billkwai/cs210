@@ -16,6 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let id = KeychainWrapper.standard.integer(forKey: "userId") {
+            if let user = DatabaseService.getUser(id: String(id)) {
+                SessionState.currentUser = user
+                let menuVC: MenuViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController
+                self.window?.rootViewController = menuVC
+                
+            }
+        } else {
+            let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
+            self.window?.rootViewController = loginVC
+            
+        }
+        self.window?.makeKeyAndVisible()
         return true
     }
 

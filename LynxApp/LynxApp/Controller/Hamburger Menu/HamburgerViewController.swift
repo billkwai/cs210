@@ -70,8 +70,11 @@ extension HamburgerViewController: UITableViewDataSource, UITableViewDelegate {
         
         let row = rows[indexPath.row]
         if row == .logout {
-            let vc = storyboard?.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC)
-            present(vc!, animated: true, completion: nil )
+            let removed = KeychainWrapper.standard.removeAllKeys()
+            if (removed) {
+                let vc = storyboard?.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC)
+                present(vc!, animated: true, completion: nil )
+            }
 
         } else if row != .home {
             let vc = storyboard?.instantiateViewController(withIdentifier: "ViewController")

@@ -23,7 +23,7 @@ class LeaderboardTableViewController: UITableViewController {
     func loadUsers() {
         // will need to be async
         // will need POST that fetches top "20" users, or top 20 friends
-        users = DatabaseService.fetchTestUsers(json: TestData.users)
+        //users = DatabaseService.fetchTestUsers(json: TestData.users)
         self.tableView.reloadData()
     }
 
@@ -51,7 +51,7 @@ class LeaderboardTableViewController: UITableViewController {
         if self.users != nil && self.users!.count >= indexPath.row {
             let user = self.users![indexPath.row]
             cell.rankLabel.text = String(indexPath.row + 1) // right now assumes users ordered from greatest to least
-            cell.nameLabel.text = user.firstName + " " + user.lastName
+            cell.nameLabel.text = user.username
             cell.coinsLabel.text = String(user.coins)
         
         }
