@@ -359,6 +359,7 @@ def broadcast_event_result(event_id):
                     INNER JOIN PICKS ON PLAYERS.id = PICKS.player_id
                     SET PLAYERS.coins = IF(PICKS.picked_entity1 = %d, PLAYERS.coins + PICKS.correct_payout, PLAYERS.COINS)
                     WHERE PICKS.event_id = %d; ''' % (entity1_won, event_id))
+        conn.commit()
 
         message = {'status': POST_SUCCESSFUL, 'message': 'The broadcast of the event was successful'}
 
