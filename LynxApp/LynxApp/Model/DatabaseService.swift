@@ -104,7 +104,8 @@ class DatabaseService {
     // Event Related Requests
     
     static func getUserEvents(id: String, completion: @escaping ([UserEvent]) -> ()) {
-        Just.get(baseUrl + requests.userpath + "/" + id + "/picks/live") { (response) in
+        Just.get(baseUrl + requests.userpath + "/" + id + "/picks") { (response) in
+            print(response.json)
             if let json = response.json as? [[String: Any]] {
                 var events: [UserEvent] = []
                 for entry in json {
@@ -137,7 +138,6 @@ class DatabaseService {
     }
     
     
-    // Request to make a pick, untested!!!  Will add to "Controller" when detail view is ready
     
     static func makePick(id: String, betSize: Int, pickId: Int, event: ActiveEvent) -> Bool {
         

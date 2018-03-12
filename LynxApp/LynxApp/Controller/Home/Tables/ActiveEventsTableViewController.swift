@@ -11,7 +11,6 @@ import UIKit
 class ActiveEventsTableViewController: UITableViewController {
     
     var activeEvents: [ActiveEvent]?
-    var indexToPass = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,13 +80,19 @@ class ActiveEventsTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+
         if let destinationVC = segue.destination as? DetailedBetViewController {
-            destinationVC.activeEvent = activeEvents?[indexToPass]
+            if let eventIndex = tableView.indexPathForSelectedRow?.row {
+
+                destinationVC.activeEvent = activeEvents?[eventIndex]
+            }
         }
         
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
+    
+    
 
 
     /*

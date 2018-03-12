@@ -33,49 +33,64 @@ class DetailedBetViewController: UIViewController {
     
     @IBOutlet weak var chooseTeamSegmentedControl: UISegmentedControl!
     
-    var chosenBetIndex = 0
-    var teamSelected = "Team 1"
-    var team1:String?
-    var team2:String?
-    var oddsTeam1:Int?
-    var oddsTeam2:Int?
     
+    @IBOutlet weak var sliderValue: UISlider!
+    
+    var teamSelected: Int?
     
     @IBAction func selectedTeam(_ sender: UISegmentedControl) {
-        switch chooseTeamSegmentedControl.selectedSegmentIndex{
+        switch chooseTeamSegmentedControl.selectedSegmentIndex {
         case 0:
-            teamSelected = team1!
-            oddsOfSelectedTeam.text = "Consensus Odds: " +    String(oddsTeam1!) + ":" + String(oddsTeam2!)
+            teamSelected = activeEvent?.idEntity1
+            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity1)" + ":" + "\(activeEvent!.poolEntity2)"
         case 1:
-            teamSelected = team2!
-            oddsOfSelectedTeam.text = "Consensus Odds: " +    String(oddsTeam2!) + ":" + String(oddsTeam1!)
+            teamSelected = activeEvent?.idEntity2
+            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity2)" + ":" + "\(activeEvent!.poolEntity1)"
         default:
             break
         }
     }
+    
+    
     @IBAction func submitForecast(_ sender: Any) {
+        
+        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: Int(sliderValue.value), pickId: teamSelected!, event: activeEvent!)) {
+            
+            performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
+            
+            
+        } else {
+            
+            // report error
+        }
+        
+        
+        
     }
+    
     @IBOutlet weak var sliderLabel: UILabel!
+    
     @IBAction func wagerSlider(_ sender: UISlider) {
         sliderLabel.text = "Foresight Stake: " + String(Int((round(sender.value/50))*50))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        teamSelected = activeEvent?.idEntity1
+        
         let team1ImageName = (activeEvent?.entity1.lowercased())! + ".png"
         let team2ImageName = (activeEvent?.entity2.lowercased())! + ".png"
         chooseTeamSegmentedControl.setTitle(activeEvent?.entity1, forSegmentAt: 0)
         chooseTeamSegmentedControl.setTitle(activeEvent?.entity2, forSegmentAt: 1)
 
-        team1 = fullUnivNames[(activeEvent?.entity1)!]
-        team2 = fullUnivNames[(activeEvent?.entity2)!]
-        oddsTeam1 = activeEvent?.poolEntity1
-        oddsTeam2 = activeEvent?.poolEntity2
-        oddsOfSelectedTeam.text = "Consensus Odds: " +    String(describing: activeEvent?.poolEntity1) + ":" + String(describing: activeEvent?.poolEntity2)
+
+        oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity1)" + ":" + "\(activeEvent!.poolEntity2)"
+        
         team1Image.image = UIImage(named:team1ImageName)
         team2Image.image = UIImage(named:team2ImageName)
-        team1Label.text = team1
-        team2Label.text = team2
+        team1Label.text = activeEvent?.entity1
+        team2Label.text = activeEvent?.entity2
 
         // Do any additional setup after loading the view.
     }

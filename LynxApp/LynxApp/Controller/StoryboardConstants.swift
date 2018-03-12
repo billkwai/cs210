@@ -14,6 +14,7 @@ struct StoryboardConstants {
     // Segues
     static var LoginToHome = "loginToHomeSegue"
     static var RegistrationToHome = "registrationToHomeSegue"
+    static var DetailToHome = "detailToHome"
     
     
     
@@ -27,6 +28,7 @@ struct StoryboardConstants {
     static var RegistrationVC = "registrationViewController"
     static var LoginVC = "loginViewController"
     static var MenuVC = "menuViewController"
+
 
     
     

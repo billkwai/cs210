@@ -58,10 +58,24 @@ class UserEventsTableViewController: UITableViewController {
         if self.userEvents != nil && self.userEvents!.count >= indexPath.row {
             
             let event = self.userEvents![indexPath.row]
-            //cell.chosenTeamLabel.text = event.chosenTeam
-            //cell.opposingTeamLabel.text = event.opposingTeam
-           // cell.oddsLabel.text = String(event.oddsChosenTeam) + "/" + String(event.oddsOpposingTeam)
-            //cell.coinDepositLabel.text = String(event.coinDeposit)
+            switch (event.pickedEntity) {
+            case event.idEntity1:
+            cell.chosenTeamLabel.text = "\(event.entity1)"
+            cell.opposingTeamLabel.text = "\(event.entity2)"
+            cell.oddsLabel.text =  "\(event.poolEntity1)" + ":" + "\(event.poolEntity2)"
+                break
+            
+            case event.idEntity2:
+                cell.chosenTeamLabel.text = "\(event.entity2)"
+                cell.opposingTeamLabel.text = "\(event.entity1)"
+                cell.oddsLabel.text =  "\(event.poolEntity2)" + ":" + "\(event.poolEntity1)"
+                break
+            default:
+                break
+                
+            }
+            
+            cell.coinDepositLabel.text = "0"
         }
         
         
