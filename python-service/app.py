@@ -442,7 +442,7 @@ def get_leaderboard_all():
     conn = creatConnection()
     cur = conn.cursor()
     cur.execute(''' SELECT *
-                    FROM PLAYERS ORDER BY coins LIMIT %d; ''' % (NUM_LEADERBOARD_ALL))
+                    FROM PLAYERS ORDER BY coins DESC LIMIT %d; ''' % (NUM_LEADERBOARD_ALL))
     #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
      #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
       #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
