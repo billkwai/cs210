@@ -105,7 +105,6 @@ class DatabaseService {
     
     static func getUserEvents(id: String, completion: @escaping ([UserEvent]) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + id + "/picks") { (response) in
-            print(response.json)
             if let json = response.json as? [[String: Any]] {
                 var events: [UserEvent] = []
                 for entry in json {
