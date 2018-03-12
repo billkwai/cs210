@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */; };
 		3B28361020376212001FBEFC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28360F20376212001FBEFC /* RegistrationViewController.swift */; };
 		3B28361220376249001FBEFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361120376249001FBEFC /* LoginViewController.swift */; };
 		3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2836182037CE9B001FBEFC /* HomePageViewController.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBetViewController.swift; sourceTree = "<group>"; };
 		3B28360F20376212001FBEFC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		3B28361120376249001FBEFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3B2836182037CE9B001FBEFC /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */,
 				3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */,
+				38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */,
 				3B28361E2037D8A3001FBEFC /* LeaderboardTableViewController.swift */,
 				3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */,
 				3B3F06362038FAF7000FE334 /* UserEventCell.swift */,
@@ -243,7 +246,6 @@
 				TargetAttributes = {
 					B33E89A11ED67A3B00E5A503 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 3PHM8K6QXJ;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -308,6 +310,7 @@
 				3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */,
 				B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */,
 				3B2836282037DBC3001FBEFC /* User.swift in Sources */,
+				38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */,
 				3B3F06372038FAF7000FE334 /* UserEventCell.swift in Sources */,
 				3B2836242037D9C4001FBEFC /* AppTheme.swift in Sources */,
 				3B28361220376249001FBEFC /* LoginViewController.swift in Sources */,
@@ -439,11 +442,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
+				DEVELOPMENT_TEAM = 624XF9NPML;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp.Team;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -453,11 +456,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
+				DEVELOPMENT_TEAM = 624XF9NPML;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp.Team;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
