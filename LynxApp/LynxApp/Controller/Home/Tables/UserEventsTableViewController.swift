@@ -25,8 +25,9 @@ class UserEventsTableViewController: UITableViewController {
             DatabaseService.getUserEvents(id: String(user.id)) { events in
                 
                 self.userEvents = events
-                self.tableView.reloadData()
-                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }                
             }
         }
     }

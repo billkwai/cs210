@@ -157,6 +157,28 @@ class DatabaseService {
     
     
     
+    // Leaderboard Related Requests
+    
+    static func getLeaderboard(completion: @escaping ([User]) -> ()) {
+        
+        Just.get(baseUrl + requests.userpath + "/leaderboard/all") { (response) in
+            if let json = response.json as? [[String: Any]] {
+                var users: [User] = []
+                for entry in json {
+                    if let user = User(json: entry) {
+                        users.append(user)
+                    }
+                }
+                
+                completion(users)
+            }
+            
+        }
+        
+    }
+    
+    
+    
     // TEST FUNCTIONS ONLY
 //    static func fetchTestUsers(json: [String: Any]) -> [User] {
 //        var users: [User] = []

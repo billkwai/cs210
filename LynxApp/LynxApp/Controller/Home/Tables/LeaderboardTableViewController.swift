@@ -24,6 +24,13 @@ class LeaderboardTableViewController: UITableViewController {
         // will need to be async
         // will need POST that fetches top "20" users, or top 20 friends
         //users = DatabaseService.fetchTestUsers(json: TestData.users)
+        DatabaseService.getLeaderboard() { leaders in
+            
+            self.users = leaders
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
         self.tableView.reloadData()
     }
 

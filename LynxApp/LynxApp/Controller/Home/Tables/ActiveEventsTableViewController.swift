@@ -24,13 +24,13 @@ class ActiveEventsTableViewController: UITableViewController {
         
         if let user = SessionState.currentUser {
             
-            // make async request for active user events (TODO: do before displaying menu?)
             
             DatabaseService.getActiveEvents(id: String(user.id)) { events in
                 
                 self.activeEvents = events
-                self.tableView.reloadData()
-                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }                
             }
                
         }
