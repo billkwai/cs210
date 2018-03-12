@@ -28,6 +28,8 @@ DELETE_SUCCESSFUL = 1
 PASSWORD_INCORRECT = -2
 PASSWORD_CORRECT = 1
 DB_EXCEPTION_THROWN = -3
+API_KEY_LENGTH = 32
+NUM_LEADERBOARD_ALL = 20
 
 #DB_NAME = 'employees'
 
@@ -158,6 +160,7 @@ def setupDBS():
                   college_id INT,
                   company_id INT,
                   coins FLOAT NOT NULL,
+                  api_key VARCHAR(255),
                   PRIMARY KEY (id),
                   FOREIGN KEY (college_id) REFERENCES COLLEGES(id)
                   ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -415,18 +418,39 @@ def create_player():
         hashed_pw = hashlib.pbkdf2_hmac('sha256', bytes(request.json['password'], encoding='utf-8'), salt, int_iter)
         hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
         print (hashed_pw_db)
-        cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED, EMAIL, PHONE, BIRTHDATE, COINS)# COLLEGE_ID, COMPANY_ID, COINS) 
-                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', '%f') '''%(request.json['firstName'],request.json['lastName'],request.json['username'],
-                        hashed_pw_db, salted_db, #hash, 
-                    request.json['email'],request.json['phone'],request.json['birthDate'], NO_INITIAL_COINS))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
+
+        api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
+
+        cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
+                    EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
+                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', %f, '%s') '''
+                    %(request.json['firstName'],request.json['lastName'],request.json['username'],
+                        hashed_pw_db, salted_db, request.json['email'],request.json['phone'],
+                        request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
+        
         conn.commit()
-        message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully'}
+        message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
         cur.close()  
     except Exception as e:
         logging.error('DB exception: %s' % e)
         message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
     conn.close()
     return jsonify(message)
+
+@app.route('/players/leaderboard/all', methods=['GET'])
+def get_leaderboard_all():
+    conn = creatConnection()
+    cur = conn.cursor()
+    cur.execute(''' SELECT *
+                    FROM PLAYERS ORDER BY coins LIMIT %d; ''' % (NUM_LEADERBOARD_ALL))
+    #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
+     #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
+      #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
+       # WHERE PICKS.event_id IS NULL; ''' % (player_id))
+
+    rv = cur.fetchall()
+    return jsonify(rv)
+
 
 @app.route('/players/username_exists', methods=['POST'])
 def username_exists():
