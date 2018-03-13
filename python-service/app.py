@@ -198,6 +198,7 @@ def setupDBS():
     try:
       cur.execute('''CREATE TABLE EVENTS (
                   id INTEGER NOT NULL AUTO_INCREMENT,
+                  event_title VARCHAR(255) NOT NULL,
                   entity1_id INTEGER NOT NULL,
                   entity2_id INTEGER NOT NULL,
                   category_id INTEGER NOT NULL,
@@ -330,7 +331,7 @@ def make_pick(player_id):
 def get_past_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute(''' SELECT e.id AS event_id, one.id AS entity1_id, e.picking_active, e.event_active,
+    cur.execute(''' SELECT e.id AS event_id, e.event_title, one.id AS entity1_id, e.picking_active, e.event_active,
       p.pick_correct, one.name as entity1_name, two.id AS entity2_id, two.name as entity2_name,
       p.pick_timestamp, p.picked_entity1, p.entity1_pool,p.entity2_pool,p.correct_payout
       FROM EVENTS AS e JOIN ENTITIES AS one ON e.entity1_id = one.id JOIN ENTITIES AS two ON e.entity2_id = two.id
@@ -381,7 +382,7 @@ def broadcast_event_result(event_id):
 def get_current_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''  SELECT e.id as event_id, entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
+    cur.execute('''  SELECT e.id as event_id, e.event_title, entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
