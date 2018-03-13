@@ -15,7 +15,9 @@ class ActiveEventsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0);
-        
+        self.tableView.estimatedRowHeight = 100.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+
         self.loadActiveEvents()
     }
     
@@ -61,6 +63,8 @@ class ActiveEventsTableViewController: UITableViewController {
             if self.activeEvents != nil && self.activeEvents!.count >= indexPath.row {
                 let event = self.activeEvents![indexPath.row]
                 cell.eventTitleLabel.text = String(event.eventTitle)
+                cell.drawProgressLayer()
+                cell.rectProgress(incremented: (0.5 * (cell.oddsBarView.bounds.width - 10)))
             }
 
 
