@@ -75,7 +75,7 @@ class UserEventsTableViewController: UITableViewController {
                 
             }
             
-            cell.coinDepositLabel.text = "0"
+            cell.coinDepositLabel.text = "\(event.correctPayout)"
         }
         
         

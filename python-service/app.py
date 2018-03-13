@@ -198,6 +198,7 @@ def setupDBS():
     try:
       cur.execute('''CREATE TABLE EVENTS (
                   id INTEGER NOT NULL AUTO_INCREMENT,
+                  event_title VARCHAR(255) NOT NULL,
                   entity1_id INTEGER NOT NULL,
                   entity2_id INTEGER NOT NULL,
                   category_id INTEGER NOT NULL,
@@ -262,8 +263,9 @@ def players():
 def get_player(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''SELECT * FROM PLAYERS WHERE ID = %s'''%(player_id))
-    rv = cur.fetchone()    
+    cmd_str = 'SELECT * FROM PLAYERS WHERE ID = %s'
+    cur.execute(cmd_str, (player_id))
+    rv = cur.fetchone()
     if rv is None:
         abort(404)
     cur.close()
@@ -304,16 +306,20 @@ def make_pick(player_id):
         picked_entity1 = request.json['picked_entity1']
         denom =  entity1_pool if picked_entity1 else entity2_pool
         payout = (float(entity1_pool + entity2_pool) / float(denom)) * bet_size
-        cur.execute('''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size, pick_timestamp)
-                    VALUES(%d, %d, %d, %d, %d, %f, %d, UTC_TIMESTAMP()) '''%(player_id, event_id, picked_entity1,
-                      entity1_pool, entity2_pool, payout, bet_size))
+
+        cmd_str = '''INSERT INTO PICKS (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, correct_payout, bet_size, pick_timestamp)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, UTC_TIMESTAMP())'''
+        cur.execute(cmd_str, (player_id, event_id, picked_entity1, entity1_pool, entity2_pool, payout, bet_size))
         
         if (picked_entity1):
-            cur.execute(''' UPDATE EVENTS SET entity1_pool = entity1_pool + %d WHERE id = %d; '''%(bet_size, event_id))
+            cmd_str2 = '''UPDATE EVENTS SET entity1_pool = entity1_pool + %s WHERE id = %s;'''
+            cur.execute(cmd_str2, (bet_size, event_id))
         else:
-            cur.execute(''' UPDATE EVENTS SET entity2_pool = entity2_pool + %d WHERE id = %d; '''%(bet_size, event_id))
+            cmd_str2 = '''UPDATE EVENTS SET entity2_pool = entity2_pool + %s WHERE id = %s;'''
+            cur.execute(cmd_str2, (bet_size, event_id))
 
-        cur.execute(''' UPDATE PLAYERS SET coins = coins - %d WHERE id = %d; ''' % (bet_size, player_id))
+        cmd_str3 = '''UPDATE PLAYERS SET coins = coins - %s WHERE id = %s;'''
+        cur.execute(cmd_str3, (bet_size, player_id))
 
         conn.commit()
         message = {'status': POST_SUCCESSFUL, 'message' : 'The pick record was created succesfully'}
@@ -330,7 +336,7 @@ def make_pick(player_id):
 def get_past_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute(''' SELECT e.id AS event_id, one.id AS entity1_id, e.picking_active, e.event_active,
+    cur.execute(''' SELECT e.id AS event_id, e.event_title, one.id AS entity1_id, e.picking_active, e.event_active,
       p.pick_correct, one.name as entity1_name, two.id AS entity2_id, two.name as entity2_name,
       p.pick_timestamp, p.picked_entity1, p.entity1_pool,p.entity2_pool,p.correct_payout
       FROM EVENTS AS e JOIN ENTITIES AS one ON e.entity1_id = one.id JOIN ENTITIES AS two ON e.entity2_id = two.id
@@ -381,7 +387,7 @@ def broadcast_event_result(event_id):
 def get_current_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''  SELECT e.id as event_id, entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
+    cur.execute('''  SELECT e.id as event_id, e.event_title, entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
