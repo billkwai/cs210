@@ -54,7 +54,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         
-        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: Int(sliderValue.value), pickId: teamSelected!, event: activeEvent!)) {
+        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: activeEvent!)) {
             
             performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
             
@@ -71,7 +71,7 @@ class DetailedBetViewController: UIViewController {
     @IBOutlet weak var sliderLabel: UILabel!
     
     @IBAction func wagerSlider(_ sender: UISlider) {
-        sliderLabel.text = "Foresight Stake: " + String(Int((round(sender.value/50))*50))
+        sliderLabel.text = "Foresight Stake: " + String(Int(round(sender.value/50))*50)
     }
     
     override func viewDidLoad() {
