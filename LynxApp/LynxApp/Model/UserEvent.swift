@@ -42,7 +42,7 @@ class UserEvent {
             let idEntity1JSON = json["entity1_id"] as? Int,
             let idEntity2JSON = json["entity2_id"] as? Int,
             let idJSON = json["event_id"] as? Int,
-            let pickedEntityJSON = json["picked_entity1"] as? Int,
+            let pickedEntityJSON = json["picked_entity"] as? Int,
             let correctPayoutJSON = json["correct_payout"] as? Double,
             let eventActiveJSON = json["event_active"] as? Int,
             let pickTimestampJSON = json["pick_timestamp"] as? String,
