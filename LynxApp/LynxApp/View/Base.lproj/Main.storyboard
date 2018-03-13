@@ -303,6 +303,7 @@
                                 <connections>
                                     <outlet property="eventTitleLabel" destination="qob-Yo-Lqh" id="vOB-Wb-luD"/>
                                     <outlet property="oddsBarView" destination="caU-zg-2uG" id="BND-G2-ypu"/>
+                                    <segue destination="INu-IH-N5s" kind="show" id="u4E-x1-w6X"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
