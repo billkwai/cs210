@@ -60,9 +60,7 @@ class ActiveEventsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.ActiveEventCell, for: indexPath) as! ActiveEventCell
             if self.activeEvents != nil && self.activeEvents!.count >= indexPath.row {
                 let event = self.activeEvents![indexPath.row]
-                cell.team1Button.setTitle(event.entity1, for: .normal)
-                cell.team2Button.setTitle(event.entity2, for: .normal)
-                cell.oddsLabel.text = String(event.poolEntity1) + "/" + String(event.poolEntity2)
+                cell.eventTitleLabel.text = String(event.eventTitle)
             }
 
 

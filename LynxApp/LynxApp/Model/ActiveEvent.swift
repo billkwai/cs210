@@ -12,6 +12,7 @@ class ActiveEvent {
     
     let id: Int
     let eventTime: String
+    let eventTitle: String
     
     let entity1: String
     let poolEntity1: Int
@@ -35,7 +36,8 @@ class ActiveEvent {
             let poolEntity2JSON = json["entity2_pool"] as? Int,
             let idEntity1JSON = json["entity1_id"] as? Int,
             let idEntity2JSON = json["entity2_id"] as? Int,
-            let idJSON = json["event_id"] as? Int
+            let idJSON = json["event_id"] as? Int,
+            let titleEventJSON = json["event_title"] as? String
             else {
                 return nil
             }
@@ -49,6 +51,7 @@ class ActiveEvent {
         self.idEntity1 = idEntity1JSON
         self.idEntity2 = idEntity2JSON
         self.id = idJSON
+        self.eventTitle = titleEventJSON
         
 
 

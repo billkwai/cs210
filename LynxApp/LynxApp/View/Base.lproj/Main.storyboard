@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14075.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Avenir.ttc">
+            <string>Avenir-Black</string>
+            <string>Avenir-Book</string>
+        </array>
+        <array key="Futura.ttc">
+            <string>Futura-MediumItalic</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Menu View Controller-->
         <scene sceneID="yS1-yO-Obh">
@@ -263,54 +272,37 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeEventCell" id="kQt-Xg-1QE" customClass="ActiveEventCell" customModule="LynxApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="activeEventCell" rowHeight="100" id="UAq-f2-r4k" customClass="ActiveEventCell" customModule="LynxApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kQt-Xg-1QE" id="fKn-gH-Qnk">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UAq-f2-r4k" id="e1l-OQ-cuq">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="b2Q-QS-u3M">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wLS-sO-zlD">
+                                            <rect key="frame" x="68" y="14" width="240" height="70.5"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oub-uF-lZr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="125" height="43.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Team 1"/>
-                                                    <connections>
-                                                        <action selector="team1Selected:" destination="kQt-Xg-1QE" eventType="touchUpInside" id="WkW-x4-p8E"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Odds" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJd-hG-Tfy">
-                                                    <rect key="frame" x="125" y="0.0" width="125" height="43.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Event Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qob-Yo-Lqh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVz-qF-yf5">
-                                                    <rect key="frame" x="250" y="0.0" width="125" height="43.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="Team 2"/>
-                                                    <connections>
-                                                        <action selector="team2Selected:" destination="kQt-Xg-1QE" eventType="touchUpInside" id="IfF-dw-miZ"/>
-                                                    </connections>
-                                                </button>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="caU-zg-2uG">
+                                                    <rect key="frame" x="0.0" y="20.5" width="240" height="50"/>
+                                                    <color key="backgroundColor" red="0.77396484374999996" green="0.77396484374999996" blue="0.77396484374999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </view>
                                             </subviews>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="b2Q-QS-u3M" secondAttribute="trailing" id="BVs-wS-O7y"/>
-                                        <constraint firstItem="b2Q-QS-u3M" firstAttribute="top" secondItem="fKn-gH-Qnk" secondAttribute="top" id="eJb-ys-nbi"/>
-                                        <constraint firstItem="b2Q-QS-u3M" firstAttribute="leading" secondItem="fKn-gH-Qnk" secondAttribute="leading" id="eMH-gD-oj6"/>
-                                        <constraint firstAttribute="bottom" secondItem="b2Q-QS-u3M" secondAttribute="bottom" id="hmI-gH-25u"/>
+                                        <constraint firstItem="wLS-sO-zlD" firstAttribute="centerY" secondItem="e1l-OQ-cuq" secondAttribute="centerY" id="dQ4-vt-UT7"/>
+                                        <constraint firstItem="wLS-sO-zlD" firstAttribute="centerX" secondItem="e1l-OQ-cuq" secondAttribute="centerX" id="toN-dS-nzG"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
-                                    <outlet property="oddsLabel" destination="EJd-hG-Tfy" id="Vdk-iJ-YSp"/>
-                                    <outlet property="team1Button" destination="Oub-uF-lZr" id="KNm-29-hIS"/>
-                                    <outlet property="team2Button" destination="tVz-qF-yf5" id="qHU-53-cQ3"/>
-                                    <segue destination="INu-IH-N5s" kind="show" identifier="detailedBetViewSegue" id="WPT-ng-G0i"/>
+                                    <outlet property="eventTitleLabel" destination="qob-Yo-Lqh" id="vOB-Wb-luD"/>
+                                    <outlet property="oddsBarView" destination="caU-zg-2uG" id="BND-G2-ypu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -322,7 +314,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWF-Hr-aSK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2892" y="247"/>
+            <point key="canvasLocation" x="2891.5" y="246.5"/>
         </scene>
         <!--User Info Table View Controller-->
         <scene sceneID="vp1-MP-eKO">
@@ -731,7 +723,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="49" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HamburgerCell" rowHeight="56" id="k2Q-yr-b9w" customClass="HamburgerCell" customModule="LynxApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HamburgerCell" rowHeight="56" id="k2Q-yr-b9w" customClass="HamburgerCell" customModule="LynxApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="300" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k2Q-yr-b9w" id="TOn-GQ-lKs">
