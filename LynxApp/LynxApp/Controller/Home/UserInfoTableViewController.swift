@@ -21,7 +21,7 @@ class UserInfoTableViewController: UITableViewController {
             SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
             if let updatedUser = SessionState.currentUser {
                 nameLabel.text = updatedUser.username
-                coinBalanceLabel.text = String(user.coins)
+                coinBalanceLabel.text = String(updatedUser.coins)
             }
             
         }
