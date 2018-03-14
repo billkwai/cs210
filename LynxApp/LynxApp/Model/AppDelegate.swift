@@ -25,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let menuVC: MenuViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController
                 self.window?.rootViewController = menuVC
                 
+            } else {
+                let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
+                self.window?.rootViewController = loginVC
             }
         } else {
             let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController

@@ -442,11 +442,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 624XF9NPML;
+				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp.Team;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.foresight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -456,11 +456,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 624XF9NPML;
+				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.LynxApp.Team;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.foresight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

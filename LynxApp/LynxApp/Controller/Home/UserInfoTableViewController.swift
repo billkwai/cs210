@@ -18,8 +18,11 @@ class UserInfoTableViewController: UITableViewController {
         super.viewDidLoad()
 
         if let user = SessionState.currentUser {
-            nameLabel.text = user.username
-            coinBalanceLabel.text = String(user.coins)
+            SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
+            if let updatedUser = SessionState.currentUser {
+                nameLabel.text = updatedUser.username
+                coinBalanceLabel.text = String(user.coins)
+            }
             
         }
     }
