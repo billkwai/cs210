@@ -38,6 +38,10 @@ class DetailedBetViewController: UIViewController {
     
     var teamSelected: Int?
     
+    var entity1id:  Int?
+    
+    var entity2id:  Int?
+    
     @IBAction func selectedTeam(_ sender: UISegmentedControl) {
         switch chooseTeamSegmentedControl.selectedSegmentIndex {
         case 0:
@@ -54,7 +58,8 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         
-        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: activeEvent!)) {
+        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: activeEvent!,
+                                     id1: Int(entity1id!), id2: Int(entity2id!))) {
             
             performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
             
@@ -78,6 +83,10 @@ class DetailedBetViewController: UIViewController {
         super.viewDidLoad()
         
         teamSelected = activeEvent?.idEntity1
+        
+        entity1id = activeEvent?.idEntity1
+        
+        entity2id = activeEvent?.idEntity2
         
         let team1ImageName = (activeEvent?.entity1.lowercased())! + ".png"
         let team2ImageName = (activeEvent?.entity2.lowercased())! + ".png"

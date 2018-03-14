@@ -138,9 +138,10 @@ class DatabaseService {
     
     
     
-    static func makePick(id: String, betSize: Int, pickId: Int, event: ActiveEvent) -> Bool {
+    static func makePick(id: String, betSize: Int, pickId: Int, event: ActiveEvent,
+                         id1: Int, id2: Int) -> Bool {
         
-        let response = Just.post(baseUrl + requests.userpath + "/" + id + "/picks", json:["entity1_pool":event.poolEntity1, "entity2_pool":event.poolEntity2,"bet_size":betSize, "event_id": event.id, "picked_entity": pickId])
+        let response = Just.post(baseUrl + requests.userpath + "/" + id + "/picks", json:["entity1_pool":event.poolEntity1, "entity2_pool":event.poolEntity2,"bet_size":betSize, "event_id": event.id, "picked_entity": pickId, "entity1_id": id1, "entity2_id": id2])
         
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
