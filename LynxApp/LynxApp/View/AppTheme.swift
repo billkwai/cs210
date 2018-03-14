@@ -11,3 +11,9 @@
 
 
 import Foundation
+import UIKit
+
+struct AppTheme {
+   static let lightPurple = UIColor(red: 186/255, green: 85/255, blue: 211/255, alpha: 0.3)
+}
+

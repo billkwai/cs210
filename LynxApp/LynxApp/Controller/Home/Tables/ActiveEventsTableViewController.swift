@@ -74,7 +74,8 @@ class ActiveEventsTableViewController: UITableViewController {
     // alternate row colors
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row % 2 == 0 {
-            cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0) // very light gray
+            cell.backgroundColor = AppTheme.lightPurple
+            //cell.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0) // very light gray
         } else {
             cell.backgroundColor = UIColor.white
         }
