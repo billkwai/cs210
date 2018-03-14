@@ -23,8 +23,8 @@ class UserEventsTableViewController: UITableViewController {
         if let user = SessionState.currentUser {
             DatabaseService.getUserEvents(id: String(user.id)) { events in
                 
-                self.userEvents = events
                 DispatchQueue.main.async {
+                    self.userEvents = events
                     self.tableView.reloadData()
                 }                
             }

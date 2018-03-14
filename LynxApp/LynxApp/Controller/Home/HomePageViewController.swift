@@ -25,6 +25,7 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
+
         
         
         

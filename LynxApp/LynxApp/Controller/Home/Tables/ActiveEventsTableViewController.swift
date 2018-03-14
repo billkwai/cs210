@@ -17,6 +17,7 @@ class ActiveEventsTableViewController: UITableViewController {
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
 
+
         self.loadActiveEvents()
     }
     
@@ -27,14 +28,15 @@ class ActiveEventsTableViewController: UITableViewController {
             
             DatabaseService.getActiveEvents(id: String(user.id)) { events in
                 
-                self.activeEvents = events
                 DispatchQueue.main.async {
+                    self.activeEvents = events
                     self.tableView.reloadData()
-                }                
+                }
             }
                
         }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -83,6 +85,8 @@ class ActiveEventsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
 
@@ -93,21 +97,10 @@ class ActiveEventsTableViewController: UITableViewController {
             }
         }
         
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+
     }
     
     
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

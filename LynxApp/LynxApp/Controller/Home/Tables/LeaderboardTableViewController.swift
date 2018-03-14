@@ -22,12 +22,11 @@ class LeaderboardTableViewController: UITableViewController {
 
         DatabaseService.getLeaderboard() { leaders in
             
-            self.users = leaders
             DispatchQueue.main.async {
+                self.users = leaders
                 self.tableView.reloadData()
             }
         }
-        self.tableView.reloadData()
     }
 
 
