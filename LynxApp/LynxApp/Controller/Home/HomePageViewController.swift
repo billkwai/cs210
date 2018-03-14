@@ -16,8 +16,8 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newVc(viewController: "userEventsTable"),
-                self.newVc(viewController: "activeEventsTable"),
+        return [self.newVc(viewController: "activeEventsTable"),
+                self.newVc(viewController: "userEventsTable"),
                 self.newVc(viewController: "leaderboardTable")]
     }()
     
