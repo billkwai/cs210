@@ -14,16 +14,12 @@ class LeaderboardTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.tableView.contentInset = UIEdgeInsetsMake(20.0, 0.0, 0.0, 0.0);
         
         self.loadUsers()
     }
     
     func loadUsers() {
-        // will need to be async
-        // will need POST that fetches top "20" users, or top 20 friends
-        //users = DatabaseService.fetchTestUsers(json: TestData.users)
+
         DatabaseService.getLeaderboard() { leaders in
             
             self.users = leaders
@@ -44,6 +40,10 @@ class LeaderboardTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Leaderboard"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
