@@ -9,14 +9,10 @@
 import UIKit
 
 class UserEventCell: UITableViewCell {
-
-    @IBOutlet weak var chosenTeamLabel: UILabel!
-    @IBOutlet weak var opposingTeamLabel: UILabel!
     
-    @IBOutlet weak var coinDepositLabel: UILabel!
-    @IBOutlet weak var oddsLabel: UILabel!
-
-    
+    @IBOutlet weak var eventTitle: UILabel!
+    @IBOutlet weak var pickEntity: UILabel!
+    @IBOutlet weak var wagerAmount: UILabel!
     
     
     override func awakeFromNib() {

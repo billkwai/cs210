@@ -59,23 +59,21 @@ class UserEventsTableViewController: UITableViewController {
             
             let event = self.userEvents![indexPath.row]
             switch (event.pickedEntity) {
+                
             case event.idEntity1:
-            cell.chosenTeamLabel.text = "\(event.entity1)"
-            cell.opposingTeamLabel.text = "\(event.entity2)"
-            cell.oddsLabel.text =  "\(event.poolEntity1)" + ":" + "\(event.poolEntity2)"
+                cell.pickEntity.text = "\(event.entity1)"
                 break
             
             case event.idEntity2:
-                cell.chosenTeamLabel.text = "\(event.entity2)"
-                cell.opposingTeamLabel.text = "\(event.entity1)"
-                cell.oddsLabel.text =  "\(event.poolEntity2)" + ":" + "\(event.poolEntity1)"
+                cell.pickEntity.text = "\(event.entity2)"
                 break
             default:
                 break
                 
             }
             
-            cell.coinDepositLabel.text = "\(event.correctPayout)"
+            cell.wagerAmount.text = "\(event.betSize)" + "\u{A2}"
+            cell.eventTitle.text = "\(event.eventTitle)"
         }
         
         

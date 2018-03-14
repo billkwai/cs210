@@ -18,6 +18,8 @@ class UserEvent {
     let correctPayout: Double
     let eventActive: Int
     let pickingActive: Int
+    let betSize: Int
+    let eventTitle: String
     
     let entity1: String
     let poolEntity1: Int
@@ -46,7 +48,9 @@ class UserEvent {
             let correctPayoutJSON = json["correct_payout"] as? Double,
             let eventActiveJSON = json["event_active"] as? Int,
             let pickTimestampJSON = json["pick_timestamp"] as? String,
-            let pickingActiveJSON = json["picking_active"] as? Int
+            let pickingActiveJSON = json["picking_active"] as? Int,
+            let betSizeJSON = json["bet_size"] as? Int,
+            let eventTitleJSON = json["event_title"] as? String
         
             else {
                 return nil
@@ -71,7 +75,8 @@ class UserEvent {
         self.eventActive = eventActiveJSON
         self.pickTimestamp = pickTimestampJSON
         self.pickingActive = pickingActiveJSON
-        
+        self.betSize = betSizeJSON
+        self.eventTitle = eventTitleJSON
         
     }
     
