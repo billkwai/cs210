@@ -117,9 +117,12 @@ class DetailedBetViewController: UIViewController {
         
         if (times.0 > 0) {
             betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
-        } else if (times.1 > 0) {
+        } else if (times.1 > 1) {
             betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hours"
-        } else if (times.2 > 0) {
+        } else if (times.1 > 0) {
+            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hour"
+        }
+        else if (times.2 > 0) {
             betExpirationLabel.text = "Event expires in " + "\(times.2)" + " minutes"
         } else {
             betExpirationLabel.text = "Event expires in " + "1 minute"
