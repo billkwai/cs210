@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -924,7 +924,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stanford Cardinal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99n-6z-l8c">
-                                <rect key="frame" x="107" y="167" width="200" height="26"/>
+                                <rect key="frame" x="107" y="183" width="200" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="RJl-MI-j4X"/>
                                     <constraint firstAttribute="width" constant="200" id="rTM-W9-Izj"/>
@@ -934,7 +934,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Michigan Wolverines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XF9-YH-Pca">
-                                <rect key="frame" x="107" y="269" width="200" height="26"/>
+                                <rect key="frame" x="107" y="285" width="200" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="Wfw-w6-Pa0"/>
                                     <constraint firstAttribute="width" constant="200" id="jw0-l2-7hS"/>
@@ -944,7 +944,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="50" maxValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="qgV-5A-kTP">
-                                <rect key="frame" x="102.66666666666669" y="477" width="209" height="31"/>
+                                <rect key="frame" x="102.66666666666669" y="493" width="209" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="dvz-ac-md4"/>
                                     <constraint firstAttribute="width" constant="205" id="mIk-WH-1xl"/>
@@ -975,7 +975,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Stake: 25000 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4I-Z0-0lT">
-                                <rect key="frame" x="107" y="195" width="200" height="24"/>
+                                <rect key="frame" x="107" y="211" width="200" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="lGQ-fW-qkJ"/>
                                     <constraint firstAttribute="width" constant="200" id="vrt-sR-6US"/>
@@ -985,7 +985,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Stake: 102050 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4Q-Vz-iof">
-                                <rect key="frame" x="107" y="297" width="200" height="24"/>
+                                <rect key="frame" x="107" y="313" width="200" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Dnw-9O-h5Z"/>
                                     <constraint firstAttribute="width" constant="200" id="ddc-DB-IL9"/>
@@ -995,19 +995,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Consensus Odds: 12:88" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jox-I6-uww">
-                                <rect key="frame" x="101.66666666666669" y="421" width="211" height="23"/>
+                                <rect key="frame" x="101.66666666666669" y="437" width="211" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KlE-Gf-tVH">
-                                <rect key="frame" x="116.66666666666669" y="94" width="181" height="23"/>
+                                <rect key="frame" x="116.66666666666669" y="110" width="181" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foresight Stake: 50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLA-Lm-l2u">
-                                <rect key="frame" x="107" y="514" width="200" height="21"/>
+                                <rect key="frame" x="107" y="530" width="200" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="JDV-Ib-CF9"/>
                                     <constraint firstAttribute="height" constant="21" id="qRm-Lc-TRR"/>
@@ -1017,13 +1017,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Foresight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJi-3c-ocO">
-                                <rect key="frame" x="147.66666666666666" y="354" width="118.99999999999997" height="23"/>
+                                <rect key="frame" x="147.66666666666666" y="370" width="118.99999999999997" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="OcA-oS-1hY">
-                                <rect key="frame" x="32" y="385" width="350" height="29"/>
+                                <rect key="frame" x="32" y="401" width="350" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="350" id="dHJ-fA-oJw"/>
                                     <constraint firstAttribute="height" constant="28" id="ztS-l9-8Rs"/>
@@ -1038,7 +1038,7 @@
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Balance: 27050" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrU-yC-EPQ">
-                                <rect key="frame" x="107" y="543" width="200" height="21"/>
+                                <rect key="frame" x="107" y="559" width="200" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="gVo-vl-sa3"/>
                                     <constraint firstAttribute="height" constant="21" id="haG-rh-F0F"/>
@@ -1048,7 +1048,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="College Basketball" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="682-l9-dFf">
-                                <rect key="frame" x="107" y="69" width="200" height="28"/>
+                                <rect key="frame" x="107" y="60" width="200" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="5BH-Gv-Yql"/>
                                     <constraint firstAttribute="height" constant="28" id="ruc-dK-Rr7"/>
@@ -1070,10 +1070,17 @@
                                     <segue destination="dii-J3-FAH" kind="show" identifier="detailToHome" id="LEy-hR-Yt5"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2z-Xk-HP1">
+                                <rect key="frame" x="82" y="86" width="250" height="23"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="UrU-yC-EPQ" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="0F1-tf-gmr"/>
+                            <constraint firstItem="a2z-Xk-HP1" firstAttribute="centerX" secondItem="owS-iX-VTH" secondAttribute="centerX" id="4v0-eG-NUH"/>
                             <constraint firstItem="QPw-Gp-ead" firstAttribute="leading" secondItem="I75-B4-gMt" secondAttribute="leading" id="5p0-Mk-9VK"/>
                             <constraint firstItem="qgV-5A-kTP" firstAttribute="top" secondItem="Jox-I6-uww" secondAttribute="bottom" constant="33" id="7Qh-an-oH6"/>
                             <constraint firstItem="UrU-yC-EPQ" firstAttribute="top" secondItem="wLA-Lm-l2u" secondAttribute="bottom" constant="8" id="Ap5-tP-AYg"/>
@@ -1084,7 +1091,7 @@
                             <constraint firstItem="OcA-oS-1hY" firstAttribute="top" secondItem="LJi-3c-ocO" secondAttribute="bottom" constant="8" id="Hd8-fP-QKs"/>
                             <constraint firstItem="Jox-I6-uww" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="IgN-0U-3vS"/>
                             <constraint firstItem="99n-6z-l8c" firstAttribute="top" secondItem="KlE-Gf-tVH" secondAttribute="bottom" constant="50" id="K2C-yR-UlA"/>
-                            <constraint firstItem="KlE-Gf-tVH" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="74" id="Ldx-vz-iVP"/>
+                            <constraint firstItem="KlE-Gf-tVH" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="90" id="Ldx-vz-iVP"/>
                             <constraint firstItem="OcA-oS-1hY" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="QkY-L5-piu"/>
                             <constraint firstItem="Jox-I6-uww" firstAttribute="top" secondItem="OcA-oS-1hY" secondAttribute="bottom" constant="8" id="Swr-bd-AwB"/>
                             <constraint firstItem="r0e-qC-R5b" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="10" id="TE6-lg-sAk"/>
@@ -1099,9 +1106,10 @@
                             <constraint firstItem="s4Q-Vz-iof" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="oMw-vo-ZSa"/>
                             <constraint firstItem="XF9-YH-Pca" firstAttribute="top" secondItem="F4I-Z0-0lT" secondAttribute="bottom" constant="50" id="oVx-R8-Hwa"/>
                             <constraint firstItem="F4I-Z0-0lT" firstAttribute="top" secondItem="99n-6z-l8c" secondAttribute="bottom" constant="2" id="pdM-iD-RXs"/>
+                            <constraint firstItem="a2z-Xk-HP1" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="70" id="uEK-W0-qwr"/>
                             <constraint firstItem="wLA-Lm-l2u" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="uMQ-Xl-VRv"/>
                             <constraint firstItem="682-l9-dFf" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="vqo-Vm-6xp"/>
-                            <constraint firstItem="682-l9-dFf" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="49" id="wzF-zc-FLa"/>
+                            <constraint firstItem="682-l9-dFf" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="40" id="wzF-zc-FLa"/>
                             <constraint firstItem="LJi-3c-ocO" firstAttribute="top" secondItem="s4Q-Vz-iof" secondAttribute="bottom" constant="33" id="xib-du-3NC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="I75-B4-gMt"/>
@@ -1110,11 +1118,11 @@
                         <outlet property="betExpirationLabel" destination="KlE-Gf-tVH" id="ubk-TA-Arm"/>
                         <outlet property="bettingCategoryLabel" destination="682-l9-dFf" id="pu5-kt-erW"/>
                         <outlet property="chooseTeamSegmentedControl" destination="OcA-oS-1hY" id="9RX-zA-OiP"/>
+                        <outlet property="eventTitle" destination="a2z-Xk-HP1" id="QET-bv-tIT"/>
                         <outlet property="oddsOfSelectedTeam" destination="Jox-I6-uww" id="jEg-RP-bBL"/>
                         <outlet property="sliderLabel" destination="wLA-Lm-l2u" id="MaL-HG-3p3"/>
                         <outlet property="sliderValue" destination="qgV-5A-kTP" id="GoB-Xk-Ize"/>
                         <outlet property="submitButton" destination="QPw-Gp-ead" id="3Gq-VI-wOa"/>
-
                         <outlet property="team1Label" destination="99n-6z-l8c" id="iXa-yB-JMZ"/>
                         <outlet property="team1PotLabel" destination="F4I-Z0-0lT" id="m4l-WK-HC8"/>
                         <outlet property="team2Label" destination="XF9-YH-Pca" id="juQ-2n-Iak"/>

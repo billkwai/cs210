@@ -12,7 +12,8 @@ class DetailedBetViewController: UIViewController {
     var activeEvent: ActiveEvent?
     var userInfo: User?
 
-
+    @IBOutlet weak var eventTitle: UILabel!
+    
     @IBOutlet weak var bettingCategoryLabel: UILabel!
     
     @IBOutlet weak var betExpirationLabel: UILabel!
@@ -114,11 +115,11 @@ class DetailedBetViewController: UIViewController {
         let times = secondsToHoursMinutesSeconds(seconds: (activeEvent?.expiresIn)!)
         
         if (times.0 > 0) {
-            betExpirationLabel.text = "\(times.0)" + " hours"
+            betExpirationLabel.text = "Event expires in " + "\(times.0)" + " hours"
         } else if (times.1 > 0) {
-            betExpirationLabel.text = "\(times.1)" + " minutes"
+            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " minutes"
         } else {
-            betExpirationLabel.text = "1 minute"
+            betExpirationLabel.text = "Event expires in " + "1 minute"
         }
         
         teamSelected = activeEvent?.idEntity1
@@ -140,6 +141,8 @@ class DetailedBetViewController: UIViewController {
         team2PotLabel.text = "Public Stake: " + String(describing: (activeEvent?.poolEntity2)!)
         
         userBalance.text = "My Balance: " + "\(SessionState.currentUser!.coins)"
+        
+        eventTitle.text = activeEvent?.eventTitle
 
 
         // Do any additional setup after loading the view.
