@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
-=======
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
->>>>>>> 5c049a68c06fa4f01e840eef19b8db96ee777e19
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -1117,10 +1113,8 @@
                         <outlet property="oddsOfSelectedTeam" destination="Jox-I6-uww" id="jEg-RP-bBL"/>
                         <outlet property="sliderLabel" destination="wLA-Lm-l2u" id="MaL-HG-3p3"/>
                         <outlet property="sliderValue" destination="qgV-5A-kTP" id="GoB-Xk-Ize"/>
-<<<<<<< HEAD
                         <outlet property="submitButton" destination="QPw-Gp-ead" id="3Gq-VI-wOa"/>
-=======
->>>>>>> 5c049a68c06fa4f01e840eef19b8db96ee777e19
+
                         <outlet property="team1Label" destination="99n-6z-l8c" id="iXa-yB-JMZ"/>
                         <outlet property="team1PotLabel" destination="F4I-Z0-0lT" id="m4l-WK-HC8"/>
                         <outlet property="team2Label" destination="XF9-YH-Pca" id="juQ-2n-Iak"/>
