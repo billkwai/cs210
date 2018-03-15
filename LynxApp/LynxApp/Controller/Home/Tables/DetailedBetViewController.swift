@@ -112,6 +112,7 @@ class DetailedBetViewController: UIViewController {
         
         userBalance.text = "My Balance: " + "\(SessionState.currentUser!.coins)"
 
+
         // Do any additional setup after loading the view.
     }
 

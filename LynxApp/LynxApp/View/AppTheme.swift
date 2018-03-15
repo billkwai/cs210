@@ -20,5 +20,6 @@ struct AppTheme {
     static let darkGrey = UIColor(red: 131/255, green: 134/255, blue: 137/255, alpha: 0.3)
     
     static let detailViewPurple = UIColor(red: 205/255, green: 183/255, blue: 208/255, alpha: 1.0)
+
 }
 
