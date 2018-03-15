@@ -10,6 +10,7 @@ import UIKit
 class DetailedBetViewController: UIViewController {
     
     var activeEvent: ActiveEvent?
+    var userInfo: User?
 
     var fullUnivNames = ["Stanford":"Stanford Cardinal", "Duke":"Duke Blue Devils", "USC":"USC Trojans", "UCLA":"UCLA Bruins", "California":"California Bears", "Michigan":"Michigan Wolverines"]
     
@@ -33,6 +34,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBOutlet weak var chooseTeamSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var userBalance: UILabel!
     
     @IBOutlet weak var sliderValue: UISlider!
     
@@ -87,19 +89,20 @@ class DetailedBetViewController: UIViewController {
         entity1id = activeEvent?.idEntity1
         
         entity2id = activeEvent?.idEntity2
-        
-        let team1ImageName = (activeEvent?.entity1.lowercased())! + ".png"
-        let team2ImageName = (activeEvent?.entity2.lowercased())! + ".png"
         chooseTeamSegmentedControl.setTitle(activeEvent?.entity1, forSegmentAt: 0)
         chooseTeamSegmentedControl.setTitle(activeEvent?.entity2, forSegmentAt: 1)
 
 
         oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity1)" + ":" + "\(activeEvent!.poolEntity2)"
         
-        team1Image.image = UIImage(named:team1ImageName)
-        team2Image.image = UIImage(named:team2ImageName)
+        bettingCategoryLabel.text = activeEvent?.categoryName
         team1Label.text = activeEvent?.entity1
         team2Label.text = activeEvent?.entity2
+        
+        team1PotLabel.text = "Public Stake: " + String(describing: (activeEvent?.poolEntity1)!)
+        team2PotLabel.text = "Public Stake: " + String(describing: (activeEvent?.poolEntity2)!)
+        
+        userBalance.text = "My Balance: " //+ String(describing: (userInfo?.coins)!)
 
         // Do any additional setup after loading the view.
     }
