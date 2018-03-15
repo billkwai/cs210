@@ -101,8 +101,9 @@ class DetailedBetViewController: UIViewController {
         sliderLabel.text = "Foresight Stake: " + String(bet)
     }
     
-    private func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {
+        return (seconds / 86400, (seconds % 86400) / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+
     }
     
     
@@ -112,12 +113,14 @@ class DetailedBetViewController: UIViewController {
             setSubmitStatus(canSubmit: false)
         }
         
-        let times = secondsToHoursMinutesSeconds(seconds: (activeEvent?.expiresIn)!)
+        let times = secondsToDaysHoursMinutesSeconds(seconds: (activeEvent?.expiresIn)!)
         
         if (times.0 > 0) {
-            betExpirationLabel.text = "Event expires in " + "\(times.0)" + " hours"
+            betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
         } else if (times.1 > 0) {
-            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " minutes"
+            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hours"
+        } else if (times.2 > 0) {
+            betExpirationLabel.text = "Event expires in " + "\(times.2)" + " minutes"
         } else {
             betExpirationLabel.text = "Event expires in " + "1 minute"
         }
