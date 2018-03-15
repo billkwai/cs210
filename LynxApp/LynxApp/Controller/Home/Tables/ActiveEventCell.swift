@@ -13,6 +13,8 @@ class ActiveEventCell: UITableViewCell {
     @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var oddsBarView: UIView!
     
+    var drawn: Bool = false
+    
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
     let viewCornerRadius : CGFloat = 5
     var borderLayer : CAShapeLayer = CAShapeLayer()
