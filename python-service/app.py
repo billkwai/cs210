@@ -390,6 +390,7 @@ def get_current_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
     cur.execute('''  SELECT e.id as event_id, e.event_title, c.name as category_name,
+        TIMESTAMPDIFF(SECOND, UTC_TIMESTAMP(), e.event_time) AS expires_in,
         entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
@@ -403,6 +404,7 @@ def get_current_events(player_id):
        # WHERE PICKS.event_id IS NULL; ''' % (player_id))
 
     rv = cur.fetchall()
+
     return jsonify(rv)
 
 
