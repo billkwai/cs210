@@ -13,6 +13,7 @@ class ActiveEvent {
     let id: Int
     let eventTime: String
     let eventTitle: String
+    let expiresIn: Int
     
     let entity1: String
     let poolEntity1: Int
@@ -39,7 +40,9 @@ class ActiveEvent {
             let idEntity2JSON = json["entity2_id"] as? Int,
             let idJSON = json["event_id"] as? Int,
             let titleEventJSON = json["event_title"] as? String,
-            let categoryNameJOSN = json["category_name"] as? String
+            let categoryNameJSON = json["category_name"] as? String,
+            let expiresInJSON = json["expires_in"] as? Int
+            
             else {
                 return nil
             }
@@ -54,7 +57,8 @@ class ActiveEvent {
         self.idEntity2 = idEntity2JSON
         self.id = idJSON
         self.eventTitle = titleEventJSON
-        self.categoryName = categoryNameJOSN
+        self.categoryName = categoryNameJSON
+        self.expiresIn = expiresInJSON
         
 
 

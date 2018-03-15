@@ -75,22 +75,51 @@ class DetailedBetViewController: UIViewController {
     
     @IBOutlet weak var sliderLabel: UILabel!
     
+    private func setSubmitStatus(canSubmit: Bool) {
+        if (canSubmit) {
+            sliderLabel.textColor = UIColor.white
+            submitButton.isEnabled = true
+            submitButton.setTitleColor(AppTheme.detailViewPurple, for: .normal)
+        } else {
+            sliderLabel.textColor = UIColor.red
+            submitButton.isEnabled = false
+            submitButton.setTitleColor(AppTheme.lightGrey, for: .normal)
+
+            
+        }
+    }
+    
+    
     @IBAction func wagerSlider(_ sender: UISlider) {
         let bet = Int(round(sender.value/50))*50
         if ((SessionState.currentUser?.coins)! < bet) {
-            submitButton.isEnabled = false
-            submitButton.titleLabel?.textColor = AppTheme.lightGrey
-            sliderLabel.textColor = UIColor.red
+            setSubmitStatus(canSubmit: false)
         } else {
-            submitButton.isEnabled = true
-            submitButton.titleLabel?.textColor = AppTheme.detailViewPurple
-            sliderLabel.textColor = UIColor.white
+            setSubmitStatus(canSubmit: true)
         }
         sliderLabel.text = "Foresight Stake: " + String(bet)
     }
     
+    private func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (SessionState.currentUser?.coins == 0) {
+            setSubmitStatus(canSubmit: false)
+        }
+        
+        let times = secondsToHoursMinutesSeconds(seconds: (activeEvent?.expiresIn)!)
+        
+        if (times.0 > 0) {
+            betExpirationLabel.text = "\(times.0)" + " hours"
+        } else if (times.1 > 0) {
+            betExpirationLabel.text = "\(times.1)" + " minutes"
+        } else {
+            betExpirationLabel.text = "1 minute"
+        }
         
         teamSelected = activeEvent?.idEntity1
         
