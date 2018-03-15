@@ -23,7 +23,7 @@ class ActiveEventCell: UITableViewCell {
         let bezierPath = UIBezierPath(roundedRect: oddsBarView.bounds, cornerRadius: viewCornerRadius)
         bezierPath.close()
         borderLayer.path = bezierPath.cgPath
-        borderLayer.fillColor = UIColor.black.cgColor
+        borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
         borderLayer.strokeEnd = 0
         oddsBarView.layer.addSublayer(borderLayer)
         

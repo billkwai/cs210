@@ -69,7 +69,9 @@ class ActiveEventsTableViewController: UITableViewController {
                 let event = self.activeEvents![indexPath.row]
                 cell.eventTitleLabel.text = String(event.eventTitle)
                 cell.drawProgressLayer()
-                cell.rectProgress(incremented: (0.5 * (cell.oddsBarView.bounds.width - 10)))
+                // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
+                let odds = CGFloat(event.poolEntity1)/CGFloat(event.poolEntity1 + event.poolEntity2)
+                cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
             }
 
 
@@ -79,7 +81,7 @@ class ActiveEventsTableViewController: UITableViewController {
     // alternate row colors
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row % 2 == 0 {
-            cell.backgroundColor = AppTheme.lightPurple
+            cell.backgroundColor = AppTheme.fadedPurple
         } else {
             cell.backgroundColor = UIColor.white
         }

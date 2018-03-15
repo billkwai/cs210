@@ -49,10 +49,28 @@ class UserEventsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.userEvents == nil {
+            // Adds a label when user has no picks and table is empty
+//            let emptyLabel = UILabel(frame: CGRect(x:0, y:0, width:self.view.bounds.size.width, height:self.view.bounds.size.height))
+//            emptyLabel.text = "Swipe left to discover more events!"
+//            emptyLabel.textAlignment = NSTextAlignment.center
+//            self.tableView.backgroundView = emptyLabel
+//            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
             return 0
+        } else {
+            // self.tableView.backgroundView?.isHidden = true
+            return self.userEvents!.count
         }
-        return self.userEvents!.count
     }
+    
+    // Alternates the row colors
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = AppTheme.fadedPurple
+        } else {
+            cell.backgroundColor = UIColor.white
+        }
+    }
+
     
     
     

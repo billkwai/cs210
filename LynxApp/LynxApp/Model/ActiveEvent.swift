@@ -22,6 +22,7 @@ class ActiveEvent {
     let poolEntity2: Int
     let idEntity2: Int
     
+    let categoryName: String
     
     enum SerializationError: Error {
         case missing(String)
@@ -37,7 +38,8 @@ class ActiveEvent {
             let idEntity1JSON = json["entity1_id"] as? Int,
             let idEntity2JSON = json["entity2_id"] as? Int,
             let idJSON = json["event_id"] as? Int,
-            let titleEventJSON = json["event_title"] as? String
+            let titleEventJSON = json["event_title"] as? String,
+            let categoryNameJOSN = json["category_name"] as? String
             else {
                 return nil
             }
@@ -52,6 +54,7 @@ class ActiveEvent {
         self.idEntity2 = idEntity2JSON
         self.id = idJSON
         self.eventTitle = titleEventJSON
+        self.categoryName = categoryNameJOSN
         
 
 
