@@ -29,7 +29,7 @@ PASSWORD_INCORRECT = -2
 PASSWORD_CORRECT = 1
 DB_EXCEPTION_THROWN = -3
 API_KEY_LENGTH = 32
-NUM_LEADERBOARD_ALL = 20
+NUM_LEADERBOARD_ALL = 100
 
 #DB_NAME = 'employees'
 
@@ -359,7 +359,7 @@ def broadcast_event_result(event_id):
     cur = conn.cursor()
     winning_entity = request.json['winning_entity']
     #print ("The id is %d and entity1_won is %d"%(event_id, winning_entity))
-    try:    
+    try:
         cur.execute(''' UPDATE EVENTS SET event_active = 0, winning_entity = %d WHERE id = %d;''' % (winning_entity, event_id))
         print ("The id is %d and winning_entity is %d"%(event_id, winning_entity))
 
@@ -433,10 +433,11 @@ def create_player():
 
         api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
 
-        cur.execute('''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
+        cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
                     EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
                     VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', %f, '%s') '''
-                    %(request.json['firstName'],request.json['lastName'],request.json['username'],
+
+        cur.execute(cmd_str, (request.json['firstName'],request.json['lastName'],request.json['username'],
                         hashed_pw_db, salted_db, request.json['email'],request.json['phone'],
                         request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
         
