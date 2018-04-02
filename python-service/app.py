@@ -8,11 +8,11 @@ from flask_cors import CORS, cross_origin
 
 import logging
 import pymysql
-import os
+import sys, os
 import hashlib, binascii, base64
 #import bcrypt
 #from argon2 import PasswordHasher
-#import bcrypt
+import bcrypt
 
 app = Flask(__name__)
 CORS(app)
@@ -83,6 +83,16 @@ def creatConnection():
 
 @app.route('/')
 def index():
+    str_pass = "pass"
+    bytes_pass = str_pass.encode('utf-8')
+    hashed = bcrypt.hashpw(bytes_pass, bcrypt.gensalt())
+
+    if bcrypt.checkpw(b'pass', hashed):
+      print ("It matches!")
+    else:
+      print ("It doesn't match!")
+
+
     return 'The application is running!'
     
 
@@ -429,13 +439,13 @@ def create_player():
         #hashed_pw = bcrypt.hashpw(bytes(request.json['password'], encoding='utf-8'), bcrypt.gensalt())
         hashed_pw = hashlib.pbkdf2_hmac('sha256', bytes(request.json['password'], encoding='utf-8'), salt, int_iter)
         hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
-        print (hashed_pw_db)
+        #print (hashed_pw_db)
 
         api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
 
         cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
                     EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
-                    VALUES('%s','%s', '%s', '%s','%s','%s','%s','%s', %f, '%s') '''
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 
         cur.execute(cmd_str, (request.json['firstName'],request.json['lastName'],request.json['username'],
                         hashed_pw_db, salted_db, request.json['email'],request.json['phone'],
@@ -445,7 +455,10 @@ def create_player():
         message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
         cur.close()  
     except Exception as e:
-        logging.error('DB exception: %s' % e)
+        #logging.error('DB exception: %s' % e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        logging.error(exc_type, fname, exc_tb.tb_lineno)
         message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
     conn.close()
     return jsonify(message)
