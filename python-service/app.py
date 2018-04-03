@@ -30,6 +30,9 @@ PASSWORD_CORRECT = 1
 DB_EXCEPTION_THROWN = -3
 API_KEY_LENGTH = 32
 NUM_LEADERBOARD_ALL = 100
+EMAIL_EXISTS = -4
+USERNAME_EXISTS = -5
+
 
 #DB_NAME = 'employees'
 
@@ -423,44 +426,69 @@ def create_player():
     conn = creatConnection()
     cur = conn.cursor()
     print ("Trying to create player")
-    try:
-        salt = os.urandom(16)
-        n_iter = os.urandom(2)
-        while (int.from_bytes(n_iter, 'big') * 4 < 100000):
-          #print (n_iter)
-          n_iter = os.urandom(2)
-        #print (int.from_bytes(n_iter, 'big') * 4)
-        int_iter = int.from_bytes(n_iter, 'big') * 4
-        iter_bytes = int_iter.to_bytes(3, byteorder='big')
-        salted = salt[0: 8] + iter_bytes + salt[8:]
-        salted_db = binascii.hexlify(salted).decode("utf-8")
-        #ph = PasswordHasher()
-        #hash = ph.hash(request.json['password'])
-        #hashed_pw = bcrypt.hashpw(bytes(request.json['password'], encoding='utf-8'), bcrypt.gensalt())
-        hashed_pw = hashlib.pbkdf2_hmac('sha256', bytes(request.json['password'], encoding='utf-8'), salt, int_iter)
-        hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
-        #print (hashed_pw_db)
 
-        api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
+    ret_username_exists = username_or_email_exists_helper(request.json['username'])
+    ret_email_exists = username_or_email_exists_helper(request.json['email'])
 
-        cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
-                    EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+    field_taken = not (ret_username_exists['status'] == USERNAME_INVALID and 
+                          ret_email_exists['status'] == USERNAME_INVALID)
 
-        cur.execute(cmd_str, (request.json['firstName'],request.json['lastName'],request.json['username'],
-                        hashed_pw_db, salted_db, request.json['email'],request.json['phone'],
-                        request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
-        
-        conn.commit()
-        message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
-        cur.close()  
-    except Exception as e:
-        #logging.error('DB exception: %s' % e)
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        logging.error(exc_type, fname, exc_tb.tb_lineno)
-        message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
+
+    if (not field_taken):
+        try:
+            #salt = os.urandom(16)
+            #n_iter = os.urandom(2)
+            #while (int.from_bytes(n_iter, 'big') * 4 < 100000):
+              #print (n_iter)
+              #n_iter = os.urandom(2)
+            #print (int.from_bytes(n_iter, 'big') * 4)
+            #int_iter = int.from_bytes(n_iter, 'big') * 4
+            #iter_bytes = int_iter.to_bytes(3, byteorder='big')
+            #salted = salt[0: 8] + iter_bytes + salt[8:]
+            #salted_db = binascii.hexlify(salted).decode("utf-8")
+            #ph = PasswordHasher()
+            #hash = ph.hash(request.json['password'])
+            #hashed_pw = bcrypt.hashpw(bytes(request.json['password'], encoding='utf-8'), bcrypt.gensalt())
+            bytes_pass = bytes(request.json['password'], encoding='utf-8')
+            hashed_pw = bcrypt.hashpw(bytes_pass, bcrypt.gensalt())
+
+
+
+            #hashed_pw = hashlib.pbkdf2_hmac('sha256', bytes(request.json['password'], encoding='utf-8'), salt, int_iter)
+            hashed_pw_db = binascii.hexlify(hashed_pw).decode("utf-8")
+            #print (hashed_pw_db)
+
+            api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
+
+            cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
+                        EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
+                        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+
+            cur.execute(cmd_str, (request.json['firstName'],request.json['lastName'],request.json['username'],
+                            hashed_pw_db, 'salted_db', request.json['email'],request.json['phone'],
+                            request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))    
+            
+            conn.commit()
+            message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
+            cur.close()  
+        except Exception as e:
+            #logging.error('DB exception: %s' % e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.error(exc_type, fname, exc_tb.tb_lineno)
+            message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
+    
+    else:
+
+        if (ret_email_exists['status'] == USERNAME_VALID):
+            message = {'status': EMAIL_EXISTS, 'message': 'Email already exists'}
+
+        if (ret_username_exists['status'] == USERNAME_VALID):
+            message = {'status': USERNAME_EXISTS, 'message': 'Username already exists'}
+
+
     conn.close()
+
     return jsonify(message)
 
 @app.route('/players/leaderboard/all', methods=['GET'])
@@ -480,9 +508,11 @@ def get_leaderboard_all():
 
 @app.route('/players/username_exists', methods=['POST'])
 def username_exists():
+    return jsonify(username_or_email_exists_helper(request.json['username']))
+
+def username_or_email_exists_helper(username):
     conn = creatConnection()
     cur = conn.cursor()
-    username = request.json['username']
     try:
 
         if '@' in username:
@@ -502,7 +532,8 @@ def username_exists():
 
     cur.close()
     conn.close()
-    return jsonify(message)
+    return message
+
 
 @app.route('/players/<int:player_id>/login', methods=['POST'])
 def loginPlayer(player_id):
@@ -520,13 +551,17 @@ def loginPlayer(player_id):
             return jsonify(message)
         #print("returned value's password is "+rv['password'])
 
-        salted_db = rv['salted']
+        #salted_db = rv['salted']
         hashed_pw_db = rv['password']
-        salted_combo = binascii.unhexlify(salted_db.encode('utf-8'))
-        salt = salted_combo[0:8] + salted_combo[11:]
-        int_iter = int.from_bytes(salted_combo[8:11], 'big')
-        entered_pw_hashed = hashlib.pbkdf2_hmac('sha256', bytes(password, encoding = 'utf-8'), salt, int_iter)
-        pw_correct = (entered_pw_hashed == binascii.unhexlify(hashed_pw_db.encode('utf-8')))
+        #salted_combo = binascii.unhexlify(salted_db.encode('utf-8'))
+
+        hashed_pw = binascii.unhexlify(hashed_pw_db.encode('utf-8'))
+        pw_correct = bcrypt.checkpw(bytes(password, encoding = 'utf-8'), hashed_pw)
+
+        #salt = salted_combo[0:8] + salted_combo[11:]
+        #int_iter = int.from_bytes(salted_combo[8:11], 'big')
+        #entered_pw_hashed = hashlib.pbkdf2_hmac('sha256', bytes(password, encoding = 'utf-8'), salt, int_iter)
+        #pw_correct = (entered_pw_hashed == binascii.unhexlify(hashed_pw_db.encode('utf-8')))
         #print("The entered password hashed is "+binascii.hexlify(entered_pw_hashed).decode('utf-8'))
         print ("The password's truth is "+str(pw_correct))
         if pw_correct:
