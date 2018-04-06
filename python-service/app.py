@@ -571,7 +571,7 @@ def loginPlayer(player_id):
 
     except Exception as e:
         logging.error('DB exception: %s' % e)
-        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown.: %s'%}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown.: %s'}
 
     cur.close()
     conn.close()
