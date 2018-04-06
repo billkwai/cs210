@@ -543,7 +543,7 @@ def loginPlayer(player_id):
     #print("Reached login endpoint with username %s and password %s"%( username, password))
     try:
 
-        cur.execute('''SELECT password, salted FROM PLAYERS WHERE id=%d; '''%(player_id));#%(username));
+        cur.execute('''SELECT password, salted, api_key FROM PLAYERS WHERE id=%d; '''%(player_id));#%(username));
         print("Reached post query")
         rv = cur.fetchone()
         if rv is None:
@@ -565,13 +565,13 @@ def loginPlayer(player_id):
         #print("The entered password hashed is "+binascii.hexlify(entered_pw_hashed).decode('utf-8'))
         print ("The password's truth is "+str(pw_correct))
         if pw_correct:
-            message = {'status': PASSWORD_CORRECT, 'message': 'The password is correct.'}
+            message = {'status': PASSWORD_CORRECT, 'message': 'The password is correct.', 'api_key': rv['api_key']}
         else:
             message = {'status': PASSWORD_INCORRECT, 'message': 'The password is incorrect.'}
 
     except Exception as e:
         logging.error('DB exception: %s' % e)
-        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown.'}
+        message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown.: %s'%}
 
     cur.close()
     conn.close()
