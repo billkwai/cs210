@@ -19,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        if let id = KeychainWrapper.standard.integer(forKey: "userId") {
+        if let id = KeychainWrapper.standard.integer(forKey: ModelConstants.keychainUserId) {
+            if let apiKey = KeychainWrapper.standard.string(forKey: ModelConstants.keychainApiKey) {
+                DatabaseService.apiKey = apiKey
+            }
             if let user = DatabaseService.getUser(id: String(id)) {
                 SessionState.currentUser = user
                 let menuVC: MenuViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController

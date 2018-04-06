@@ -18,6 +18,7 @@ class UserInfoTableViewController: UITableViewController {
         super.viewDidLoad()
 
         if let user = SessionState.currentUser {
+            // TODO: make this async
             SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
             if let updatedUser = SessionState.currentUser {
                 nameLabel.text = updatedUser.username

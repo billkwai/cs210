@@ -11,7 +11,8 @@ import Foundation
 
 class DatabaseService {
     
-    static let baseUrl = "https://wepybackend-stanfordlynx.uscom-central-1.oraclecloud.com"
+    static let baseUrl = "http://129.150.222.55:8080"
+    static var apiKey = ""
     
     struct requests {
         static let userpath = "/players"
@@ -57,12 +58,15 @@ class DatabaseService {
     }
     
     static func login(id: String, password: String) -> Bool {
-        
         let response = Just.post(baseUrl + requests.userpath + "/" + id + "/login", json:["password":password])
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 
                 if status == result_status.PASSWORD_CORRECT  {
+                    if let key = json["api_key"] as! String? {
+                        apiKey = key
+                        KeychainWrapper.standard.set(apiKey, forKey: ModelConstants.keychainApiKey)
+                    }
                     return true
                 }
             }
@@ -73,7 +77,7 @@ class DatabaseService {
     
     static func getUser(id: String) -> User? {
         
-        let response = Just.get(baseUrl + requests.userpath + "/" + id)
+        let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
         if let json = response.json as? [String: Any] {
             if let user = User(json: json) {
                 return user
@@ -104,7 +108,7 @@ class DatabaseService {
     // Event Related Requests
     
     static func getUserEvents(id: String, completion: @escaping ([UserEvent]) -> ()) {
-        Just.get(baseUrl + requests.userpath + "/" + id + "/picks") { (response) in
+        Just.get(baseUrl + requests.userpath + "/" + id + "/picks", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
                 var events: [UserEvent] = []
                 for entry in json {
@@ -120,7 +124,7 @@ class DatabaseService {
     
     static func getActiveEvents(id: String, completion: @escaping ([ActiveEvent]) -> ()) {
         
-        Just.get(baseUrl + requests.userpath + "/" + id + "/events/current") { (response) in
+        Just.get(baseUrl + requests.userpath + "/" + id + "/events/current", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
                 var events: [ActiveEvent] = []
                 for entry in json {
@@ -128,7 +132,6 @@ class DatabaseService {
                         events.append(event)
                     }
                 }
-                
                 completion(events)
             }
 
@@ -141,7 +144,7 @@ class DatabaseService {
     static func makePick(id: String, betSize: Int, pickId: Int, event: ActiveEvent,
                          id1: Int, id2: Int) -> Bool {
         
-        let response = Just.post(baseUrl + requests.userpath + "/" + id + "/picks", json:["entity1_pool":event.poolEntity1, "entity2_pool":event.poolEntity2,"bet_size":betSize, "event_id": event.id, "picked_entity": pickId, "entity1_id": id1, "entity2_id": id2])
+        let response = Just.post(baseUrl + requests.userpath + "/" + id + "/picks", json:["entity1_pool":event.poolEntity1, "entity2_pool":event.poolEntity2,"bet_size":betSize, "event_id": event.id, "picked_entity": pickId, "entity1_id": id1, "entity2_id": id2], headers:["Authentication":"Basic " + apiKey])
         
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
@@ -161,7 +164,7 @@ class DatabaseService {
     
     static func getLeaderboard(completion: @escaping ([User]) -> ()) {
         
-        Just.get(baseUrl + requests.userpath + "/leaderboard/all") { (response) in
+        Just.get(baseUrl + requests.userpath + "/leaderboard/all", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
                 var users: [User] = []
                 for entry in json {
@@ -177,44 +180,5 @@ class DatabaseService {
         
     }
     
-    
-    
-    // TEST FUNCTIONS ONLY
-//    static func fetchTestUsers(json: [String: Any]) -> [User] {
-//        var users: [User] = []
-//        if let results = json["results"] as? [[String: Any]] {
-//            for result in results {
-//                if let user = User(json: result) {
-//                    users.append(user)
-//                }
-//
-//            }
-//        }
-//        return users
-//    }
-//
-//    static func fetchTestEvents(json: [String: Any]) -> [Event] {
-//        var events: [Event] = []
-//        if let results = json["results"] as? [[String: Any]] {
-//            for result in results {
-//                if let event = Event(json: result) {
-//                    events.append(event)
-//                }
-//            }
-//        }
-//        return events
-//    }
-//
-//    static func fetchTestCurrentUser(json: [String: Any]) -> User {
-//        var users: [User] = []
-//        if let results = json["results"] as? [[String: Any]] {
-//            for result in results {
-//                if let user = User(json: result) {
-//                    users.append(user)
-//                }
-//            }
-//        }
-//        return users[0]
-//    }
 
 }

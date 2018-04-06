@@ -88,7 +88,7 @@ class RegistrationViewController: UITableViewController {
                         if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
 
                             if let user = DatabaseService.getUser(id: String(id)) {
-                                let saveUserId = KeychainWrapper.standard.set(id, forKey: "userId")
+                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
                                 if (saveUserId) {
                                     SessionState.currentUser = user
                                     performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)

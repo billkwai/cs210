@@ -8,4 +8,10 @@
 
 import Foundation
 
+struct ModelConstants {
+    
+    static let keychainUserId = "idKey"
+    static let keychainApiKey = "apiKey"
+
+}
 

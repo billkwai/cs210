@@ -57,7 +57,7 @@ class UserEventsTableViewController: UITableViewController {
 //            self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
             return 0
         } else {
-            // self.tableView.backgroundView?.isHidden = true
+            //self.tableView.backgroundView?.isHidden = true
             return self.userEvents!.count
         }
     }

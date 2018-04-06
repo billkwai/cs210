@@ -53,7 +53,7 @@ class LoginViewController: UIViewController {
                 if (correctPassword) {
                     
                     if let user = DatabaseService.getUser(id: String(id)) {
-                        let saveUserId = KeychainWrapper.standard.set(id, forKey: "userId")
+                        let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
                         if (saveUserId) {
                             SessionState.currentUser = user
                             performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
