@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from app import app
 import unittest
 
@@ -34,4 +35,4 @@ class FlaskAppTests(unittest.TestCase):
         result = self.app.get('/')
 
         # assert the response data
-        self.assertEqual(result.data, "The application is running!")
+        self.assertEqual(result.data.decode('UTF-8'), "The application is running!")
