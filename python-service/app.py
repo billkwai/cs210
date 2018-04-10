@@ -86,6 +86,7 @@ def creatConnection():
 
 @app.route('/')
 def index():
+    #print ("Request header is: %s" % request.headers.get('Authorization'))
     str_pass = "pass"
     bytes_pass = str_pass.encode('utf-8')
     hashed = bcrypt.hashpw(bytes_pass, bcrypt.gensalt())
@@ -402,15 +403,17 @@ def broadcast_event_result(event_id):
 def get_current_events(player_id):
     conn = creatConnection()
     cur = conn.cursor()
-    cur.execute('''  SELECT e.id as event_id, e.event_title, c.name as category_name,
+    cmd_str = '''  SELECT e.id as event_id, e.event_title, c.name as category_name,
         TIMESTAMPDIFF(SECOND, UTC_TIMESTAMP(), e.event_time) AS expires_in,
         entity1_id, one.name as entity1_name, entity2_id, two.name as entity2_name,
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
         LEFT JOIN PICKS ON (e.id = PICKS.event_id AND PICKS.player_id = %d)
+        #JOIN PLAYERS ON (PLAYERS.api_key = %s)
         JOIN CATEGORIES as c ON e.category_id = c.id
-        WHERE PICKS.event_id IS NULL AND picking_active = 1; ''' % (player_id))
+        WHERE PICKS.event_id IS NULL AND picking_active = 1; '''
+    cur.execute(cmd_str, (player_id))
     #cur.execute(''' SELECT EVENTS.id, entity1_id, entity2_id, category_id, event_time,
      #   EVENTS.entity1_pool, EVENTS.entity2_pool, active FROM EVENTS
       #  LEFT JOIN PICKS ON (EVENTS.id = PICKS.event_id AND PICKS.player_id = %d)
