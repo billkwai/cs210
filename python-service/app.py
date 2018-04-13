@@ -14,6 +14,7 @@ import hashlib, binascii, base64
 #from argon2 import PasswordHasher
 import bcrypt
 
+test_flag = False
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PUT,GET,OPTIONS"}})
@@ -52,8 +53,11 @@ TABLES['employees'] = (
 
 def creatConnection():
     # Read MySQL Environment Parameters
-    connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.120.63:/mydatabase')
-    #connectString = os.environ.get('MYSQLCS_CONNECT_STRING', 'localhost:/users')
+    connectString = None
+    if test_flag is True:
+      connectString = os.environ.get('MYSQLCS_CONNECT_STRING', 'localhost:/users')
+    else:
+      connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.120.63:/mydatabase')
     hostname = connectString[:connectString.index(":")]#'129.150.120.63'#
     database = connectString[connectString.index("/")+1:]#'mydatabase'#
     #print("Hostname = "+hostname+", database = "+database)
@@ -614,4 +618,6 @@ def delete_player(player_id):
     return jsonify(message)
 
 if __name__ == '__main__':
+      if len(sys.argv) > 1 and sys.argv[1] == '-test':
+        test_flag = True
       app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '8080')))
