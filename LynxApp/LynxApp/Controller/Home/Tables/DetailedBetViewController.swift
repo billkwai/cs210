@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailedBetViewController: UIViewController {
     
-    var activeEvent: ActiveEvent?
+    var event: Event?
+    
+    var eventManagedId: NSManagedObjectID?
     var userInfo: User?
 
     @IBOutlet weak var eventTitle: UILabel!
@@ -44,13 +47,15 @@ class DetailedBetViewController: UIViewController {
     var entity2id:  Int?
     
     @IBAction func selectedTeam(_ sender: UISegmentedControl) {
+        let outcome1 = event?.outcomes![0] as! Outcome
+        let outcome2 = event?.outcomes![1] as! Outcome
         switch chooseTeamSegmentedControl.selectedSegmentIndex {
         case 0:
-            teamSelected = activeEvent?.idEntity1
-            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity1)" + ":" + "\(activeEvent!.poolEntity2)"
+            teamSelected = Int(outcome1.id)
+            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome1.pool)" + ":" + "\(outcome2.pool)"
         case 1:
-            teamSelected = activeEvent?.idEntity2
-            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity2)" + ":" + "\(activeEvent!.poolEntity1)"
+            teamSelected = Int(outcome2.id)
+            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome2.pool)" + ":" + "\(outcome1.pool)"
         default:
             break
         }
@@ -59,9 +64,10 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         
-        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: activeEvent!,
+        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
-            
+            event?.pickedOutcomeId = Int32(teamSelected!)
+            SessionState.saveCoreData()
             performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
             
             
@@ -109,11 +115,12 @@ class DetailedBetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        do {
+            event = try SessionState.coreDataManager.managedObjectContext.existingObject(with: eventManagedId!) as? Event
         if (SessionState.currentUser?.coins == 0) {
             setSubmitStatus(canSubmit: false)
         }
-        
-        let times = secondsToDaysHoursMinutesSeconds(seconds: (activeEvent?.expiresIn)!)
+            let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))
         
         if (times.0 > 0) {
             betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
@@ -128,30 +135,36 @@ class DetailedBetViewController: UIViewController {
             betExpirationLabel.text = "Event expires in " + "1 minute"
         }
         
-        teamSelected = activeEvent?.idEntity1
+            let outcome1 = event?.outcomes![0] as? Outcome
+            let outcome2 = event?.outcomes![1] as? Outcome
+
         
-        entity1id = activeEvent?.idEntity1
         
-        entity2id = activeEvent?.idEntity2
-        chooseTeamSegmentedControl.setTitle(activeEvent?.entity1, forSegmentAt: 0)
-        chooseTeamSegmentedControl.setTitle(activeEvent?.entity2, forSegmentAt: 1)
+        teamSelected = Int(outcome1!.id)
+        
+        entity1id = Int(outcome1!.id)
+        
+        entity2id = Int(outcome2!.id)
+        chooseTeamSegmentedControl.setTitle(outcome1?.title, forSegmentAt: 0)
+        chooseTeamSegmentedControl.setTitle(outcome2?.title, forSegmentAt: 1)
 
 
-        oddsOfSelectedTeam.text = "Consensus Odds: " + "\(activeEvent!.poolEntity1)" + ":" + "\(activeEvent!.poolEntity2)"
+        oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome1!.pool)" + ":" + "\(outcome2!.pool)"
         
-        bettingCategoryLabel.text = activeEvent?.categoryName
-        team1Label.text = activeEvent?.entity1
-        team2Label.text = activeEvent?.entity2
+            bettingCategoryLabel.text = event?.categoryName
+        team1Label.text = outcome1?.title
+        team2Label.text = outcome2?.title
         
-        team1PotLabel.text = "Public Stake: " + String(describing: (activeEvent?.poolEntity1)!)
-        team2PotLabel.text = "Public Stake: " + String(describing: (activeEvent?.poolEntity2)!)
+        team1PotLabel.text = "Public Stake: " + String(describing: (outcome1?.pool)!)
+        team2PotLabel.text = "Public Stake: " + String(describing: (outcome2?.pool)!)
         
         userBalance.text = "My Balance: " + "\(SessionState.currentUser!.coins)"
         
-        eventTitle.text = activeEvent?.eventTitle
+            eventTitle.text = event?.eventTitle
 
-
-        // Do any additional setup after loading the view.
+        } catch {
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {

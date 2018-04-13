@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 class ActiveEvent {
     
@@ -60,9 +62,10 @@ class ActiveEvent {
         self.categoryName = categoryNameJSON
         self.expiresIn = expiresInJSON
         
-
+        
 
     }
+    
     
     
 }

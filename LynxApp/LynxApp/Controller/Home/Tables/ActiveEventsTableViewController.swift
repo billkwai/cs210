@@ -7,35 +7,39 @@
 //
 
 import UIKit
+import CoreData
 
-class ActiveEventsTableViewController: UITableViewController {
+class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
-    var activeEvents: [ActiveEvent]?
+    var fetchedResultsController: NSFetchedResultsController<Event>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        initializeFetchedResultsController()
 
-
-        self.loadActiveEvents()
     }
     
-    func loadActiveEvents() {
+    func initializeFetchedResultsController() {
+        let request: NSFetchRequest<Event> = Event.fetchRequest()
+
+        //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
+        request.predicate = NSPredicate(format: "pickedOutcomeId == 0")
+        let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
+        request.sortDescriptors = [timeSort]
         
-        if let user = SessionState.currentUser {
-            
-            
-            DatabaseService.getActiveEvents(id: String(user.id)) { events in
-                
-                DispatchQueue.main.async {
-                    self.activeEvents = events
-                    self.tableView.reloadData()
-                }
-            }
-               
+        let moc = SessionState.coreDataManager.managedObjectContext
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
+    
     
 
     override func didReceiveMemoryWarning() {
@@ -55,29 +59,29 @@ class ActiveEventsTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.activeEvents == nil {
-            return 0
+        guard let sections = fetchedResultsController.sections else {
+            fatalError("No sections in fetchedResultsController")
         }
-        return self.activeEvents!.count
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
     }
 
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.ActiveEventCell, for: indexPath) as! ActiveEventCell
-            if self.activeEvents != nil && self.activeEvents!.count >= indexPath.row {
-                let event = self.activeEvents![indexPath.row]
-                cell.eventTitleLabel.text = String(event.eventTitle)
-                if (!cell.drawn) {
-                    cell.drawProgressLayer()
+        let event = self.fetchedResultsController.object(at: indexPath)
+        cell.eventTitleLabel.text = event.eventTitle
+            if (!cell.drawn) {
+                cell.drawProgressLayer()
                 // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
-                    let odds = CGFloat(event.poolEntity1)/CGFloat(event.poolEntity1 + event.poolEntity2)
-                    cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
-                }
-                cell.drawn = true
+                let outcome1 = event.outcomes![0] as! Outcome
+                let outcome2 = event.outcomes![1] as! Outcome
+                let odds = CGFloat((outcome1.pool))/CGFloat(outcome1.pool + outcome2.pool)
+                cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
             }
-
-
+            cell.drawn = true
+        
         return cell
     }
  
@@ -90,15 +94,50 @@ class ActiveEventsTableViewController: UITableViewController {
         }
     }
     
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .update:
+            break
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .move:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .move:
+            break
+            //tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
 
         if let destinationVC = segue.destination as? DetailedBetViewController {
-            if let eventIndex = tableView.indexPathForSelectedRow?.row {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.eventManagedId = self.fetchedResultsController.object(at: indexPath).objectID
 
-                destinationVC.activeEvent = activeEvents?[eventIndex]
             }
         }
         

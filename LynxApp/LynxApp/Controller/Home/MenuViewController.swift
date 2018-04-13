@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MenuViewController: UIViewController {
         
@@ -23,6 +24,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
         
         // set variables to their initial conditions - these can be set in Storyboard as well
         constraintMenuLeft.constant = -constraintMenuWidth.constant
