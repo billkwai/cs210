@@ -55,7 +55,7 @@ def creatConnection():
     # Read MySQL Environment Parameters
     connectString = None
     if test_flag is True:
-      connectString = os.environ.get('MYSQLCS_CONNECT_STRING', 'localhost:/users')
+      connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.88.243:/mydatabase')
     else:
       connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.120.63:/mydatabase')
     hostname = connectString[:connectString.index(":")]#'129.150.120.63'#
@@ -620,4 +620,5 @@ def delete_player(player_id):
 if __name__ == '__main__':
       if len(sys.argv) > 1 and sys.argv[1] == '-test':
         test_flag = True
+        print('Running in test mode')
       app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '8080')))
