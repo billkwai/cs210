@@ -25,6 +25,7 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
+        DatabaseService.updateSocialData()
         
         // set variables to their initial conditions - these can be set in Storyboard as well
         constraintMenuLeft.constant = -constraintMenuWidth.constant

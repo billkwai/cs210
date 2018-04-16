@@ -21,9 +21,6 @@ class RegistrationViewController: UITableViewController {
     @IBOutlet weak var confirmPasswordInput: UITextField!
     
     
-    var currentUser: User?
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

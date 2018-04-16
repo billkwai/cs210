@@ -38,6 +38,7 @@ struct DatabaseService {
 
     // Login/Registration Requests
     
+    
     static func checkIfUserExists(name: String) -> Int? {
         
         let response = Just.post(baseUrl + requests.userpath + "/username_exists", json:["username":name])
@@ -70,14 +71,13 @@ struct DatabaseService {
         
     }
     
-    static func getUser(id: String) -> User? {
+    static func getUser(id: String) -> UserEntity? {
         
         let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
         if let json = response.json as? [String: Any] {
-            updateUser(json: json)
-            if let user = User(json: json) {
-                return user
-            }
+            let user = updateUser(json: json)
+            SessionState.saveCoreData()
+            return user
         }
         return nil
         
@@ -107,6 +107,7 @@ struct DatabaseService {
         getUserEvents(id: id)
         SessionState.saveCoreData()
     }
+    
     
     
     private static func getUserEvents(id: String) {
@@ -159,20 +160,19 @@ struct DatabaseService {
     
     // Leaderboard Related Requests
     
-    static func getLeaderboard(completion: @escaping ([User]) -> ()) {
+    static func updateSocialData() {
+        getLeaderboard()
+        SessionState.saveCoreData()
+        
+    }
+    
+    static func getLeaderboard() {
         
         Just.get(baseUrl + requests.userpath + "/leaderboard/all", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
-                var users: [User] = []
                 for entry in json {
-                    if let user = User(json: entry) {
-                        users.append(user)
-                    }
-                    
-                    updateUser(json: entry)
+                    let _ = updateUser(json: entry)
                 }
-                
-                completion(users)
             }
             
         }
@@ -191,216 +191,182 @@ struct DatabaseService {
             return
         }
     
-        let privateMOC = SessionState.coreDataManager.managedObjectContext
-        //let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        //privateMOC.parent = SessionState.persistentContainer?.viewContext
 
-            let eventFetch = NSFetchRequest<Event>(entityName: "Event")
-            eventFetch.predicate = NSPredicate(format: "id == %ld", id!)
-            do {
-                let fetchedEvents = try privateMOC.fetch(eventFetch)
-                if fetchedEvents.count > 0 {
-                    let event = fetchedEvents.first!
-                    let outcome1 = event.outcomes![0] as! Outcome
-                    let outcome2 = event.outcomes![1] as! Outcome
-                    
-                    if let expiresIn = json["expires_in"] as? Int32 {
-                        if event.expiresIn != expiresIn {
-                            event.expiresIn = expiresIn
-                        }
-                    }
-                    if let eventActive = json["event_active"] as? Int32 {
-                        if event.eventActive != eventActive {
-                            event.eventActive = eventActive
-                        }
-                    }
-                    if let pickingActive = json["picking_active"] as? Int32 {
-                        if pickingActive != pickingActive {
-                            event.pickingActive = pickingActive
-                        }
-                    }
-                    if let pickTimestamp = json["pick_timestamp"] as? String {
-                        if pickTimestamp != pickTimestamp {
-                            event.pickTimestamp = pickTimestamp
-                        }
-                    }
-                    if let betSize = json["bet_size"] as? Int32 {
-                        if event.betSize != betSize {
-                            event.betSize = betSize
-                        }
-                    }
-                    if let pickedOutcome = json["picked_entity"] as? Int32 {
-                        if event.pickedOutcomeId != pickedOutcome {
-                            event.pickedOutcomeId = pickedOutcome
-                        }
-                    }
-                    if let correctPayout = json["correct_payout"] as? Double {
-                        if event.correctPayout != correctPayout {
-                            event.correctPayout = correctPayout
-                        }
-                    }
-                    
-                    if let poolOutcome1 = json["entity1_pool"] as? Int32 {
-                        if poolOutcome1 != poolOutcome1 {
-                            outcome1.pool = poolOutcome1
-                        }
-                    }
-                    
-                    if let poolOutcome2 = json["entity2_pool"] as? Int32 {
-                        if poolOutcome2 != poolOutcome2 {
-                            outcome2.pool = poolOutcome2
-                        }
-                    }
-                    
-                    
-                } else {
-                    let event = Event(context: privateMOC)
-                    let outcome1 = Outcome(context: privateMOC)
-                    let outcome2 = Outcome(context: privateMOC)
+        let eventFetch = NSFetchRequest<Event>(entityName: "Event")
+        eventFetch.predicate = NSPredicate(format: "id == %ld", id!)
+        do {
+            let fetchedEvents = try SessionState.coreDataManager.managedObjectContext.fetch(eventFetch)
+            if fetchedEvents.count > 0 {
+                let event = fetchedEvents.first!
+                let outcome1 = event.outcomes![0] as! Outcome
+                let outcome2 = event.outcomes![1] as! Outcome
                 
-                    // Add all static attributes/relationships
-                    event.id = Int32(id!)
-                    if let eventTitle = json["event_title"] as? String {
-                        event.eventTitle = eventTitle
-                    }
-                    if let categoryName = json["category_name"] as? String {
-                        event.categoryName = categoryName
-                    }
-                    if let eventTime = json["event_time"] as? String {
-                        event.eventTime = eventTime
-                    }
-                    event.addToOutcomes(outcome1)
-                    event.addToOutcomes(outcome2)
-                    
-                    if let titleOutcome1 = json["entity1_name"] as? String {
-                        outcome1.title = titleOutcome1
-                    }
-                    if let idOutcome1 = json["entity1_id"] as? Int32 {
-                        outcome1.id = idOutcome1
-                    }
-                    outcome1.event = event
-                    
-                    if let titleOutcome2 = json["entity2_name"] as? String {
-                        outcome2.title = titleOutcome2
-                    }
-                    if let idOutcome2 = json["entity2_id"] as? Int32 {
-                        outcome2.id = idOutcome2
-                    }
-                    outcome2.event = event
-
-                    if let expiresIn = json["expires_in"] as? Int32 {
+                if let expiresIn = json["expires_in"] as? Int32 {
+                    if event.expiresIn != expiresIn {
                         event.expiresIn = expiresIn
                     }
-                    if let eventActive = json["event_active"] as? Int32 {
+                }
+                if let eventActive = json["event_active"] as? Int32 {
+                    if event.eventActive != eventActive {
                         event.eventActive = eventActive
                     }
-                    if let pickingActive = json["picking_active"] as? Int32 {
+                }
+                if let pickingActive = json["picking_active"] as? Int32 {
+                    if pickingActive != pickingActive {
                         event.pickingActive = pickingActive
                     }
-                    if let pickTimestamp = json["pick_timestamp"] as? String {
+                }
+                if let pickTimestamp = json["pick_timestamp"] as? String {
+                    if pickTimestamp != pickTimestamp {
                         event.pickTimestamp = pickTimestamp
                     }
-                    if let betSize = json["bet_size"] as? Int32 {
+                }
+                if let betSize = json["bet_size"] as? Int32 {
+                    if event.betSize != betSize {
                         event.betSize = betSize
                     }
-                    if let pickedOutcome = json["picked_entity"] as? Int32 {
+                }
+                if let pickedOutcome = json["picked_entity"] as? Int32 {
+                    if event.pickedOutcomeId != pickedOutcome {
                         event.pickedOutcomeId = pickedOutcome
                     }
-                    if let correctPayout = json["correct_payout"] as? Double {
+                }
+                if let correctPayout = json["correct_payout"] as? Double {
+                    if event.correctPayout != correctPayout {
                         event.correctPayout = correctPayout
                     }
-                    
-                    if let poolOutcome1 = json["entity1_pool"] as? Int32 {
+                }
+                
+                if let poolOutcome1 = json["entity1_pool"] as? Int32 {
+                    if poolOutcome1 != poolOutcome1 {
                         outcome1.pool = poolOutcome1
                     }
-                    
-                    if let poolOutcome2 = json["entity2_pool"] as? Int32 {
+                }
+                
+                if let poolOutcome2 = json["entity2_pool"] as? Int32 {
+                    if poolOutcome2 != poolOutcome2 {
                         outcome2.pool = poolOutcome2
                     }
                 }
-            } catch {
-                // error
-            }
-        
-            // update non-static fields
-    
-//        
-//            if let expiresIn = json["expires_in"] as? Int32 {
-//                event.expiresIn = expiresIn
-//            }
-//            if let eventActive = json["event_active"] as? Int32 {
-//                event.eventActive = eventActive
-//            }
-//            if let pickingActive = json["picking_active"] as? Int32 {
-//                event.pickingActive = pickingActive
-//            }
-//            if let pickTimestamp = json["pick_timestamp"] as? String {
-//                event.pickTimestamp = pickTimestamp
-//            }
-//            if let betSize = json["bet_size"] as? Int32 {
-//                event.betSize = betSize
-//            }
-//            if let pickedOutcome = json["picked_entity"] as? Int32 {
-//                event.pickedOutcomeId = pickedOutcome
-//            }
-//            if let correctPayout = json["correct_payout"] as? Double {
-//                event.correctPayout = correctPayout
-//            }
-//        
-//            if let poolOutcome1 = json["entity1_pool"] as? Int32 {
-//                outcome1.pool = poolOutcome1
-//            }
-//        
-//            if let poolOutcome2 = json["entity2_pool"] as? Int32 {
-//                outcome2.pool = poolOutcome2
-//            }
+                
+                
+            } else {
+                let event = Event(context: SessionState.coreDataManager.managedObjectContext)
+                let outcome1 = Outcome(context: SessionState.coreDataManager.managedObjectContext)
+                let outcome2 = Outcome(context: SessionState.coreDataManager.managedObjectContext)
+            
+                // Add all static attributes/relationships
+                event.id = Int32(id!)
+                if let eventTitle = json["event_title"] as? String {
+                    event.eventTitle = eventTitle
+                }
+                if let categoryName = json["category_name"] as? String {
+                    event.categoryName = categoryName
+                }
+                if let eventTime = json["event_time"] as? String {
+                    event.eventTime = eventTime
+                }
+                event.addToOutcomes(outcome1)
+                event.addToOutcomes(outcome2)
+                
+                if let titleOutcome1 = json["entity1_name"] as? String {
+                    outcome1.title = titleOutcome1
+                }
+                if let idOutcome1 = json["entity1_id"] as? Int32 {
+                    outcome1.id = idOutcome1
+                }
+                outcome1.event = event
+                
+                if let titleOutcome2 = json["entity2_name"] as? String {
+                    outcome2.title = titleOutcome2
+                }
+                if let idOutcome2 = json["entity2_id"] as? Int32 {
+                    outcome2.id = idOutcome2
+                }
+                outcome2.event = event
 
+                if let expiresIn = json["expires_in"] as? Int32 {
+                    event.expiresIn = expiresIn
+                }
+                if let eventActive = json["event_active"] as? Int32 {
+                    event.eventActive = eventActive
+                }
+                if let pickingActive = json["picking_active"] as? Int32 {
+                    event.pickingActive = pickingActive
+                }
+                if let pickTimestamp = json["pick_timestamp"] as? String {
+                    event.pickTimestamp = pickTimestamp
+                }
+                if let betSize = json["bet_size"] as? Int32 {
+                    event.betSize = betSize
+                }
+                if let pickedOutcome = json["picked_entity"] as? Int32 {
+                    event.pickedOutcomeId = pickedOutcome
+                }
+                if let correctPayout = json["correct_payout"] as? Double {
+                    event.correctPayout = correctPayout
+                }
+                
+                if let poolOutcome1 = json["entity1_pool"] as? Int32 {
+                    outcome1.pool = poolOutcome1
+                }
+                
+                if let poolOutcome2 = json["entity2_pool"] as? Int32 {
+                    outcome2.pool = poolOutcome2
+                }
+            }
+        } catch {
+            // error
+        }
+    
     }
     
-    private static func updateUser(json: [String: Any]) {
+    private static func updateUser(json: [String: Any]) -> UserEntity? {
 
-        
-        guard let birthdate = json["birthdate"] as? String,
-            let email = json["email"] as? String,
-            let username = json["username"] as? String,
-            let id = json["id"] as? Int,
-            let coins = json["coins"] as? Int
-            else {
-                return
+        let id = json["id"] as? Int32
+        if id == nil {
+            return nil
         }
         
-        //let privateMOC = SessionState.persistentContainer?.viewContext
-        //let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        //privateMOC.parent = SessionState.persistentContainer?.viewContext
+        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
+        userFetch.predicate = NSPredicate(format: "id == %ld",id!)
         
-        let privateMOC = SessionState.coreDataManager.managedObjectContext
-
-        
-            var user = UserEntity(context: privateMOC)
-
-            let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
-            userFetch.predicate = NSPredicate(format: "id == %ld",id)
-            
-            do {
-                let fetchedUsers = try privateMOC.fetch(userFetch) as! [UserEntity]
-                if fetchedUsers.count > 0 {
-                    user = fetchedUsers.first!
-                } else {
-                    
-                    // Add all static attributes/relationships
-                    
-                    user.username = username
-                    user.birthdate = birthdate
-                    user.email = email
-                    user.id = Int32(id)
-                    
+        do {
+            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [UserEntity]
+            if fetchedUsers.count > 0 {
+                let user = fetchedUsers.first!
+                
+                if let coins = json["coins"] as? Int32 {
+                    user.coins = coins
                 }
-            } catch {
-                // error
+                
+                return user
+
+            } else {
+                
+                // Add all static attributes/relationships
+                let user = UserEntity(context: SessionState.coreDataManager.managedObjectContext)
+                if let birthdate = json["birthdate"] as? String {
+                    user.birthdate = birthdate
+                }
+                if let email = json["email"] as? String {
+                    user.email = email
+                }
+                if let username = json["username"] as? String {
+                    user.username = username
+                }
+                if let coins = json["coins"] as? Int32 {
+                    user.coins = coins
+                }
+                user.id = id!
+                
+                return user
             }
-            
-            user.coins = Int32(coins)
+        } catch {
+            // error
+        }
         
+        return nil
     }
     
 

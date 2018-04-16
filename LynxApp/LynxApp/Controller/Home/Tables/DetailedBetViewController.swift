@@ -13,7 +13,6 @@ class DetailedBetViewController: UIViewController {
     var event: Event?
     
     var eventManagedId: NSManagedObjectID?
-    var userInfo: User?
 
     @IBOutlet weak var eventTitle: UILabel!
     

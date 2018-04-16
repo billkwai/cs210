@@ -90,11 +90,11 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         
         switch (event.pickedOutcomeId) {
                 
-            case outcome1?.id:
+        case (outcome1?.id)!:
                 cell.pickEntity.text = outcome1?.title //"\(outcome1!.title)"
                 break
             
-            case outcome2?.id:
+        case (outcome2?.id)!:
                 cell.pickEntity.text = outcome2?.title //"\(outcome2?.title)"
                 break
             default:
