@@ -44,12 +44,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    private func fetchUser(id: Int) -> UserEntity? {
-        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
+    private func fetchUser(id: Int) -> User? {
+        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         userFetch.predicate = NSPredicate(format: "id == %ld",id)
         
         do {
-            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [UserEntity]
+            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [User]
             if fetchedUsers.count > 0 {
                 let user = fetchedUsers.first!
                 return user

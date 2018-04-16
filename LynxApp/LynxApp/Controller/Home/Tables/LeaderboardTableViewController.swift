@@ -11,7 +11,7 @@ import CoreData
 
 class LeaderboardTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    var fetchedResultsController: NSFetchedResultsController<UserEntity>!
+    var fetchedResultsController: NSFetchedResultsController<User>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
     }
     
     func initializeFetchedResultsController() {
-        let request: NSFetchRequest<UserEntity> = UserEntity.fetchRequest()
+        let request: NSFetchRequest<User> = User.fetchRequest()
         
         //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
         request.predicate = NSPredicate(format: "id != %ld", (SessionState.currentUser?.id)!)

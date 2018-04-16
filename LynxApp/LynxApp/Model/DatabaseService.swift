@@ -71,7 +71,7 @@ struct DatabaseService {
         
     }
     
-    static func getUser(id: String) -> UserEntity? {
+    static func getUser(id: String) -> User? {
         
         let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
         if let json = response.json as? [String: Any] {
@@ -124,7 +124,6 @@ struct DatabaseService {
     private static func getActiveEvents(id: String) {
         
         Just.get(baseUrl + requests.userpath + "/" + id + "/events/current", headers:["Authentication":"Basic " + apiKey]) { (response) in
-
             if let json = response.json as? [[String: Any]] {
                 for entry in json {
                    updateEvent(json: entry)
@@ -321,18 +320,18 @@ struct DatabaseService {
     
     }
     
-    private static func updateUser(json: [String: Any]) -> UserEntity? {
+    private static func updateUser(json: [String: Any]) -> User? {
 
         let id = json["id"] as? Int32
         if id == nil {
             return nil
         }
         
-        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
+        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         userFetch.predicate = NSPredicate(format: "id == %ld",id!)
         
         do {
-            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [UserEntity]
+            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [User]
             if fetchedUsers.count > 0 {
                 let user = fetchedUsers.first!
                 
@@ -345,7 +344,7 @@ struct DatabaseService {
             } else {
                 
                 // Add all static attributes/relationships
-                let user = UserEntity(context: SessionState.coreDataManager.managedObjectContext)
+                let user = User(context: SessionState.coreDataManager.managedObjectContext)
                 if let birthdate = json["birthdate"] as? String {
                     user.birthdate = birthdate
                 }

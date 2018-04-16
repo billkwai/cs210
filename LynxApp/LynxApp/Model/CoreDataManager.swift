@@ -2,8 +2,8 @@
 //  CoreDataManager.swift
 //  Lists
 //
-//  Created by Bart Jacobs on 07/03/2017.
-//  Copyright © 2017 Cocoacasts. All rights reserved.
+//  Created by Colin Dolese on 04/03/2018.
+//  Copyright © 2018 Cocoacasts. All rights reserved.
 //
 
 import CoreData

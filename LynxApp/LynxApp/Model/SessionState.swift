@@ -11,7 +11,7 @@ import CoreData
 
 struct SessionState {
     
-   static var currentUser: UserEntity?
+   static var currentUser: User?
     
     //static var persistentContainer: NSPersistentContainer?
    //static var managedContext: NSManagedObjectContext?
