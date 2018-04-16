@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        //UIApplication.shared.setMinimumBackgroundFetchInterval(60)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
@@ -26,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let apiKey = KeychainWrapper.standard.string(forKey: ModelConstants.keychainApiKey) {
                 DatabaseService.apiKey = apiKey
             }
-            if let user = DatabaseService.getUser(id: String(id)) {
+            
+            if let user = fetchUser(id: id) {
                 SessionState.currentUser = user
                 let menuVC: MenuViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController
                 self.window?.rootViewController = menuVC
@@ -42,6 +42,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         self.window?.makeKeyAndVisible()
         return true
+    }
+    
+    private func fetchUser(id: Int) -> UserEntity? {
+        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserEntity")
+        userFetch.predicate = NSPredicate(format: "id == %ld",id)
+        
+        do {
+            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [UserEntity]
+            if fetchedUsers.count > 0 {
+                let user = fetchedUsers.first!
+                return user
+            }
+        } catch {
+            // error
+        }
+        return nil
     }
     
 
@@ -65,20 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler:
-        @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        if UIApplication.shared.applicationState == UIApplicationState.active {
-            if SessionState.currentUser != nil {
-                DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
-                DatabaseService.updateSocialData()
-                completionHandler(.newData)
-            }
-        }
-        completionHandler(.noData)
     }
     
     

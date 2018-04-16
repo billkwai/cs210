@@ -21,8 +21,13 @@ class MenuViewController: UIViewController {
     let animationDuration: TimeInterval = 0.3
     var isLeftToRight = true
     
+    var updateTimer: Timer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+
         
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
         DatabaseService.updateSocialData()
@@ -45,6 +50,11 @@ class MenuViewController: UIViewController {
             gestureScreenEdgePan.edges = .right
             isLeftToRight = false
         }
+    }
+    
+    @objc func updateData() {
+        DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
+        DatabaseService.updateSocialData()
     }
     
     @IBAction func gestureScreenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
