@@ -413,8 +413,8 @@ def get_current_events(player_id):
         event_time, e.entity1_pool, e.entity2_pool FROM EVENTS AS e
         JOIN ENTITIES AS one ON e.entity1_id = one.id
         JOIN ENTITIES AS two ON e.entity2_id = two.id
-        LEFT JOIN PICKS ON (e.id = PICKS.event_id AND PICKS.player_id = %d)
-        #JOIN PLAYERS ON (PLAYERS.api_key = %s)
+        LEFT JOIN PICKS ON (e.id = PICKS.event_id AND PICKS.player_id = %s)
+        #JOIN PLAYERS ON (PLAYERS.api_key = s)
         JOIN CATEGORIES as c ON e.category_id = c.id
         WHERE PICKS.event_id IS NULL AND picking_active = 1; '''
     cur.execute(cmd_str, (player_id))
