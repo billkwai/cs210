@@ -26,7 +26,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
 
         
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
@@ -55,6 +55,7 @@ class MenuViewController: UIViewController {
     @objc func updateData() {
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
         DatabaseService.updateSocialData()
+        SessionState.saveCoreData()
     }
     
     @IBAction func gestureScreenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {

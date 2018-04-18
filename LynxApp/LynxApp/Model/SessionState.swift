@@ -18,15 +18,17 @@ struct SessionState {
    static let coreDataManager = CoreDataManager(modelName: "DataModel")
 
    static func saveCoreData() {
-        coreDataManager.managedObjectContext.perform {
-            do {
-                if  SessionState.coreDataManager.managedObjectContext.hasChanges {
-                    try SessionState.coreDataManager.managedObjectContext.save()
+        DispatchQueue.main.async {
+            coreDataManager.managedObjectContext.perform {
+                do {
+                    if  SessionState.coreDataManager.managedObjectContext.hasChanges {
+                        try SessionState.coreDataManager.managedObjectContext.save()
+                    }
+                } catch {
+                    let saveError = error as NSError
+                    print("Unable to Save Changes of Managed Object Context")
+                    print("\(saveError), \(saveError.localizedDescription)")
                 }
-            } catch {
-                let saveError = error as NSError
-                print("Unable to Save Changes of Managed Object Context")
-                print("\(saveError), \(saveError.localizedDescription)")
             }
         }
     }

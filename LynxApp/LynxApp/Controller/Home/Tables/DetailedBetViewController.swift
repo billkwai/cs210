@@ -45,6 +45,11 @@ class DetailedBetViewController: UIViewController {
     
     var entity2id:  Int?
     
+    @IBAction func backPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
     @IBAction func selectedTeam(_ sender: UISegmentedControl) {
         let outcome1 = event?.outcomes![0] as! Outcome
         let outcome2 = event?.outcomes![1] as! Outcome
@@ -67,7 +72,8 @@ class DetailedBetViewController: UIViewController {
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
             event?.pickedOutcomeId = Int32(teamSelected!)
             SessionState.saveCoreData()
-            performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
+            self.dismiss(animated: false, completion: nil)
+            //performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
             
             
         } else {

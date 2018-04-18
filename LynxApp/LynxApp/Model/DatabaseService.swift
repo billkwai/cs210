@@ -1,5 +1,5 @@
 //
-//  Server.swift
+//  DatabaseService.swift
 //  LynxApp
 //
 //  Created by Colin James Dolese on 2/16/18.
@@ -10,11 +10,7 @@ import Foundation
 import CoreData
 
 
-struct DatabaseService {
-    
-    static fileprivate let coreDataManager = CoreDataManager(modelName: "DataModel")
-
-    
+class DatabaseService {
     
     static let baseUrl = "http://129.150.222.55:8080"
     static var apiKey = ""
@@ -105,7 +101,6 @@ struct DatabaseService {
     static func updateEventData(id: String) {
         getActiveEvents(id: id)
         getUserEvents(id: id)
-        SessionState.saveCoreData()
     }
     
     
@@ -161,11 +156,10 @@ struct DatabaseService {
     
     static func updateSocialData() {
         getLeaderboard()
-        SessionState.saveCoreData()
         
     }
     
-    static func getLeaderboard() {
+    private static func getLeaderboard() {
         
         Just.get(baseUrl + requests.userpath + "/leaderboard/all", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
@@ -336,6 +330,7 @@ struct DatabaseService {
                 let user = fetchedUsers.first!
                 
                 if let coins = json["coins"] as? Int32 {
+                    print(user.coins)
                     user.coins = coins
                 }
                 
