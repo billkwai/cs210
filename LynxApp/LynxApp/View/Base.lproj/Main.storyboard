@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14075.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Futura.ttc">
+            <string>Futura-Bold</string>
+            <string>Futura-Medium</string>
+            <string>Futura-MediumItalic</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Menu View Controller-->
         <scene sceneID="yS1-yO-Obh">
@@ -726,7 +733,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="49" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HamburgerCell" rowHeight="56" id="k2Q-yr-b9w" customClass="HamburgerCell" customModule="LynxApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HamburgerCell" rowHeight="56" id="k2Q-yr-b9w" customClass="HamburgerCell" customModule="LynxApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="300" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k2Q-yr-b9w" id="TOn-GQ-lKs">
@@ -923,8 +930,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stanford Cardinal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99n-6z-l8c">
-                                <rect key="frame" x="107" y="183" width="200" height="26"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Stanford Cardinal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="99n-6z-l8c">
+                                <rect key="frame" x="107" y="212" width="200" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="RJl-MI-j4X"/>
                                     <constraint firstAttribute="width" constant="200" id="rTM-W9-Izj"/>
@@ -974,8 +981,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Stake: 25000 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4I-Z0-0lT">
-                                <rect key="frame" x="107" y="211" width="200" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Public Stake: 25000 " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4I-Z0-0lT">
+                                <rect key="frame" x="107" y="240" width="200" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="lGQ-fW-qkJ"/>
                                     <constraint firstAttribute="width" constant="200" id="vrt-sR-6US"/>
@@ -1000,8 +1007,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KlE-Gf-tVH">
-                                <rect key="frame" x="116.66666666666669" y="110" width="181" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KlE-Gf-tVH">
+                                <rect key="frame" x="116.66666666666652" y="174" width="181" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1047,8 +1054,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="College Basketball" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="682-l9-dFf">
-                                <rect key="frame" x="107" y="60" width="200" height="28"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="682-l9-dFf">
+                                <rect key="frame" x="32" y="123" width="350" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="5BH-Gv-Yql"/>
                                     <constraint firstAttribute="height" constant="28" id="ruc-dK-Rr7"/>
@@ -1071,11 +1078,36 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2z-Xk-HP1">
-                                <rect key="frame" x="82" y="86" width="250" height="23"/>
+                                <rect key="frame" x="82" y="150" width="250" height="23"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trophy" translatesAutoresizingMaskIntoConstraints="NO" id="6nY-Rf-3bx">
+                                <rect key="frame" x="182" y="64" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="09a-Wi-lx5"/>
+                                    <constraint firstAttribute="width" constant="50" id="vm5-UN-cIz"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXJ-wc-vrn">
+                                <rect key="frame" x="231" y="611" width="101" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Option 2">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ4-Xf-CJd">
+                                <rect key="frame" x="82" y="611" width="101" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.71069834183673475" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Option 1">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1083,6 +1115,7 @@
                             <constraint firstItem="a2z-Xk-HP1" firstAttribute="centerX" secondItem="owS-iX-VTH" secondAttribute="centerX" id="4v0-eG-NUH"/>
                             <constraint firstItem="QPw-Gp-ead" firstAttribute="leading" secondItem="I75-B4-gMt" secondAttribute="leading" id="5p0-Mk-9VK"/>
                             <constraint firstItem="qgV-5A-kTP" firstAttribute="top" secondItem="Jox-I6-uww" secondAttribute="bottom" constant="33" id="7Qh-an-oH6"/>
+                            <constraint firstItem="6nY-Rf-3bx" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="44" id="A3g-yb-Jml"/>
                             <constraint firstItem="UrU-yC-EPQ" firstAttribute="top" secondItem="wLA-Lm-l2u" secondAttribute="bottom" constant="8" id="Ap5-tP-AYg"/>
                             <constraint firstItem="99n-6z-l8c" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="BAo-d0-yyP"/>
                             <constraint firstItem="OcA-oS-1hY" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="Eqs-Ww-XS9"/>
@@ -1091,6 +1124,7 @@
                             <constraint firstItem="OcA-oS-1hY" firstAttribute="top" secondItem="LJi-3c-ocO" secondAttribute="bottom" constant="8" id="Hd8-fP-QKs"/>
                             <constraint firstItem="Jox-I6-uww" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="IgN-0U-3vS"/>
                             <constraint firstItem="99n-6z-l8c" firstAttribute="top" secondItem="KlE-Gf-tVH" secondAttribute="bottom" constant="50" id="K2C-yR-UlA"/>
+                            <constraint firstItem="6nY-Rf-3bx" firstAttribute="centerX" secondItem="owS-iX-VTH" secondAttribute="centerX" id="LFK-gQ-vna"/>
                             <constraint firstItem="KlE-Gf-tVH" firstAttribute="top" secondItem="I75-B4-gMt" secondAttribute="top" constant="90" id="Ldx-vz-iVP"/>
                             <constraint firstItem="OcA-oS-1hY" firstAttribute="centerX" secondItem="I75-B4-gMt" secondAttribute="centerX" id="QkY-L5-piu"/>
                             <constraint firstItem="Jox-I6-uww" firstAttribute="top" secondItem="OcA-oS-1hY" secondAttribute="bottom" constant="8" id="Swr-bd-AwB"/>
@@ -1118,6 +1152,7 @@
                         <outlet property="betExpirationLabel" destination="KlE-Gf-tVH" id="ubk-TA-Arm"/>
                         <outlet property="bettingCategoryLabel" destination="682-l9-dFf" id="pu5-kt-erW"/>
                         <outlet property="chooseTeamSegmentedControl" destination="OcA-oS-1hY" id="9RX-zA-OiP"/>
+                        <outlet property="eventImage" destination="6nY-Rf-3bx" id="VgM-NG-4ws"/>
                         <outlet property="eventTitle" destination="a2z-Xk-HP1" id="QET-bv-tIT"/>
                         <outlet property="oddsOfSelectedTeam" destination="Jox-I6-uww" id="jEg-RP-bBL"/>
                         <outlet property="sliderLabel" destination="wLA-Lm-l2u" id="MaL-HG-3p3"/>
@@ -1132,7 +1167,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r43-NK-JBm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3868" y="364.7676161919041"/>
+            <point key="canvasLocation" x="3866.666666666667" y="364.4021739130435"/>
         </scene>
     </scenes>
     <resources>
@@ -1140,6 +1175,7 @@
         <image name="back-white" width="173" height="293"/>
         <image name="carsIcon" width="24" height="24"/>
         <image name="icons8-menu-24" width="24" height="24"/>
+        <image name="trophy" width="200" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Dom-BD-Lab"/>

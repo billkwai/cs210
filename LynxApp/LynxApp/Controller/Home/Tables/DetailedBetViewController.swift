@@ -10,6 +10,7 @@ import CoreData
 
 class DetailedBetViewController: UIViewController {
     
+    @IBOutlet weak var eventImage: UIImageView!
     var event: Event?
     
     var eventManagedId: NSManagedObjectID?
