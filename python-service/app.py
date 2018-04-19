@@ -14,7 +14,6 @@ import hashlib, binascii, base64
 #from argon2 import PasswordHasher
 import bcrypt
 
-test_flag = False
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*","methods":"POST,DELETE,PUT,GET,OPTIONS"}})
@@ -49,12 +48,13 @@ TABLES['employees'] = (
     "  PRIMARY KEY (`emp_no`)"
     ") ENGINE=InnoDB")
 
-
+def setTestMode(mode):
+  test_flag = mode
 
 def creatConnection():
     # Read MySQL Environment Parameters
     connectString = None
-    if test_flag is True:
+    if app.config['TESTING']:
       connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.88.243:/mydatabase')
     else:
       connectString = os.environ.get('MYSQLCS_CONNECT_STRING', '129.150.120.63:/mydatabase')
@@ -130,6 +130,23 @@ def drop_companies():
     cur.close()
     conn.close()
     return 'Succesfully dropped companies'
+
+# endpoint to drop all tables in database. BE CAREFUL WHEN USING
+@app.route('/drop/all')
+def drop_all():
+    conn = creatConnection()
+    cur = conn.cursor()
+    cur.execute('''DROP TABLE IF EXISTS COLLEGES;''')
+    cur.execute('''DROP TABLE IF EXISTS COMPANIES;''')
+    cur.execute('''DROP TABLE IF EXISTS PLAYERS;''')
+    cur.execute('''DROP TABLE IF EXISTS FRIENDS;''')
+    cur.execute('''DROP TABLE IF EXISTS CATEGORIES;''')
+    cur.execute('''DROP TABLE IF EXISTS ENTITIES;''')
+    cur.execute('''DROP TABLE IF EXISTS EVENTS;''')
+    cur.execute('''DROP TABLE IF EXISTS PICKS;''')
+    cur.close()
+    conn.close()
+    return 'Successfully dropped all tables'
 
 @app.route('/players/setupdbs')
 def setupDBS():
@@ -618,7 +635,7 @@ def delete_player(player_id):
     return jsonify(message)
 
 if __name__ == '__main__':
-      if len(sys.argv) > 1 and sys.argv[1] == '-test':
-        test_flag = True
-        print('Running in test mode')
-      app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '8080')))
+    if len(sys.argv) > 1 and sys.argv[1] == '-test':
+      app.config['TESTING'] = True
+      print('Running in test mode')
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '8080')))
