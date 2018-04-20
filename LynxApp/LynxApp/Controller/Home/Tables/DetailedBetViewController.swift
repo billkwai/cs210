@@ -13,11 +13,41 @@ class DetailedBetViewController: UIViewController {
     @IBOutlet weak var eventImage: UIImageView!
     var event: Event?
     
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    @IBOutlet weak var poolSize: UILabel!
+    
+    @IBOutlet weak var decisionLabel: UILabel!
+    @IBOutlet weak var wagerBox: UITextField!
+    
+    @IBOutlet weak var entity1Button: UIButton!
+    
+    @IBOutlet weak var entity2Button: UIButton!
+    
     var eventManagedId: NSManagedObjectID?
 
     @IBOutlet weak var eventTitle: UILabel!
     
-    @IBOutlet weak var bettingCategoryLabel: UILabel!
     
     @IBOutlet weak var betExpirationLabel: UILabel!
     
@@ -46,9 +76,28 @@ class DetailedBetViewController: UIViewController {
     
     var entity2id:  Int?
     
+    var outcome1: Outcome?
+    var outcome2: Outcome?
+    
+
+    
     @IBAction func backPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
         
+    }
+    
+    @IBAction func entity1Clicked(_ sender: Any) {
+        entity1Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
+        entity2Button.backgroundColor = hexStringToUIColor(hex: "555555")
+        decisionLabel.text = "You think " + String(describing:(outcome1?.title)!)  + " will win"
+    }
+    
+    @IBAction func entity2Clicked(_ sender: Any) {
+        
+        entity2Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
+        entity1Button.backgroundColor = hexStringToUIColor(hex: "555555")
+        decisionLabel.text = "You think " +  String(describing:(outcome2?.title)!) + " will win"
+
     }
     
     @IBAction func selectedTeam(_ sender: UISegmentedControl) {
@@ -110,7 +159,7 @@ class DetailedBetViewController: UIViewController {
         } else {
             setSubmitStatus(canSubmit: true)
         }
-        sliderLabel.text = "Foresight Stake: " + String(bet)
+        sliderLabel.text = "Your Wager: " + String(bet)
     }
     
     private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {
@@ -141,8 +190,8 @@ class DetailedBetViewController: UIViewController {
             betExpirationLabel.text = "Event expires in " + "1 minute"
         }
         
-            let outcome1 = event?.outcomes![0] as? Outcome
-            let outcome2 = event?.outcomes![1] as? Outcome
+        let outcome1 = event?.outcomes![0] as? Outcome
+        let outcome2 = event?.outcomes![1] as? Outcome
 
         
         
@@ -151,20 +200,18 @@ class DetailedBetViewController: UIViewController {
         entity1id = Int(outcome1!.id)
         
         entity2id = Int(outcome2!.id)
-        chooseTeamSegmentedControl.setTitle(outcome1?.title, forSegmentAt: 0)
-        chooseTeamSegmentedControl.setTitle(outcome2?.title, forSegmentAt: 1)
+        
+        entity1Button.setTitle(outcome1?.title, for: .normal)
+        entity2Button.setTitle(outcome2?.title, for: .normal)
+            
+        entity1Button.layer.cornerRadius = 5.0
+        entity2Button.layer.cornerRadius = 5.0
 
+        entity1Button.setTitle(outcome1?.title, for: .normal)
+        entity2Button.setTitle(outcome2?.title, for: .normal)
 
-        oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome1!.pool)" + ":" + "\(outcome2!.pool)"
-        
-            bettingCategoryLabel.text = event?.categoryName
-        team1Label.text = outcome1?.title
-        team2Label.text = outcome2?.title
-        
-        team1PotLabel.text = "Public Stake: " + String(describing: (outcome1?.pool)!)
-        team2PotLabel.text = "Public Stake: " + String(describing: (outcome2?.pool)!)
-        
-        userBalance.text = "My Balance: " + "\(SessionState.currentUser!.coins)"
+    
+        poolSize.text = "Pool Size:  " + String(describing: ((outcome1?.pool)! + (outcome2?.pool)!)) + " coins"
         
             eventTitle.text = event?.eventTitle
 
