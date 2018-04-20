@@ -17,6 +17,8 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var constraintMenuLeft: NSLayoutConstraint!
     @IBOutlet weak var constraintMenuWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var profileLabel: UIImageView!
+    @IBOutlet weak var settingsLabel: UIImageView!
     let maxBlackViewAlpha: CGFloat = 0.5
     let animationDuration: TimeInterval = 0.3
     var isLeftToRight = true
@@ -25,6 +27,14 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapSettings))
+        settingsLabel.isUserInteractionEnabled = true
+        settingsLabel.addGestureRecognizer(tap)
+        
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapProfile))
+        profileLabel.isUserInteractionEnabled = true
+        profileLabel.addGestureRecognizer(tap2)
         
         updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
 
@@ -161,6 +171,14 @@ class MenuViewController: UIViewController {
     
     @IBAction func buttonMenu(_ sender: Any) {
         self.openMenu()
+    }
+    
+    func tapSettings(sender:UITapGestureRecognizer) {
+        self.openMenu()
+    }
+    
+    func tapProfile(sender:UITapGestureRecognizer) {
+        print("profile button clicked")
     }
     
     @IBAction func exploreMenu(_ sender: Any) {
