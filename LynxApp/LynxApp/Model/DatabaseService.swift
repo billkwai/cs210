@@ -330,7 +330,6 @@ class DatabaseService {
                 let user = fetchedUsers.first!
                 
                 if let coins = json["coins"] as? Int32 {
-                    print(user.coins)
                     user.coins = coins
                 }
                 
