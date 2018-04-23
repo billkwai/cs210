@@ -1,10 +1,12 @@
 #!/usr/bin/env python
-from app import app, config
+
+from run import app     # app is defined in run.py
 from flask import Flask, json, current_app
-from flask_testing import TestCase
 import unittest
 
 class FlaskAppTests(unittest.TestCase):
+
+  player_id = 0
 
   @classmethod
   def setUpClass(cls):
@@ -25,11 +27,8 @@ class FlaskAppTests(unittest.TestCase):
     # reset database
     # self.app.get('/drop/all')
     # self.app.get('/players/setupdbs')
-    
+    app.config['TESTING'] = True
     self.app = app.test_client()
-    self.app.testing = True
-    self.app.config['TESTING'] = True
-    
 
   def tearDown(self):
     # reset database
@@ -55,14 +54,38 @@ class FlaskAppTests(unittest.TestCase):
 
   def test_add_new_player(self):
     result = self.app.post('/players', data=json.dumps(dict(firstName='Bill', lastName='Kwai', username='billkwai', password='password', email='billkwai@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
-    #json_response = json.loads(result.get_data(as_text=True))
+    json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
+    self.assertEqual(json_data['status'], 1)
+    self.assertEqual(json_data['message'], "New player record is created succesfully")
+    self.__class__.player_id = json_data['new_id']
 
   def test_get_new_player(self):
-    result = self.app.get('/players/1')
+    result = self.app.get('/players/' + str(self.__class__.player_id))
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['firstname'], "Bill")
+
+  def test_update_new_player(self):
+    # change name of user
+    result = self.app.put('players/' + str(self.__class__.player_id), data=json.dumps(dict(firstName='Neel', lastName='Bedekar', username='neelb', password='password', email='neelb@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
+    json_data = json.loads(result.get_data(as_text=True))
+    self.assertEqual(result.status_code, 200)
+    self.assertEqual(json_data['status'], 1)
+    self.assertEqual(json_data['message'], "The player record is updated succesfully")
+
+    # check that changes persist
+    result = self.app.get('/players/' + str(self.__class__.player_id))
+    json_data = json.loads(result.get_data(as_text=True))
+    self.assertEqual(result.status_code, 200)
+    self.assertEqual(json_data['firstname'], "Neel")
+
+  def test_delete_new_players(self):
+    result = self.app.delete('players/' + str(self.__class__.player_id))
+    json_data = json.loads(result.get_data(as_text=True))
+    self.assertEqual(result.status_code, 200)
+    self.assertEqual(json_data['status'], 1)
+    self.assertEqual(json_data['message'], "The player record is deleted succesfully")
 
 if __name__ == '__main__':
     unittest.main()
