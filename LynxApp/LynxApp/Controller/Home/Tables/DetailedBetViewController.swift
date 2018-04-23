@@ -79,7 +79,8 @@ class DetailedBetViewController: UIViewController {
     var outcome1: Outcome?
     var outcome2: Outcome?
     
-
+    var title1 = "dog"
+    var title2 = "cat"
     
     @IBAction func backPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -89,14 +90,14 @@ class DetailedBetViewController: UIViewController {
     @IBAction func entity1Clicked(_ sender: Any) {
         entity1Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity2Button.backgroundColor = hexStringToUIColor(hex: "555555")
-        decisionLabel.text = "You think " + String(describing:(outcome1?.title)!)  + " will win"
+        decisionLabel.text = "You think " +  title1 + " will win"
     }
     
     @IBAction func entity2Clicked(_ sender: Any) {
         
         entity2Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity1Button.backgroundColor = hexStringToUIColor(hex: "555555")
-        decisionLabel.text = "You think " +  String(describing:(outcome2?.title)!) + " will win"
+        decisionLabel.text = "You think " +  title2 + " will win"
 
     }
     
@@ -209,6 +210,10 @@ class DetailedBetViewController: UIViewController {
 
         entity1Button.setTitle(outcome1?.title, for: .normal)
         entity2Button.setTitle(outcome2?.title, for: .normal)
+            
+            title1 = (outcome1?.title)!
+            title2 = (outcome2?.title)!
+
 
     
         poolSize.text = "Pool Size:  " + String(describing: ((outcome1?.pool)! + (outcome2?.pool)!)) + " coins"

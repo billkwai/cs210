@@ -17,6 +17,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var constraintMenuLeft: NSLayoutConstraint!
     @IBOutlet weak var constraintMenuWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var coinBalanceLabel: UILabel!
     @IBOutlet weak var profileLabel: UIImageView!
     @IBOutlet weak var settingsLabel: UIImageView!
     let maxBlackViewAlpha: CGFloat = 0.5
@@ -27,6 +28,15 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let user = SessionState.currentUser {
+            // TODO: make this async
+            SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
+            if let updatedUser = SessionState.currentUser {
+                coinBalanceLabel.text = String(updatedUser.coins)
+            }
+            
+        }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapSettings))
         settingsLabel.isUserInteractionEnabled = true
