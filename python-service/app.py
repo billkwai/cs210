@@ -111,7 +111,6 @@ def create_app(config_name):
 
 
       return 'The application is running!'
-      
 
   @app.route('/drop/players')
   def drop_players():
@@ -549,7 +548,6 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       try:
-
           if '@' in username:
               cur.execute('''SELECT id FROM PLAYERS WHERE email='%s'; '''%(username));#%(username));
           else:
