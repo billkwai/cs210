@@ -7,11 +7,11 @@ services:
 
 before_install:
 - docker build -t foresight-flask-app python-service/
-- docker run -d --name app foresight-flask-app
+- docker run -d --env APP_SETTINGS=testing --name foresight-app-test foresight-flask-app
 - docker ps -a
 
 script:
-- docker exec app python3 -m unittest discover
+- docker exec foresight-app-test python3 test_app.py
 
 after_script:
-- docker rm -f app
+- docker rm -f foresight-app-test
