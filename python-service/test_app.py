@@ -81,7 +81,11 @@ class FlaskAppTests(unittest.TestCase):
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['firstname'], "Neel")
 
-  def test_06_delete_new_players(self):
+  def test_06_update_new_player_2(self):
+    # insert test to only include a few fields to update for a new player
+    pass
+
+  def test_07_delete_new_players(self):
     result = self.app.delete('players/' + str(self.__class__.player_id))
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)

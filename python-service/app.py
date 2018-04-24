@@ -623,9 +623,11 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       try:
-          cur.execute('''UPDATE PLAYERS SET FIRSTNAME='%s', LASTNAME='%s', PASSWORD='%s', EMAIL='%s', PHONE='%s', BIRTHDATE='%s', COLLEGE='%s', COMPANY='%s' 
+          # Since all fields are specified here, an update either needs to contain all the previous information of unchanged fields in the request or
+          # generate a MYSQL command that only updates new fields
+          cur.execute('''UPDATE PLAYERS SET FIRSTNAME='%s', LASTNAME='%s', PASSWORD='%s', EMAIL='%s', PHONE='%s', BIRTHDATE='%s' 
                      WHERE ID=%s '''%(request.json['firstName'],request.json['lastName'], request.json['password'],
-                     request.json['email'],request.json['phone'],request.json['birthDate'],request.json['college'],request.json['company'],player_id))    
+                     request.json['email'],request.json['phone'],request.json['birthDate'],player_id)) # request.json['college'],request.json['company']
           conn.commit()
           message = {'status': PUT_SUCCESSFUL, 'message': 'The player record is updated succesfully'}
           cur.close()  
