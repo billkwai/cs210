@@ -4,6 +4,7 @@ from run import app     # app is defined in run.py
 from flask import Flask, json, current_app
 import unittest
 
+# NOTE: test cases are named test_xxx_[insert_name_here] because tests are sorted alphabetically when run
 class FlaskAppTests(unittest.TestCase):
 
   player_id = 0
@@ -36,7 +37,7 @@ class FlaskAppTests(unittest.TestCase):
     # self.app.get('/players/setupdbs')
     pass
 
-  def test_home_status_code(self):
+  def test_01_home_status_code(self):
     # sends HTTP GET request to the application
     # on the specified path
     result = self.app.get('/')
@@ -44,7 +45,7 @@ class FlaskAppTests(unittest.TestCase):
     # assert the status code of the response
     self.assertEqual(result.status_code, 200)
 
-  def test_home_data(self):
+  def test_02_home_data(self):
     # sends HTTP GET request to the application
     # on the specified path
     result = self.app.get('/')
@@ -52,21 +53,21 @@ class FlaskAppTests(unittest.TestCase):
     # assert the response data
     self.assertEqual(result.data.decode('UTF-8'), "The application is running!")
 
-  def test_add_new_player(self):
+  def test_03_add_new_player(self):
     result = self.app.post('/players', data=json.dumps(dict(firstName='Bill', lastName='Kwai', username='billkwai', password='password', email='billkwai@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['status'], 1)
-    self.assertEqual(json_data['message'], "New player record is created succesfully")
+    self.assertEqual(json_data['message'], "New player record is created succesfully", msg=json_data['new_id'])
     self.__class__.player_id = json_data['new_id']
 
-  def test_get_new_player(self):
+  def test_04_get_new_player(self):
     result = self.app.get('/players/' + str(self.__class__.player_id))
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['firstname'], "Bill")
 
-  def test_update_new_player(self):
+  def test_05_update_new_player(self):
     # change name of user
     result = self.app.put('players/' + str(self.__class__.player_id), data=json.dumps(dict(firstName='Neel', lastName='Bedekar', username='neelb', password='password', email='neelb@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
     json_data = json.loads(result.get_data(as_text=True))
@@ -80,7 +81,7 @@ class FlaskAppTests(unittest.TestCase):
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['firstname'], "Neel")
 
-  def test_delete_new_players(self):
+  def test_06_delete_new_players(self):
     result = self.app.delete('players/' + str(self.__class__.player_id))
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
