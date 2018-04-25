@@ -500,11 +500,18 @@ def create_app(config_name):
                               hashed_pw_db, 'salted_db', request.json['email'],request.json['phone'],
                               request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))
 
-              cur.execute('''SELECT Auto_increment from information_schema.tables where table_name='PLAYERS' and table_schema = DATABASE();''')
-              rv = cur.fetchone()    
+              # report back the id of the new player that was just added for integration testing purposes
+              if app.config['TESTING']:
+                cur.fetchall()
+                cur.execute('''SELECT Auto_increment FROM information_schema.tables WHERE table_name='PLAYERS' AND table_schema = DATABASE();''')
+                rv = cur.fetchone()
+
               conn.commit()
-              message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key, 'new_id': int(rv['Auto_increment']) - 1}
-              cur.close()  
+              if app.config['TESTING']:
+                message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key, 'new_id': int(rv['Auto_increment']) - 1}
+              else:
+                message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
+              cur.close()
           except Exception as e:
               #logging.error('DB exception: %s' % e)
               exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -616,9 +623,11 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       try:
-          cur.execute('''UPDATE PLAYERS SET FIRSTNAME='%s', LASTNAME='%s', PASSWORD='%s', EMAIL='%s', PHONE='%s', BIRTHDATE='%s', COLLEGE='%s', COMPANY='%s' 
+          # Since all fields are specified here, an update either needs to contain all the previous information of unchanged fields in the request or
+          # generate a MYSQL command that only updates new fields
+          cur.execute('''UPDATE PLAYERS SET FIRSTNAME='%s', LASTNAME='%s', PASSWORD='%s', EMAIL='%s', PHONE='%s', BIRTHDATE='%s' 
                      WHERE ID=%s '''%(request.json['firstName'],request.json['lastName'], request.json['password'],
-                     request.json['email'],request.json['phone'],request.json['birthDate'],request.json['college'],request.json['company'],player_id))    
+                     request.json['email'],request.json['phone'],request.json['birthDate'],player_id)) # request.json['college'],request.json['company']
           conn.commit()
           message = {'status': PUT_SUCCESSFUL, 'message': 'The player record is updated succesfully'}
           cur.close()  
