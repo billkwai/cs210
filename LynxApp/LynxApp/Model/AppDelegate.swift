@@ -21,14 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        // Facebook login
-//        if let accessToken = AccessToken.current {
-//            DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,name")
-//        }
-
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
         if let id = KeychainWrapper.standard.integer(forKey: ModelConstants.keychainUserId) {
             if let apiKey = KeychainWrapper.standard.string(forKey: ModelConstants.keychainApiKey) {
                 DatabaseService.apiKey = apiKey
@@ -36,10 +34,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if let user = fetchUser(id: id) {
                 SessionState.currentUser = user
-                let menuVC: MenuViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController
-                self.window?.rootViewController = menuVC
+                let autoLoginVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.AutoLoginVC) as! AutoLoginViewController
+                self.window?.rootViewController = autoLoginVC
                 
+
             } else {
+                
                 let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
                 self.window?.rootViewController = loginVC
             }
@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         self.window?.makeKeyAndVisible()
-        return true
+        return SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     
@@ -67,6 +67,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // error
         }
         return nil
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return SDKApplicationDelegate.shared.application(app, open: url, options: options)
     }
     
 

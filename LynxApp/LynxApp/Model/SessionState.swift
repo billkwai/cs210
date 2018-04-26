@@ -8,10 +8,12 @@
 
 import Foundation
 import CoreData
+import FacebookCore
 
 struct SessionState {
     
    static var currentUser: User?
+   static var accessToken: AccessToken?
     
     //static var persistentContainer: NSPersistentContainer?
    //static var managedContext: NSManagedObjectContext?

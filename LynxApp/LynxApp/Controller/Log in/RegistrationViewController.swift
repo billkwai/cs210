@@ -80,21 +80,21 @@ class RegistrationViewController: UITableViewController {
                 
                 if (DatabaseService.checkIfUserExists(name: emailInput.text!) == nil) { // check email
                     
-                    if (DatabaseService.createUser(firstName: firstNameInput.text!, lastName: lastNameInput.text!, username: usernameInput.text!, email: emailInput.text!, phone: Int(phoneNumberInput.text!)!, birthDate: birthDateInput.text!, password: passwordInput.text!)) {
-                        
-                        if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
-
-                            if let user = DatabaseService.getUser(id: String(id)) {
-                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                                if (saveUserId) {
-                                    SessionState.currentUser = user
-                                    performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
-                                } else {
-                                    // TODO: report keychain error
-                                }
-                            }
-                        }
-                    }
+//                    if (DatabaseService.createUser(firstName: firstNameInput.text!, lastName: lastNameInput.text!, username: usernameInput.text!, email: emailInput.text!, phone: Int(phoneNumberInput.text!)!, birthDate: birthDateInput.text!, password: passwordInput.text!)) {
+//                        
+//                        if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
+//
+//                            if let user = DatabaseService.getUser(id: String(id)) {
+//                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+//                                if (saveUserId) {
+//                                    SessionState.currentUser = user
+//                                    performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
+//                                } else {
+//                                    // TODO: report keychain error
+//                                }
+//                            }
+//                        }
+//                    }
                     
                     
                 } else {

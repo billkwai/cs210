@@ -44,6 +44,7 @@ class DatabaseService {
             case .success(let response):
                 completion(response.dictionaryValue!)
             case .failed( _):
+                print(result)
                 print("failed")
             }
         }
@@ -95,9 +96,9 @@ class DatabaseService {
         
     }
     
-    static func createUser(firstName: String, lastName: String, username: String, email: String, phone: Int, birthDate: String, password: String) -> Bool {
+    static func createUser(firstName: String, lastName: String, email: String) -> Bool {
         
-        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"username": username, "email": email, "phone": phone, "birthDate": birthDate, "password": password])
+        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"username": "", "email": email, "phone": "", "birthDate": "", "password": ""])
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 

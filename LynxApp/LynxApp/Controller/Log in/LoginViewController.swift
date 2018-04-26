@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Add a custom login button to your app
         let myLoginButton = UIButton(type: .custom)
         myLoginButton.backgroundColor = UIColor.darkGray
@@ -31,6 +32,7 @@ class LoginViewController: UIViewController {
         
         // Add the button to the view
         view.addSubview(myLoginButton)
+        
         // Do any additional setup after loading the view.
     }
 
@@ -63,42 +65,40 @@ class LoginViewController: UIViewController {
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // TODO: check if needed permissions are satisfied and handle case where they are not
-                
-                if let accessToken = AccessToken.current {
-                    DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,firstName, lastName", completion: { (values) -> Void in
-                        if let email = values["email"] as? String {
-                            if let id = DatabaseService.checkIfUserExists(name: email) {
-                                if let user = DatabaseService.getUser(id: String(id)) {
-                                    let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                                    if (saveUserId) {
-                                        SessionState.currentUser = user
-                                        self.performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
-                                    } else {
-                                        // TODO: report keychain error
+                print(grantedPermissions)
+                DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,first_name, last_name", completion: { (values) -> Void in
+                    if let email = values["email"] as? String {
+                        if let id = DatabaseService.checkIfUserExists(name: email) {
+                            if let user = DatabaseService.getUser(id: String(id)) {
+                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                                if (saveUserId) {
+                                    SessionState.currentUser = user
+                                    self.performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
+                                } else {
+                                    // TODO: report keychain error
+                                }
+                            }
+                        } else {
+                            // save user to cloud database
+                            if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
+
+                                if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
+
+                                    if let user = DatabaseService.getUser(id: String(id)) {
+                                        let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                                        if (saveUserId) {
+                                            SessionState.currentUser = user
+                                            self.performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
+                                        } else {
+                                            // TODO: report keychain error
+                                        }
                                     }
                                 }
-                            } else {
-                                // save user to cloud database
-                                //                                if (DatabaseService.createUser(firstName: firstNameInput.text!, lastName: lastNameInput.text!, username: usernameInput.text!, email: emailInput.text!, phone: Int(phoneNumberInput.text!)!, birthDate: birthDateInput.text!, password: passwordInput.text!)) {
-                                //
-                                //                                    if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
-                                //
-                                //                                        if let user = DatabaseService.getUser(id: String(id)) {
-                                //                                            let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                                //                                            if (saveUserId) {
-                                //                                                SessionState.currentUser = user
-                                //                                                performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
-                                //                                            } else {
-                                //                                                // TODO: report keychain error
-                                //                                            }
-                                //                                        }
-                                //                                    }
-                                //                                }
                             }
                         }
-                        
-                    })
-                }
+                    }
+                    
+                })
                 
                 // if didn't allow needed permissions, abort
                 
