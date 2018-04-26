@@ -8,6 +8,7 @@
 
 import UIKit
 import FacebookLogin
+import FacebookCore
 
 class LoginViewController: UIViewController {
     
@@ -18,10 +19,18 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let loginButton = LoginButton(readPermissions: [ .publicProfile ])
-        loginButton.center = view.center
+        // Add a custom login button to your app
+        let myLoginButton = UIButton(type: .custom)
+        myLoginButton.backgroundColor = UIColor.darkGray
+        myLoginButton.frame = CGRect(x:0, y:0, width:180, height:40);
+        myLoginButton.center = CGPoint(x:view.center.x, y:view.center.y + 300);
+        myLoginButton.setTitle("Login with Facebook", for: .normal)
         
-        view.addSubview(loginButton)
+        // Handle clicks on the button
+        myLoginButton.addTarget(self, action: #selector(self.loginButtonClicked), for: .touchUpInside)
+        
+        // Add the button to the view
+        view.addSubview(myLoginButton)
         // Do any additional setup after loading the view.
     }
 
@@ -41,6 +50,61 @@ class LoginViewController: UIViewController {
         return true
         
         
+        
+    }
+    
+    @objc func loginButtonClicked() {
+        let loginManager = LoginManager()
+        loginManager.logIn(readPermissions: [ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
+            switch loginResult {
+            case .failed(let error):
+                print(error)
+            case .cancelled:
+                print("User cancelled login.")
+            case .success(let grantedPermissions, let declinedPermissions, let accessToken):
+                // TODO: check if needed permissions are satisfied and handle case where they are not
+                
+                if let accessToken = AccessToken.current {
+                    DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,firstName, lastName", completion: { (values) -> Void in
+                        if let email = values["email"] as? String {
+                            if let id = DatabaseService.checkIfUserExists(name: email) {
+                                if let user = DatabaseService.getUser(id: String(id)) {
+                                    let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                                    if (saveUserId) {
+                                        SessionState.currentUser = user
+                                        self.performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
+                                    } else {
+                                        // TODO: report keychain error
+                                    }
+                                }
+                            } else {
+                                // save user to cloud database
+                                //                                if (DatabaseService.createUser(firstName: firstNameInput.text!, lastName: lastNameInput.text!, username: usernameInput.text!, email: emailInput.text!, phone: Int(phoneNumberInput.text!)!, birthDate: birthDateInput.text!, password: passwordInput.text!)) {
+                                //
+                                //                                    if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) { // user created, now fetch info
+                                //
+                                //                                        if let user = DatabaseService.getUser(id: String(id)) {
+                                //                                            let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                                //                                            if (saveUserId) {
+                                //                                                SessionState.currentUser = user
+                                //                                                performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
+                                //                                            } else {
+                                //                                                // TODO: report keychain error
+                                //                                            }
+                                //                                        }
+                                //                                    }
+                                //                                }
+                            }
+                        }
+                        
+                    })
+                }
+                
+                // if didn't allow needed permissions, abort
+                
+                
+            }
+        }
         
     }
     

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import FacebookCore
+import FacebookLogin
 
 
 @UIApplicationMain
@@ -21,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        
+        // Facebook login
+//        if let accessToken = AccessToken.current {
+//            DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,name")
+//        }
 
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if let id = KeychainWrapper.standard.integer(forKey: ModelConstants.keychainUserId) {
@@ -45,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         return true
     }
+    
     
     private func fetchUser(id: Int) -> User? {
         let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")

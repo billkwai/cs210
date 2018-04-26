@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreData
+import FacebookCore
+import FacebookLogin
 
 
 class DatabaseService {
@@ -33,6 +35,20 @@ class DatabaseService {
     }
 
     // Login/Registration Requests
+    
+    // fields must be a string of comma-seperated field names
+    static func getFacebookFields(accessToken: AccessToken, fields: String, completion: @escaping([String: Any]) -> ()) {
+        let connection = GraphRequestConnection()
+        connection.add(GraphRequest(graphPath: "/me", parameters: ["fields":fields], accessToken: accessToken, httpMethod: GraphRequestHTTPMethod(rawValue: "GET")!, apiVersion: GraphAPIVersion.defaultVersion )) { httpResponse, result in
+            switch result {
+            case .success(let response):
+                completion(response.dictionaryValue!)
+            case .failed( _):
+                print("failed")
+            }
+        }
+        connection.start()
+    }
     
     
     static func checkIfUserExists(name: String) -> Int? {
