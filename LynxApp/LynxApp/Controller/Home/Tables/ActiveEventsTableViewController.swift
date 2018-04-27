@@ -21,6 +21,8 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
 
     }
     
+
+    
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<Event> = Event.fetchRequest()
 

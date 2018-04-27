@@ -19,26 +19,28 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Add a custom login button to your app
-        let myLoginButton = UIButton(type: .custom)
-        myLoginButton.backgroundColor = UIColor.darkGray
-        myLoginButton.frame = CGRect(x:0, y:0, width:180, height:40);
-        myLoginButton.center = CGPoint(x:view.center.x, y:view.center.y + 300);
-        myLoginButton.setTitle("Login with Facebook", for: .normal)
-        
-        // Handle clicks on the button
-        myLoginButton.addTarget(self, action: #selector(self.loginButtonClicked), for: .touchUpInside)
-        
-        // Add the button to the view
-        view.addSubview(myLoginButton)
-        
-        // Do any additional setup after loading the view.
+        addLoginButton()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    private func addLoginButton() {
+        // Add a custom login button to your app
+        let loginButton = UIButton(type: .custom)
+        loginButton.backgroundColor = UIColor.darkGray
+        loginButton.frame = CGRect(x:0, y:0, width:180, height:40);
+        loginButton.center = CGPoint(x:view.center.x, y:view.center.y + 300);
+        loginButton.setTitle("Login with Facebook", for: .normal)
+        
+        // Handle clicks on the button
+        loginButton.addTarget(self, action: #selector(self.loginButtonClicked), for: .touchUpInside)
+        
+        // Add the button to the view
+        view.addSubview(loginButton)
     }
     
     private func verifyInput() -> Bool {
@@ -65,40 +67,8 @@ class LoginViewController: UIViewController {
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // TODO: check if needed permissions are satisfied and handle case where they are not
-                print(grantedPermissions)
-                DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,first_name, last_name", completion: { (values) -> Void in
-                    if let email = values["email"] as? String {
-                        if let id = DatabaseService.checkIfUserExists(name: email) {
-                            if let user = DatabaseService.getUser(id: String(id)) {
-                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                                if (saveUserId) {
-                                    SessionState.currentUser = user
-                                    self.performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
-                                } else {
-                                    // TODO: report keychain error
-                                }
-                            }
-                        } else {
-                            // save user to cloud database
-                            if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
-
-                                if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
-
-                                    if let user = DatabaseService.getUser(id: String(id)) {
-                                        let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                                        if (saveUserId) {
-                                            SessionState.currentUser = user
-                                            self.performSegue(withIdentifier: StoryboardConstants.RegistrationToHome, sender: nil)
-                                        } else {
-                                            // TODO: report keychain error
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                })
+                
+                self.attemptLogin(accessToken: accessToken)
                 
                 // if didn't allow needed permissions, abort
                 
@@ -108,41 +78,52 @@ class LoginViewController: UIViewController {
         
     }
     
-    @IBAction func loginPressed(_ sender: Any) {
-        
-        if (verifyInput()) {
-            
-            if let id = DatabaseService.checkIfUserExists(name: emailInput.text!) {
-                
-                let correctPassword = DatabaseService.login(id: String(id), password: passwordInput.text!)
-                
-                if (correctPassword) {
-                    
+    private func attemptLogin(accessToken: AccessToken) {
+        DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,first_name, last_name", completion: { (values) -> Void in
+            if let email = values["email"] as? String {
+                if let id = DatabaseService.checkIfUserExists(name: email) {
                     if let user = DatabaseService.getUser(id: String(id)) {
                         let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
                         if (saveUserId) {
                             SessionState.currentUser = user
-                            performSegue(withIdentifier: StoryboardConstants.LoginToHome, sender: nil)
+                            DispatchQueue.main.async {
+                                self.toMenu()
+                            }
                         } else {
                             // TODO: report keychain error
                         }
-                        
                     }
-                    
                 } else {
-                    
-                   informUserInformationIncorrect()
-                    
+                    // save user to cloud database
+                    if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
+                        
+                        if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
+                            
+                            if let user = DatabaseService.getUser(id: String(id)) {
+                                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                                if (saveUserId) {
+                                    SessionState.currentUser = user
+                                    DispatchQueue.main.async {
+                                        self.toMenu()
+                                    }
+                                } else {
+                                    // TODO: report keychain error
+                                }
+                            }
+                        }
+                    }
                 }
-                
-            } else {
-                informUserInformationIncorrect()
             }
             
-        }
-        
+        })
     }
     
+    private func toMenu() {
+        let vc = self.view?.window?.rootViewController
+        let ViewControllernew1 = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
+        self.dismiss(animated: false, completion: nil)
+        vc?.present(ViewControllernew1, animated: true, completion: nil)
+    }
     
     
     // MARK: - User Messages
@@ -183,13 +164,6 @@ class LoginViewController: UIViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == StoryboardConstants.LoginToHome {
-            let vc = segue.destination as? MenuViewController
-            
-            // Do any prep
-        }
-    }
-    
+
 
 }

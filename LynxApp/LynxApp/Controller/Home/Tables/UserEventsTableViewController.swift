@@ -19,6 +19,9 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         initializeFetchedResultsController()
     }
     
+
+    
+    
     
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<Event> = Event.fetchRequest()

@@ -88,6 +88,7 @@ class DatabaseService {
         
         let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
         if let json = response.json as? [String: Any] {
+            print(response.json)
             let user = updateUser(json: json)
             SessionState.saveCoreData()
             return user
@@ -367,6 +368,12 @@ class DatabaseService {
                 }
                 if let coins = json["coins"] as? Int32 {
                     user.coins = coins
+                }
+                if let firstName = json["firstname"] as? String {
+                    user.firstName = firstName
+                }
+                if let lastName = json["lastname"] as? String {
+                    user.lastName = lastName
                 }
                 user.id = id!
                 

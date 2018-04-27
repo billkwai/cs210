@@ -17,6 +17,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var constraintMenuLeft: NSLayoutConstraint!
     @IBOutlet weak var constraintMenuWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var coinBalanceLabel: UILabel!
     @IBOutlet weak var profileLabel: UIImageView!
     @IBOutlet weak var settingsLabel: UIImageView!
@@ -33,6 +34,7 @@ class MenuViewController: UIViewController {
             // TODO: make this async
             SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
             if let updatedUser = SessionState.currentUser {
+                nameLabel.text = SessionState.currentUser?.firstName
                 coinBalanceLabel.text = String(updatedUser.coins)
             }
             
@@ -72,11 +74,16 @@ class MenuViewController: UIViewController {
         }
     }
     
+    
     @objc func updateData() {
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
         DatabaseService.updateSocialData()
         SessionState.saveCoreData()
+        DispatchQueue.main.async {
+            self.coinBalanceLabel.text = String(SessionState.currentUser!.coins)
+        }
     }
+    
     
     @IBAction func gestureScreenEdgePan(_ sender: UIScreenEdgePanGestureRecognizer) {
         

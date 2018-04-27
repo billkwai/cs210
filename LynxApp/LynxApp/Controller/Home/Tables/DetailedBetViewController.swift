@@ -124,7 +124,6 @@ class DetailedBetViewController: UIViewController {
             event?.pickedOutcomeId = Int32(teamSelected!)
             SessionState.saveCoreData()
             self.dismiss(animated: false, completion: nil)
-            //performSegue(withIdentifier: StoryboardConstants.DetailToHome, sender: nil)
             
             
         } else {

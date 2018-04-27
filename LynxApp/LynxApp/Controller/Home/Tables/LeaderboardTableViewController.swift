@@ -18,6 +18,8 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         initializeFetchedResultsController()
     }
     
+    
+    
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<User> = User.fetchRequest()
         
