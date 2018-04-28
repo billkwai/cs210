@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if let id = KeychainWrapper.standard.integer(forKey: ModelConstants.keychainUserId) {
+            SessionState.userId = id
             if let apiKey = KeychainWrapper.standard.string(forKey: ModelConstants.keychainApiKey) {
                 DatabaseService.apiKey = apiKey
             }
@@ -39,13 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
 
             } else {
-                
-                let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
-                self.window?.rootViewController = loginVC
+                let loginPageVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
+                self.window?.rootViewController = loginPageVC
+//                let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
+//                self.window?.rootViewController = loginVC
             }
         } else {
-            let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
-            self.window?.rootViewController = loginVC
+            let loginPageVC: LoginPageViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
+            self.window?.rootViewController = loginPageVC
+//            let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
+//            self.window?.rootViewController = loginVC
             
         }
         self.window?.makeKeyAndVisible()

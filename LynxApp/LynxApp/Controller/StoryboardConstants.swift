@@ -25,10 +25,16 @@ struct StoryboardConstants {
     
     // ViewController Identifiers
     
-    static var RegistrationVC = "registrationViewController"
     static var LoginVC = "loginViewController"
     static var MenuVC = "menuViewController"
     static var AutoLoginVC = "autoLoginViewController"
+    
+    static var LoginPageVC = "loginPageViewController"
+    
+    static var ActiveEventsTable = "activeEventsTable"
+    static var UserEventsTable = "userEventsTable"
+    static var LeaderboardTable = "leaderboardTable"
+
 
 
 

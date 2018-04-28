@@ -24,7 +24,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         let request: NSFetchRequest<User> = User.fetchRequest()
         
         //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
-        request.predicate = NSPredicate(format: "id != %ld", (SessionState.currentUser?.id)!)
+        request.predicate = NSPredicate(format: "id != %ld", SessionState.userId!)
         let coinSort = NSSortDescriptor(key: "coins", ascending: false)
         request.sortDescriptors = [coinSort]
         

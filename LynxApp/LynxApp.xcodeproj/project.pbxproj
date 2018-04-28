@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */; };
-		3B28361020376212001FBEFC /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28360F20376212001FBEFC /* RegistrationViewController.swift */; };
 		3B28361220376249001FBEFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361120376249001FBEFC /* LoginViewController.swift */; };
 		3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2836182037CE9B001FBEFC /* HomePageViewController.swift */; };
 		3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */; };
@@ -24,6 +23,7 @@
 		3B61D0172054C11A006A3BD4 /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61D0152054C11A006A3BD4 /* KeychainItemAccessibility.swift */; };
 		3B61D0182054C11A006A3BD4 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61D0162054C11A006A3BD4 /* KeychainWrapper.swift */; };
 		3B737A942092707900373AF3 /* AutoLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B737A932092707900373AF3 /* AutoLoginViewController.swift */; };
+		3B8CC2BB209417DD002374AF /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8CC2BA209417DD002374AF /* LoginPageViewController.swift */; };
 		3B8E02932052620100830D16 /* Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E02922052620100830D16 /* Just.swift */; };
 		3BAE4BCA207FDDC200DF1B42 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3BAE4BC8207FDDC200DF1B42 /* DataModel.xcdatamodeld */; };
 		3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */; };
@@ -33,19 +33,13 @@
 		B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33E89A91ED67A3B00E5A503 /* Main.storyboard */; };
 		B33E89AD1ED67A3B00E5A503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33E89AC1ED67A3B00E5A503 /* Assets.xcassets */; };
 		B33E89B01ED67A3B00E5A503 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33E89AE1ED67A3B00E5A503 /* LaunchScreen.storyboard */; };
-		B33E89D41ED67AF300E5A503 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89D31ED67AF300E5A503 /* HamburgerViewController.swift */; };
-		B33E89D61ED67B8400E5A503 /* HamburgerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89D51ED67B8400E5A503 /* HamburgerLayer.swift */; };
-		B33E89D91ED67BA600E5A503 /* HamburgerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89D81ED67BA600E5A503 /* HamburgerCell.swift */; };
-		B33E89E31ED7D83500E5A503 /* HamburgerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89E21ED7D83500E5A503 /* HamburgerViewModel.swift */; };
 		B33E8A101ED869E500E5A503 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E8A0F1ED869E500E5A503 /* MenuViewController.swift */; };
-		B34118501ED91A7500512902 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B341184F1ED91A7500512902 /* ViewController.swift */; };
 		F1488B80E4257EFD6CD6853B /* Pods_LynxApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB59BE8EB481B278036A661 /* Pods_LynxApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		31F3D26816E459EB7157654A /* Pods-LynxApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.release.xcconfig"; sourceTree = "<group>"; };
 		38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBetViewController.swift; sourceTree = "<group>"; };
-		3B28360F20376212001FBEFC /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		3B28361120376249001FBEFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3B2836182037CE9B001FBEFC /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsTableViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +56,7 @@
 		3B61D0162054C11A006A3BD4 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		3B737A932092707900373AF3 /* AutoLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLoginViewController.swift; sourceTree = "<group>"; };
 		3B737A95209276E800373AF3 /* LynxApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LynxApp.entitlements; sourceTree = "<group>"; };
+		3B8CC2BA209417DD002374AF /* LoginPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
 		3B8E02922052620100830D16 /* Just.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Just.swift; sourceTree = "<group>"; };
 		3BAE4BC9207FDDC200DF1B42 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardConstants.swift; sourceTree = "<group>"; };
@@ -74,12 +69,7 @@
 		B33E89AC1ED67A3B00E5A503 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B33E89AF1ED67A3B00E5A503 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B33E89B11ED67A3B00E5A503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B33E89D31ED67AF300E5A503 /* HamburgerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
-		B33E89D51ED67B8400E5A503 /* HamburgerLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerLayer.swift; sourceTree = "<group>"; };
-		B33E89D81ED67BA600E5A503 /* HamburgerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerCell.swift; sourceTree = "<group>"; };
-		B33E89E21ED7D83500E5A503 /* HamburgerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerViewModel.swift; sourceTree = "<group>"; };
 		B33E8A0F1ED869E500E5A503 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		B341184F1ED91A7500512902 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B34118591ED92DDF00512902 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		B341185A1ED92DDF00512902 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CAB59BE8EB481B278036A661 /* Pods_LynxApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LynxApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +109,6 @@
 			children = (
 				3B28361320376280001FBEFC /* Home */,
 				3B28360E203761D6001FBEFC /* Log in */,
-				3B28360D203761BB001FBEFC /* Hamburger Menu */,
 				3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */,
 			);
 			path = Controller;
@@ -142,24 +131,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		3B28360D203761BB001FBEFC /* Hamburger Menu */ = {
-			isa = PBXGroup;
-			children = (
-				B341184F1ED91A7500512902 /* ViewController.swift */,
-				B33E89D31ED67AF300E5A503 /* HamburgerViewController.swift */,
-				B33E89D81ED67BA600E5A503 /* HamburgerCell.swift */,
-				B33E89D51ED67B8400E5A503 /* HamburgerLayer.swift */,
-				B33E89E21ED7D83500E5A503 /* HamburgerViewModel.swift */,
-			);
-			path = "Hamburger Menu";
-			sourceTree = "<group>";
-		};
 		3B28360E203761D6001FBEFC /* Log in */ = {
 			isa = PBXGroup;
 			children = (
-				3B28360F20376212001FBEFC /* RegistrationViewController.swift */,
 				3B28361120376249001FBEFC /* LoginViewController.swift */,
 				3B737A932092707900373AF3 /* AutoLoginViewController.swift */,
+				3B8CC2BA209417DD002374AF /* LoginPageViewController.swift */,
 			);
 			path = "Log in";
 			sourceTree = "<group>";
@@ -387,22 +364,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B61D0172054C11A006A3BD4 /* KeychainItemAccessibility.swift in Sources */,
-				B33E89D41ED67AF300E5A503 /* HamburgerViewController.swift in Sources */,
 				B33E8A101ED869E500E5A503 /* MenuViewController.swift in Sources */,
-				B33E89D91ED67BA600E5A503 /* HamburgerCell.swift in Sources */,
 				3B3F06392038FB15000FE334 /* LeaderboardCell.swift in Sources */,
 				3B2836212037D955001FBEFC /* TestData.swift in Sources */,
-				B33E89D61ED67B8400E5A503 /* HamburgerLayer.swift in Sources */,
-				3B28361020376212001FBEFC /* RegistrationViewController.swift in Sources */,
 				3B61D0182054C11A006A3BD4 /* KeychainWrapper.swift in Sources */,
 				3B28361F2037D8A3001FBEFC /* LeaderboardTableViewController.swift in Sources */,
 				3BEAF8062036B5CA00398079 /* ActiveEventCell.swift in Sources */,
+				3B8CC2BB209417DD002374AF /* LoginPageViewController.swift in Sources */,
 				3B5D04FD2093BB0600F4A313 /* CoreDataManager.swift in Sources */,
 				3BD05B2620392AF9008AE7C5 /* SessionState.swift in Sources */,
 				3B28362A2037E1E6001FBEFC /* ModelConstants.swift in Sources */,
-				B34118501ED91A7500512902 /* ViewController.swift in Sources */,
 				3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */,
-				B33E89E31ED7D83500E5A503 /* HamburgerViewModel.swift in Sources */,
 				3B28362C2037E51A001FBEFC /* DatabaseService.swift in Sources */,
 				3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */,
 				3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */,

@@ -16,9 +16,9 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newVc(viewController: "activeEventsTable"),
-                self.newVc(viewController: "userEventsTable"),
-                self.newVc(viewController: "leaderboardTable")]
+        return [self.newVc(viewController: StoryboardConstants.UserEventsTable),
+                self.newVc(viewController: StoryboardConstants.ActiveEventsTable),
+                self.newVc(viewController: StoryboardConstants.LeaderboardTable)]
     }()
     
     override func viewDidLoad() {
@@ -30,12 +30,8 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
         
         
         // This sets up the first view that will show up on our page control
-        if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController],
-                               direction: .forward,
-                               animated: true,
-                               completion: nil)
-        }
+        let firstViewController = orderedViewControllers[1]
+        setViewControllers([firstViewController], direction: .forward, animated: true, completion: nil)
         
         configurePageControl()
         
@@ -58,7 +54,7 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
     }
     
     
-    // MARK: Delegate methords
+    // MARK: Delegate methods
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let pageContentViewController = pageViewController.viewControllers![0]
         self.pageControl.currentPage = orderedViewControllers.index(of: pageContentViewController)!

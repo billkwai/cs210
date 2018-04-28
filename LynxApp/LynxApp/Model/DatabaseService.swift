@@ -119,24 +119,7 @@ class DatabaseService {
         let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
         getActiveEvents(id: id, privateContext: privateContext)
         getUserEvents(id: id, privateContext: privateContext)
-        do {
-            // Saves the entry updated
-            if privateContext.hasChanges {
-                try privateContext.save()
-                
-                // Performs a task in the main queue and wait until this tasks finishes
-                SessionState.coreDataManager.persistentContainer.viewContext.performAndWait {
-                    do {
-                        // Saves the data from the child to the main context to be stored properly
-                        try SessionState.coreDataManager.persistentContainer.viewContext.save()
-                    } catch {
-                        fatalError("Failure to save context: \(error)")
-                    }
-                }
-            }
-        } catch {
-            fatalError("Failure to save context: \(error)")
-        }
+
     }
     
     
@@ -192,24 +175,7 @@ class DatabaseService {
     static func updateSocialData() {
         let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
         getLeaderboard(privateContext: privateContext)
-        do {
-            // Saves the entry updated
-            if privateContext.hasChanges {
-                try privateContext.save()
-                
-                // Performs a task in the main queue and wait until this tasks finishes
-                SessionState.coreDataManager.persistentContainer.viewContext.performAndWait {
-                    do {
-                        // Saves the data from the child to the main context to be stored properly
-                        try SessionState.coreDataManager.persistentContainer.viewContext.save()
-                    } catch {
-                        fatalError("Failure to save context: \(error)")
-                    }
-                }
-            }
-        } catch {
-            fatalError("Failure to save context: \(error)")
-        }
+
         
     }
     
@@ -254,7 +220,25 @@ class DatabaseService {
                 } else {
                     self.addEventFields(id: id!, json: json, privateContext: privateContext)
                 }
-
+                do {
+                    // Saves the entry updated
+                    if privateContext.hasChanges {
+                        try privateContext.save()
+                        
+                        // Performs a task in the main queue and wait until this tasks finishes
+                        SessionState.coreDataManager.persistentContainer.viewContext.performAndWait {
+                            do {
+                                // Saves the data from the child to the main context to be stored properly
+                                try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                            } catch {
+                                fatalError("Failure to save context: \(error)")
+                            }
+                        }
+                    }
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
+                
             }
             
         }
@@ -409,6 +393,24 @@ class DatabaseService {
                     
                 } else {
                     self.addUserFields(id: id!, json: json, privateContext: privateContext)
+                }
+                do {
+                    // Saves the entry updated
+                    if privateContext.hasChanges {
+                        try privateContext.save()
+                        
+                        // Performs a task in the main queue and wait until this tasks finishes
+                        SessionState.coreDataManager.persistentContainer.viewContext.performAndWait {
+                            do {
+                                // Saves the data from the child to the main context to be stored properly
+                                try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                            } catch {
+                                fatalError("Failure to save context: \(error)")
+                            }
+                        }
+                    }
+                } catch {
+                    fatalError("Failure to save context: \(error)")
                 }
                 
             }
