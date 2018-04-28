@@ -31,7 +31,7 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]
         
-        let moc = SessionState.coreDataManager.managedObjectContext
+        let moc = SessionState.coreDataManager.persistentContainer.viewContext
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         

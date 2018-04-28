@@ -121,10 +121,16 @@ class DetailedBetViewController: UIViewController {
         
         if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
-            event?.pickedOutcomeId = Int32(teamSelected!)
-            SessionState.saveCoreData()
-            self.dismiss(animated: false, completion: nil)
             
+            event?.pickedOutcomeId = Int32(teamSelected!)
+            do {
+                // Saves the entry updated
+                try SessionState.coreDataManager.persistentContainer.viewContext.save()
+
+            } catch {
+                fatalError("Failure to save context: \(error)")
+            }
+            self.dismiss(animated: true, completion: nil)
             
         } else {
             
@@ -171,7 +177,7 @@ class DetailedBetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
-            event = try SessionState.coreDataManager.managedObjectContext.existingObject(with: eventManagedId!) as? Event
+            event = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: eventManagedId!) as? Event
         if (SessionState.currentUser?.coins == 0) {
             setSubmitStatus(canSubmit: false)
         }

@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         userFetch.predicate = NSPredicate(format: "id == %ld",id)
         
         do {
-            let fetchedUsers = try SessionState.coreDataManager.managedObjectContext.fetch(userFetch) as! [User]
+            let fetchedUsers = try SessionState.coreDataManager.persistentContainer.viewContext.fetch (userFetch) as! [User]
             if fetchedUsers.count > 0 {
                 let user = fetchedUsers.first!
                 return user

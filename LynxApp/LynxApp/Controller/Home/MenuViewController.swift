@@ -29,15 +29,14 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let user = SessionState.currentUser {
-            // TODO: make this async
-            SessionState.currentUser = DatabaseService.getUser(id: String(user.id))
-            if let updatedUser = SessionState.currentUser {
-                nameLabel.text = SessionState.currentUser?.firstName
-                coinBalanceLabel.text = String(updatedUser.coins)
+        if let id = SessionState.userId {
+            if let user = fetchUser(id: id) {
+                // TODO: make this async
+                SessionState.currentUser = user
+                nameLabel.text = user.firstName
+                coinBalanceLabel.text = String(user.coins)
+                
             }
-            
         }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapSettings))
@@ -74,11 +73,26 @@ class MenuViewController: UIViewController {
         }
     }
     
+    private func fetchUser(id: Int) -> User? {
+        let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        userFetch.predicate = NSPredicate(format: "id == %ld",id)
+        
+        do {
+            let fetchedUsers = try SessionState.coreDataManager.persistentContainer.viewContext.fetch (userFetch) as! [User]
+            if fetchedUsers.count > 0 {
+                let user = fetchedUsers.first!
+                return user
+            }
+        } catch {
+            // error
+        }
+        return nil
+    }
+    
     
     @objc func updateData() {
         DatabaseService.updateEventData(id: String(SessionState.currentUser!.id))
         DatabaseService.updateSocialData()
-        SessionState.saveCoreData()
         DispatchQueue.main.async {
             self.coinBalanceLabel.text = String(SessionState.currentUser!.coins)
         }

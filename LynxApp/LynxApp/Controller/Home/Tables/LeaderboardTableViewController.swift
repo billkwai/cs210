@@ -28,7 +28,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         let coinSort = NSSortDescriptor(key: "coins", ascending: false)
         request.sortDescriptors = [coinSort]
         
-        let moc = SessionState.coreDataManager.managedObjectContext
+        let moc = SessionState.coreDataManager.persistentContainer.viewContext
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
         
