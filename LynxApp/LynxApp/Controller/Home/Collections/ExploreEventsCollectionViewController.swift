@@ -11,7 +11,7 @@ import UIKit
 class ExploreEventsCollectionViewController: UICollectionViewController {
     
     // MARK: - Variables
-    var category_image: [UIImage] = [
+    var categoryImage: [UIImage] = [
         UIImage (named: "explore-politics")!,
         UIImage (named: "explore-popculture")!,
         UIImage (named: "explore-sports")!,
@@ -20,7 +20,7 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         UIImage (named: "explore-locked")!
     ]
     
-    var category_name: [String] = [
+    var categoryName: [String] = [
         "politics",
         "popculture",
         "sports",
@@ -41,6 +41,8 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
+        self.collectionView?.allowsSelection = true
+        self.collectionView?.isUserInteractionEnabled = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,15 +50,26 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "fromCategorySegue" {
+            guard let cell = sender as? ExploreEventCollectionViewCell else {
+                assertionFailure("Failed to unwrap sender. Try to set a breakpoint here and check what sender is")
+                return
+            }
+            let destinationVC = segue.destination as! ActiveEventsTableViewController
+            guard let categoryName = cell.categoryName else {
+                assertionFailure("The cell has no image in image view")
+                return
+            }
+            destinationVC.categoryName = categoryName
+        }
     }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -68,15 +81,17 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return categories.count
+        return categoryImage.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExploreEventCollectionViewCell
         
         // Sets cell to correct icon
-        cell.categoryImageView.image = category_image[indexPath.row]
-        cell.category_name = category_name[indexPath.row]
+        cell.categoryImageView.image = categoryImage[indexPath.row]
+        cell.categoryName = categoryName[indexPath.row]
+        cell.isUserInteractionEnabled = true
+        cell.categoryImageView.isUserInteractionEnabled = false
     
         return cell
     }

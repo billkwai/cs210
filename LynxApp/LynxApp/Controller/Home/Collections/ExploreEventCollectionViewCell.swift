@@ -11,5 +11,5 @@ import UIKit
 class ExploreEventCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var categoryImageView: UIImageView!
-    var category_name : String!
+    var categoryName : String!
 }

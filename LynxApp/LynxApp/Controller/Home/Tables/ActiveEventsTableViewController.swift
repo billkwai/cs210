@@ -12,6 +12,7 @@ import CoreData
 class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchedResultsController: NSFetchedResultsController<Event>!
+    var categoryName: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()

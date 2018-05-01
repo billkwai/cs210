@@ -227,12 +227,13 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="categoryImageView" destination="hyF-O1-7xc" id="Nfk-wR-AMo"/>
+                                    <segue destination="hpb-1f-7DK" kind="show" identifier="fromCategorySegue" id="6s4-y8-ylE"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
-                            <outlet property="dataSource" destination="Eit-Pu-OAt" id="6hb-jq-nMr"/>
-                            <outlet property="delegate" destination="Eit-Pu-OAt" id="GW6-U3-7r1"/>
+                            <outlet property="dataSource" destination="Eit-Pu-OAt" id="dia-5V-iot"/>
+                            <outlet property="delegate" destination="Eit-Pu-OAt" id="eRE-8a-aVE"/>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Explore" id="qX6-m2-PUK" customClass="ExploreEventsCollectionViewController"/>
@@ -439,7 +440,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="50" maxValue="999" translatesAutoresizingMaskIntoConstraints="NO" id="qgV-5A-kTP">
-                                <rect key="frame" x="103" y="474" width="209" height="31"/>
+                                <rect key="frame" x="103" y="518" width="209" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="205" id="afi-YK-5jb"/>
                                     <constraint firstAttribute="height" constant="30" id="hSO-Tm-nZp"/>
@@ -471,7 +472,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Wager: 50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLA-Lm-l2u">
-                                <rect key="frame" x="55" y="445" width="304" height="21"/>
+                                <rect key="frame" x="55" y="489" width="304" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="2Ra-Mi-o6w"/>
                                     <constraint firstAttribute="width" constant="304" id="VMF-Vb-bl4"/>
@@ -491,14 +492,14 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trophy" translatesAutoresizingMaskIntoConstraints="NO" id="6nY-Rf-3bx">
-                                <rect key="frame" x="182" y="64" width="50" height="50"/>
+                                <rect key="frame" x="182" y="108" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="4BV-nm-Z2b"/>
                                     <constraint firstAttribute="height" constant="50" id="tKy-lT-Xkn"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hZ4-Xf-CJd">
-                                <rect key="frame" x="35" y="344" width="140" height="60"/>
+                                <rect key="frame" x="35" y="388" width="140" height="60"/>
                                 <color key="backgroundColor" red="0.36078431372549019" green="0.36078431372549019" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="140" id="0FI-4c-SOb"/>
@@ -513,7 +514,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2z-Xk-HP1">
-                                <rect key="frame" x="37" y="122" width="341" height="68"/>
+                                <rect key="frame" x="37" y="166" width="341" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="68" id="HbB-RL-aif"/>
                                     <constraint firstAttribute="width" constant="341" id="bLQ-M2-m1u"/>
@@ -523,7 +524,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="6UR-FZ-0HL">
-                                <rect key="frame" x="68" y="229" width="279" height="16"/>
+                                <rect key="frame" x="68" y="273" width="279" height="16"/>
                                 <color key="backgroundColor" red="0.49019607843137253" green="0.10196078431372549" blue="0.49019607843137253" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="279" id="Xpw-Jb-o7R"/>
@@ -531,7 +532,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pool Size: 123K coins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShA-Yc-8Vu">
-                                <rect key="frame" x="68" y="262" width="279" height="21"/>
+                                <rect key="frame" x="68" y="306" width="279" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="NSW-8D-Cwx"/>
                                     <constraint firstAttribute="width" constant="279" id="zRs-J9-kF9"/>
@@ -541,7 +542,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose your side" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJi-3c-ocO">
-                                <rect key="frame" x="37" y="311" width="341" height="26"/>
+                                <rect key="frame" x="37" y="355" width="341" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="341" id="AO1-bY-LG1"/>
                                     <constraint firstAttribute="height" constant="26" id="iCx-IW-MNp"/>
@@ -551,7 +552,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="FXJ-wc-vrn">
-                                <rect key="frame" x="239" y="344" width="140" height="60"/>
+                                <rect key="frame" x="239" y="388" width="140" height="60"/>
                                 <color key="backgroundColor" red="0.50980392156862742" green="0.50980392156862742" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="1u3-kw-OpJ"/>
@@ -566,7 +567,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You stand to earn 250000 coins if correct" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UrU-yC-EPQ">
-                                <rect key="frame" x="37" y="526" width="341" height="54"/>
+                                <rect key="frame" x="37" y="570" width="341" height="54"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="340.67000000000002" id="K4c-Ll-GDL"/>
                                     <constraint firstAttribute="height" constant="54" id="Xuo-qG-8uF"/>
@@ -576,7 +577,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Expires in 24 hrs " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KlE-Gf-tVH">
-                                <rect key="frame" x="37" y="186" width="341" height="23"/>
+                                <rect key="frame" x="37" y="230" width="341" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="Fwo-Sy-asV"/>
                                     <constraint firstAttribute="width" constant="341" id="Iqw-6D-waa"/>
