@@ -34,6 +34,10 @@ struct StoryboardConstants {
     static var ActiveEventsTable = "activeEventsTable"
     static var UserEventsTable = "userEventsTable"
     static var LeaderboardTable = "leaderboardTable"
+    
+    static var ExploreEventsCollection = "exploreEventsCollection"
+    
+    static var ExploreEventsNavigationController = "exploreEventsNavigationController"
 
 
 
