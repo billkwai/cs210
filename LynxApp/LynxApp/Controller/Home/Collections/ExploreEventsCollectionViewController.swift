@@ -29,6 +29,12 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         "locked"
     ]
     
+    var displayNameDic = [
+        "politics": "Politics",
+        "popculture": "Pop Culture",
+        "sports": "Sports"
+    ]
+    
     // MARK: - Properties
     fileprivate let reuseIdentifier = "exploreEventCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 25.0, left: 25.0, bottom: 25.0, right: 25.0)
@@ -67,6 +73,7 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
                 return
             }
             destinationVC.categoryName = categoryName
+            destinationVC.displayName = displayNameDic[categoryName]
         }
     }
     

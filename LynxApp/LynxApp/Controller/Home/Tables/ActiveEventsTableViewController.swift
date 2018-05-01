@@ -13,11 +13,13 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     
     var fetchedResultsController: NSFetchedResultsController<Event>!
     var categoryName: String!
+    var displayName: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.title = displayName
         initializeFetchedResultsController()
 
     }
