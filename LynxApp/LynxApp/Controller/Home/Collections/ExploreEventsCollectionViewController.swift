@@ -8,12 +8,29 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 class ExploreEventsCollectionViewController: UICollectionViewController {
     
+    // MARK: - Variables
+    var category_image: [UIImage] = [
+        UIImage (named: "explore-politics")!,
+        UIImage (named: "explore-popculture")!,
+        UIImage (named: "explore-sports")!,
+        UIImage (named: "explore-locked")!,
+        UIImage (named: "explore-locked")!,
+        UIImage (named: "explore-locked")!
+    ]
+    
+    var category_name: [String] = [
+        "politics",
+        "popculture",
+        "sports",
+        "locked",
+        "locked",
+        "locked"
+    ]
+    
     // MARK: - Properties
-    fileprivate let reuseIdentifier = "ExploreEventCell"
+    fileprivate let reuseIdentifier = "exploreEventCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 25.0, left: 25.0, bottom: 25.0, right: 25.0)
     fileprivate let itemsPerRow: CGFloat = 2
 
@@ -22,9 +39,6 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
     }
@@ -54,16 +68,15 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 6
+        return categories.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExploreEventCollectionViewCell
         
-        // Todo: change to correct icon
-        cell.backgroundColor = UIColor.black
-        
-        // Configure the cell
+        // Sets cell to correct icon
+        cell.categoryImageView.image = category_image[indexPath.row]
+        cell.category_name = category_name[indexPath.row]
     
         return cell
     }
