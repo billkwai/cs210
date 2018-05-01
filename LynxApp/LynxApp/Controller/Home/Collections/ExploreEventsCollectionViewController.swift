@@ -11,7 +11,7 @@ import UIKit
 class ExploreEventsCollectionViewController: UICollectionViewController {
     
     // MARK: - Variables
-    var categoryImage: [UIImage] = [
+    var categoryImageArray: [UIImage] = [
         UIImage (named: "explore-politics")!,
         UIImage (named: "explore-popculture")!,
         UIImage (named: "explore-sports")!,
@@ -20,7 +20,7 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         UIImage (named: "explore-locked")!
     ]
     
-    var categoryName: [String] = [
+    var categoryNameArray: [String] = [
         "politics",
         "popculture",
         "sports",
@@ -81,15 +81,15 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return categoryImage.count
+        return categoryImageArray.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExploreEventCollectionViewCell
         
         // Sets cell to correct icon
-        cell.categoryImageView.image = categoryImage[indexPath.row]
-        cell.categoryName = categoryName[indexPath.row]
+        cell.categoryImageView.image = categoryImageArray[indexPath.row]
+        cell.categoryName = categoryNameArray[indexPath.row]
         cell.isUserInteractionEnabled = true
         cell.categoryImageView.isUserInteractionEnabled = false
     
