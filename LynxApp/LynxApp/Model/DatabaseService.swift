@@ -98,12 +98,15 @@ class DatabaseService {
     
     static func createUser(firstName: String, lastName: String, email: String) -> Bool {
         
-        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"username": "", "email": email, "phone": "", "birthDate": "", "password": ""])
+        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"username": email, "email": email, "phone": "", "birthDate": "", "password": ""])
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 
                 if (status == result_status.POST_SUCCESSFUL) {
                     return true
+                }
+                else {
+                    debugPrint(json["message"] as! String)
                 }
             }
             
