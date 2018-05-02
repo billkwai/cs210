@@ -197,9 +197,9 @@ def create_app(config_name):
                     username VARCHAR(255) NOT NULL,
                     password VARCHAR(255) NOT NULL,
                     salted VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    phone VARCHAR(255) NOT NULL,
-                    birthdate VARCHAR(10) NOT NULL,
+                    email VARCHAR(255),
+                    phone VARCHAR(255),
+                    birthdate VARCHAR(10),
                     college_id INT,
                     company_id INT,
                     coins FLOAT NOT NULL,
@@ -336,6 +336,21 @@ def create_app(config_name):
       conn.close()
       return "Successfully added the data"
 
+
+  @app.route('/categories')
+  def get_categories():
+      conn = creatConnection()
+      cur = conn.cursor()
+      cmd_str = '''SELECT * FROM CATEGORIES WHERE NAME = 'SPORTS' OR NAME = 'POLITICS'
+      OR NAME = 'POP CULTURE'; '''
+
+      cur.execute(cmd_str)
+      rv = cur.fetchall()
+      if rv is None:
+          abort(404)
+      cur.close()
+      conn.close()
+      return jsonify( rv) 
 
   @app.route('/players/<int:player_id>/picks', methods=['POST'])
   def make_pick(player_id):
@@ -492,7 +507,11 @@ def create_app(config_name):
 
               api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
 
-              cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED,
+              cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED'''
+              #if (request.json['email'] != None):
+
+
+              cmd_str += ''',
                           EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
                           VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 
