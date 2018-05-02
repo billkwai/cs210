@@ -56,10 +56,6 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Active Events"
-    }
 
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
