@@ -12,6 +12,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBOutlet weak var eventImage: UIImageView!
     var event: Event?
+    var categoryImage: UIImage?
     
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -178,51 +179,55 @@ class DetailedBetViewController: UIViewController {
         super.viewDidLoad()
         do {
             event = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: eventManagedId!) as? Event
-        if (SessionState.currentUser?.coins == 0) {
-            setSubmitStatus(canSubmit: false)
-        }
+            
+            if let image = categoryImage {
+                eventImage.image = image
+            }
+            if (SessionState.currentUser?.coins == 0) {
+                setSubmitStatus(canSubmit: false)
+            }
             let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))
-        
-        if (times.0 > 0) {
-            betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
-        } else if (times.1 > 1) {
-            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hours"
-        } else if (times.1 > 0) {
-            betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hour"
-        }
-        else if (times.2 > 0) {
-            betExpirationLabel.text = "Event expires in " + "\(times.2)" + " minutes"
-        } else {
-            betExpirationLabel.text = "Event expires in " + "1 minute"
-        }
-        
-        let outcome1 = event?.outcomes![0] as? Outcome
-        let outcome2 = event?.outcomes![1] as? Outcome
-
-        
-        
-        teamSelected = Int(outcome1!.id)
-        
-        entity1id = Int(outcome1!.id)
-        
-        entity2id = Int(outcome2!.id)
-        
-        entity1Button.setTitle(outcome1?.title, for: .normal)
-        entity2Button.setTitle(outcome2?.title, for: .normal)
             
-        entity1Button.layer.cornerRadius = 5.0
-        entity2Button.layer.cornerRadius = 5.0
-
-        entity1Button.setTitle(outcome1?.title, for: .normal)
-        entity2Button.setTitle(outcome2?.title, for: .normal)
+            if (times.0 > 0) {
+                betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
+            } else if (times.1 > 1) {
+                betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hours"
+            } else if (times.1 > 0) {
+                betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hour"
+            }
+            else if (times.2 > 0) {
+                betExpirationLabel.text = "Event expires in " + "\(times.2)" + " minutes"
+            } else {
+                betExpirationLabel.text = "Event expires in " + "1 minute"
+            }
             
-            title1 = (outcome1?.title)!
-            title2 = (outcome2?.title)!
+            let outcome1 = event?.outcomes![0] as? Outcome
+            let outcome2 = event?.outcomes![1] as? Outcome
+
+            
+            
+            teamSelected = Int(outcome1!.id)
+            
+            entity1id = Int(outcome1!.id)
+            
+            entity2id = Int(outcome2!.id)
+            
+            entity1Button.setTitle(outcome1?.title, for: .normal)
+            entity2Button.setTitle(outcome2?.title, for: .normal)
+            
+            entity1Button.layer.cornerRadius = 5.0
+            entity2Button.layer.cornerRadius = 5.0
+
+            entity1Button.setTitle(outcome1?.title, for: .normal)
+            entity2Button.setTitle(outcome2?.title, for: .normal)
+            
+                title1 = (outcome1?.title)!
+                title2 = (outcome2?.title)!
 
 
-    
-        poolSize.text = "Pool Size:  " + String(describing: ((outcome1?.pool)! + (outcome2?.pool)!)) + " coins"
         
+            poolSize.text = "Pool Size:  " + String(describing: ((outcome1?.pool)! + (outcome2?.pool)!)) + " coins"
+            
             eventTitle.text = event?.eventTitle
 
         } catch {

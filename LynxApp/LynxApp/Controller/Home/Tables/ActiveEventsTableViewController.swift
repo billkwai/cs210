@@ -29,8 +29,8 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<Event> = Event.fetchRequest()
 
-        request.predicate = NSPredicate(format: "pickTimestamp == nil")
-       // request.predicate = NSPredicate(format: "betSize == nil && expiresIn > 0")
+        request.predicate = NSPredicate(format: "pickTimestamp == nil && categoryName == %@", categoryName.uppercased())
+//        request.predicate = NSPredicate(format: "betSize == nil && expiresIn > 0 && categoryName == %@", categoryName)
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]
         let moc = SessionState.coreDataManager.persistentContainer.viewContext
@@ -131,13 +131,26 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     
     // MARK: - Navigation
     
+    var categoryImageArray: [UIImage] = [
+        UIImage (named: "politics-category-button")!,
+        UIImage (named: "pop-culture-category-button")!,
+        UIImage (named: "sports-category-button")!,
+    ]
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
 
         if let destinationVC = segue.destination as? DetailedBetViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
-                destinationVC.eventManagedId = self.fetchedResultsController.object(at: indexPath).objectID
+                switch self.categoryName {
+                case "politics": destinationVC.categoryImage = categoryImageArray[0]
+                case "popculture": destinationVC.categoryImage = categoryImageArray[1]
+                case "sports": destinationVC.categoryImage = categoryImageArray[2]
+                default: break
 
+                }
+                destinationVC.eventManagedId = self.fetchedResultsController.object(at: indexPath).objectID
+            
             }
         }
         
