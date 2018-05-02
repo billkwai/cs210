@@ -12,12 +12,12 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
     
     // MARK: - Variables
     var categoryImageArray: [UIImage] = [
-        UIImage (named: "explore-politics")!,
-        UIImage (named: "explore-popculture")!,
-        UIImage (named: "explore-sports")!,
-        UIImage (named: "explore-locked")!,
-        UIImage (named: "explore-locked")!,
-        UIImage (named: "explore-locked")!
+        UIImage (named: "politics-category-button")!,
+        UIImage (named: "pop-culture-category-button")!,
+        UIImage (named: "sports-category-button")!,
+        UIImage (named: "null-category-button")!,
+        UIImage (named: "null-category-button")!,
+        UIImage (named: "null-category-button")!
     ]
     
     var categoryNameArray: [String] = [
