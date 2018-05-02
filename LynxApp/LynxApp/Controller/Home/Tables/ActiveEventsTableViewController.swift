@@ -81,6 +81,8 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
                 cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
             }
             cell.drawn = true
+        cell.layer.borderWidth = 0.25
+        cell.layer.borderColor = StoryboardConstants.tintColor.cgColor
         
         return cell
     }

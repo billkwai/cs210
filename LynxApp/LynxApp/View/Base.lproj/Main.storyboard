@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mz8-2O-hg6">
-                                <rect key="frame" x="0.0" y="65" width="414" height="627"/>
+                                <rect key="frame" x="0.0" y="60" width="414" height="632"/>
                                 <connections>
                                     <segue destination="Lah-Zs-4j4" kind="embed" id="C4v-Hc-L5H"/>
                                 </connections>
@@ -66,7 +66,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="mz8-2O-hg6" firstAttribute="top" secondItem="g2S-yD-DKD" secondAttribute="bottom" constant="10" id="4hW-Hh-6Gl"/>
+                            <constraint firstItem="mz8-2O-hg6" firstAttribute="top" secondItem="g2S-yD-DKD" secondAttribute="bottom" constant="5" id="4hW-Hh-6Gl"/>
                             <constraint firstItem="wTs-JB-7xp" firstAttribute="top" secondItem="3vi-AD-TOI" secondAttribute="top" constant="26" id="Db5-2g-yNq"/>
                             <constraint firstItem="mz8-2O-hg6" firstAttribute="trailing" secondItem="CiE-wu-fuP" secondAttribute="trailing" id="MWB-q1-aYw"/>
                             <constraint firstItem="Pso-UO-8B3" firstAttribute="top" secondItem="CiE-wu-fuP" secondAttribute="top" constant="9" id="O59-4j-qha"/>
@@ -345,7 +345,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhT-T3-Hmc">
                                                     <rect key="frame" x="148.33333333333334" y="0.0" width="77.666666666666657" height="23.333333333333332"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="2OP-gz-Z6Q">
@@ -354,13 +354,13 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick Entity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9e-cD-hco">
                                                             <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="24.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wager Amount" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X59-hr-zb5">
                                                             <rect key="frame" x="117.66666666666669" y="0.0" width="118" height="24.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -368,6 +368,7 @@
                                             </subviews>
                                         </stackView>
                                     </subviews>
+                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="xXy-4p-ibd" secondAttribute="trailing" id="IeR-Jl-dEF"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="xXy-4p-ibd" secondAttribute="bottom" constant="5" id="Lqw-q9-SPN"/>
