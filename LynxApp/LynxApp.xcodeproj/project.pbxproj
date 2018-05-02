@@ -29,6 +29,8 @@
 		3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */; };
 		3BD05B2620392AF9008AE7C5 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD05B2520392AF9008AE7C5 /* SessionState.swift */; };
 		3BEAF8062036B5CA00398079 /* ActiveEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */; };
+		6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */; };
+		6575250E20984F0E00191441 /* ExploreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */; };
 		B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */; };
 		B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33E89A91ED67A3B00E5A503 /* Main.storyboard */; };
 		B33E89AD1ED67A3B00E5A503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33E89AC1ED67A3B00E5A503 /* Assets.xcassets */; };
@@ -63,6 +65,8 @@
 		3BD05B2520392AF9008AE7C5 /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventCell.swift; sourceTree = "<group>"; };
 		6450F7173278311FE0E889DF /* Pods-LynxApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.debug.xcconfig"; sourceTree = "<group>"; };
+		6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventsCollectionViewController.swift; sourceTree = "<group>"; };
+		6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		B33E89A21ED67A3B00E5A503 /* LynxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LynxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33E89AA1ED67A3B00E5A503 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 			children = (
 				B33E8A0F1ED869E500E5A503 /* MenuViewController.swift */,
 				3B2836182037CE9B001FBEFC /* HomePageViewController.swift */,
+				6575250A20984EC100191441 /* Collections */,
 				3B3F063A2038FB25000FE334 /* Tables */,
 			);
 			path = Home;
@@ -181,6 +186,15 @@
 				B33E89AE1ED67A3B00E5A503 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6575250A20984EC100191441 /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */,
+				6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 		B33E89991ED67A3B00E5A503 = {
@@ -366,6 +380,7 @@
 				3B61D0172054C11A006A3BD4 /* KeychainItemAccessibility.swift in Sources */,
 				B33E8A101ED869E500E5A503 /* MenuViewController.swift in Sources */,
 				3B3F06392038FB15000FE334 /* LeaderboardCell.swift in Sources */,
+				6575250E20984F0E00191441 /* ExploreEventCollectionViewCell.swift in Sources */,
 				3B2836212037D955001FBEFC /* TestData.swift in Sources */,
 				3B61D0182054C11A006A3BD4 /* KeychainWrapper.swift in Sources */,
 				3B28361F2037D8A3001FBEFC /* LeaderboardTableViewController.swift in Sources */,
@@ -376,6 +391,7 @@
 				3B28362A2037E1E6001FBEFC /* ModelConstants.swift in Sources */,
 				3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */,
 				3B28362C2037E51A001FBEFC /* DatabaseService.swift in Sources */,
+				6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */,
 				3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */,
 				3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */,
 				B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */,
