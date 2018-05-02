@@ -16,6 +16,8 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView?.backgroundColor = StoryboardConstants.backgroundColor1
         initializeFetchedResultsController()
     }
     
@@ -108,6 +110,9 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
             cell.wagerAmount.text = "\(event.betSize)" + "\u{A2}"
             cell.eventTitle.text = event.eventTitle
     
+        cell.layer.borderWidth = 0.25
+        cell.layer.borderColor = StoryboardConstants.tintColor.cgColor
+        cell.contentView.backgroundColor = StoryboardConstants.backgroundColor1
         
         return cell
     }

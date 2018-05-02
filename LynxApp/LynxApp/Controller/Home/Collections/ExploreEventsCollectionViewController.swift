@@ -49,6 +49,11 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
         self.collectionView?.allowsSelection = true
         self.collectionView?.isUserInteractionEnabled = true
+        self.collectionView?.backgroundColor = StoryboardConstants.backgroundColor1
+        self.navigationController?.navigationBar.barTintColor = StoryboardConstants.backgroundColor1
+        self.navigationController?.navigationBar.tintColor = StoryboardConstants.tintColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
     }
 
     override func didReceiveMemoryWarning() {
