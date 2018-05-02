@@ -80,13 +80,10 @@ class DetailedBetViewController: UIViewController {
     var outcome1: Outcome?
     var outcome2: Outcome?
     
-    var title1 = "dog"
-    var title2 = "cat"
+    var title1 = ""
+    var title2 = ""
     
-    @IBAction func backPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        
-    }
+
     
     @IBAction func entity1Clicked(_ sender: Any) {
         entity1Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")

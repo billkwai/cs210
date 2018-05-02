@@ -134,9 +134,9 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     // MARK: - Navigation
     
     var categoryImageArray: [UIImage] = [
-        UIImage (named: "politics-category-button")!,
-        UIImage (named: "pop-culture-category-button")!,
-        UIImage (named: "sports-category-button")!,
+        UIImage (named: "explore-politics")!,
+        UIImage (named: "explore-popculture")!,
+        UIImage (named: "explore-sports")!,
     ]
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
