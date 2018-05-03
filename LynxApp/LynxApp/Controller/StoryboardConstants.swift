@@ -16,6 +16,8 @@ struct StoryboardConstants {
     static var LoginToHome = "loginToHomeSegue"
     static var RegistrationToHome = "registrationToHomeSegue"
     static var DetailToHome = "detailToHome"
+    static var MenuToSettings = "menuToSettings"
+    static var SettingsToLogin = "settingsToLogin"
     
     // Table View Cell Reuse Identifiers
     static var ActiveEventCell = "activeEventCell"
@@ -25,6 +27,8 @@ struct StoryboardConstants {
     // ViewController Identifiers
     static var LoginVC = "loginViewController"
     static var MenuVC = "menuViewController"
+    static var SettingsVC = "settingsViewController"
+    static var SettingsNav = "settingsNavigationController"
     static var AutoLoginVC = "autoLoginViewController"
     static var LoginPageVC = "loginPageViewController"
     static var ActiveEventsTable = "activeEventsTable"

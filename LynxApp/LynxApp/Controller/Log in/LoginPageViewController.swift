@@ -25,8 +25,6 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
         super.viewDidLoad()
         self.dataSource = self
         self.delegate = self
-                
-        
         // This sets up the first view that will show up on our page control
         if let firstViewController = orderedViewControllers.first {
             setViewControllers([firstViewController],
@@ -170,8 +168,8 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     private func toMenu() {
         let vc = self.view?.window?.rootViewController
-        let ViewControllernew1 = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
+        let menuvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
         self.dismiss(animated: false, completion: nil)
-        vc?.present(ViewControllernew1, animated: true, completion: nil)
+        vc?.present(menuvc, animated: true, completion: nil)
     }
 }

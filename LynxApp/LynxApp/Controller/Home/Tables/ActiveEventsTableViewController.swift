@@ -15,6 +15,12 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     var categoryName: String!
     var displayName: String!
 
+    var categoryImageArray: [UIImage] = [
+        UIImage (named: "explore-politics")!,
+        UIImage (named: "explore-popculture")!,
+        UIImage (named: "explore-sports")!,
+        ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100.0
@@ -82,9 +88,18 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
         cell.outcome2Label.text = outcome2.title
         cell.poolSizeLabel.text = "Pool Size: " + String(outcome1.pool + outcome2.pool)
         
+        switch (categoryName) {
+        case "politics": cell.categoryImage.image = categoryImageArray[0]
+        case "pop culture": cell.categoryImage.image = categoryImageArray[1]
+        case "sports": cell.categoryImage.image = categoryImageArray[2]
+        default: break
+        }
         // Time labels
         let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event.expiresIn))
-        if (times.0 > 0) {
+        if (times.0 == 1) {
+            cell.timeNumberLabel.text = "\(times.0)"
+            cell.timeUnitLabel.text = "Day"
+        } else if (times.0 > 0) {
             cell.timeNumberLabel.text = "\(times.0)"
             cell.timeUnitLabel.text = "Days"
         } else if (times.1 > 1) {
@@ -161,11 +176,7 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     
     // MARK: - Navigation
     
-    var categoryImageArray: [UIImage] = [
-        UIImage (named: "explore-politics")!,
-        UIImage (named: "explore-popculture")!,
-        UIImage (named: "explore-sports")!,
-    ]
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

@@ -13,6 +13,11 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
 
     var fetchedResultsController: NSFetchedResultsController<Event>!
 
+    var categoryImageArray: [UIImage] = [
+        UIImage (named: "explore-politics")!,
+        UIImage (named: "explore-popculture")!,
+        UIImage (named: "explore-sports")!,
+        ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,9 +105,19 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         cell.outcome2Label.text = outcome2.title
         cell.wagerLabel.text = "You wagered " + String(event.betSize) + " coins"
         
+        switch (event.categoryName) {
+        case "POLITICS": cell.categoryImage.image = categoryImageArray[0]
+        case "POP CULTURE": cell.categoryImage.image = categoryImageArray[1]
+        case "SPORTS": cell.categoryImage.image = categoryImageArray[2]
+        default: break
+        }
+        
         // Time labels
         let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event.expiresIn))
-        if (times.0 > 0) {
+        if (times.0 == 1) {
+            cell.timeNumberLabel.text = "\(times.0)"
+            cell.timeUnitLabel.text = "Day"
+        } else if (times.0 > 0) {
             cell.timeNumberLabel.text = "\(times.0)"
             cell.timeUnitLabel.text = "Days"
         } else if (times.1 > 1) {

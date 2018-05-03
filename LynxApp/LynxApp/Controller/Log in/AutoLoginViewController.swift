@@ -32,7 +32,7 @@ class AutoLoginViewController: UIViewController {
         let vc = self.view?.window?.rootViewController
         let ViewControllernew1 = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
         self.dismiss(animated: false, completion: nil)
-        vc?.present(ViewControllernew1, animated: true, completion: nil)
+        vc?.present(ViewControllernew1, animated: false, completion: nil)
 
     }
 

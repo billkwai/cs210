@@ -148,7 +148,7 @@ class DetailedBetViewController: UIViewController {
             } catch {
                 fatalError("Failure to save context: \(error)")
             }
-            self.dismiss(animated: true, completion: nil)
+            _ = navigationController?.popViewController(animated: true)
             
         } else {
             
@@ -225,7 +225,9 @@ class DetailedBetViewController: UIViewController {
             }
             let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))
             
-            if (times.0 > 0) {
+            if (times.0 == 1) {
+                betExpirationLabel.text = "Event expires in " + "\(times.0)" + " day"
+            } else if (times.0 > 0) {
                 betExpirationLabel.text = "Event expires in " + "\(times.0)" + " days"
             } else if (times.1 > 1) {
                 betExpirationLabel.text = "Event expires in " + "\(times.1)" + " hours"

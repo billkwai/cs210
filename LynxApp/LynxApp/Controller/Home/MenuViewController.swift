@@ -49,6 +49,15 @@ class MenuViewController: UIViewController {
         
     }
     
+    @objc func tapSettings(sender: AnyObject) {
+        self.performSegue(withIdentifier: StoryboardConstants.MenuToSettings, sender: self)
+
+    }
+    
+    @objc func tapProfile(sender: AnyObject) {
+        print("It works from code too!")
+    }
+    
     private func fetchUser(id: Int) -> User? {
         let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         userFetch.predicate = NSPredicate(format: "id == %ld",id)
@@ -77,15 +86,6 @@ class MenuViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    
-    func tapSettings(sender:UITapGestureRecognizer) {
-       // self.openMenu()
-    }
-    
-    func tapProfile(sender:UITapGestureRecognizer) {
-        print("profile button clicked")
     }
     
     
