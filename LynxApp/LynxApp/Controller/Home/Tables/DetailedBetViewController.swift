@@ -14,7 +14,46 @@ class DetailedBetViewController: UIViewController {
     var event: Event?
     var categoryImage: UIImage?
     
-    func hexStringToUIColor (hex:String) -> UIColor {
+    
+    @IBOutlet weak var poolSize: UILabel!
+    
+    @IBOutlet weak var decisionLabel: UILabel!
+    
+    @IBOutlet weak var entity1Button: UIButton!
+    
+    @IBOutlet weak var entity2Button: UIButton!
+    
+    var eventManagedId: NSManagedObjectID?
+
+    @IBOutlet weak var eventTitle: UILabel!
+    
+    
+    @IBOutlet weak var betExpirationLabel: UILabel!
+    
+    @IBOutlet weak var submitButton: UIButton!
+    
+    
+    @IBOutlet weak var userBalance: UILabel!
+    
+    @IBOutlet weak var sliderValue: UISlider!
+    
+    
+    @IBOutlet weak var oddsBarView: UIView!
+    
+    var teamSelected = 1
+    var selectionMade = false
+    var entity1id:  Int?
+    var bet = 50
+    
+    var entity2id:  Int?
+    
+    var outcome1: Outcome?
+    var outcome2: Outcome?
+    
+    var title1 = ""
+    var title2 = ""
+    
+    private func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
         if (cString.hasPrefix("#")) {
@@ -36,53 +75,38 @@ class DetailedBetViewController: UIViewController {
         )
     }
     
-    @IBOutlet weak var poolSize: UILabel!
+    //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
+    let viewCornerRadius : CGFloat = 5
+    var borderLayer : CAShapeLayer = CAShapeLayer()
+    let progressLayer : CAShapeLayer = CAShapeLayer()
     
-    @IBOutlet weak var decisionLabel: UILabel!
-    @IBOutlet weak var wagerBox: UITextField!
+    func drawProgressLayer(){
+        
+        let bezierPath = UIBezierPath(roundedRect: oddsBarView.bounds, cornerRadius: viewCornerRadius)
+        bezierPath.close()
+        borderLayer.path = bezierPath.cgPath
+        borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+        borderLayer.strokeEnd = 0
+        oddsBarView.layer.addSublayer(borderLayer)
+        
+        
+    }
     
-    @IBOutlet weak var entity1Button: UIButton!
+    //Make sure the value that you want in the function `rectProgress` that is going to define
+    //the width of your progress bar must be in the range of
+    // 0 <--> viewProg.bounds.width - 10 , reason why to keep the layer inside the view with some border left spare.
+    //if you are receiving your progress values in 0.00 -- 1.00 range , just multiply your progress values to viewProg.bounds.width - 10 and send them as *incremented:* parameter in this func
     
-    @IBOutlet weak var entity2Button: UIButton!
-    
-    var eventManagedId: NSManagedObjectID?
-
-    @IBOutlet weak var eventTitle: UILabel!
-    
-    
-    @IBOutlet weak var betExpirationLabel: UILabel!
-    
-    @IBOutlet weak var submitButton: UIButton!
-    
-    @IBOutlet weak var team1Label: UILabel!
-    
-    @IBOutlet weak var team1PotLabel: UILabel!
-    
-    
-    @IBOutlet weak var team2Label: UILabel!
-    
-    @IBOutlet weak var team2PotLabel: UILabel!
-    
-    @IBOutlet weak var oddsOfSelectedTeam: UILabel!
-    
-    @IBOutlet weak var chooseTeamSegmentedControl: UISegmentedControl!
-    
-    @IBOutlet weak var userBalance: UILabel!
-    
-    @IBOutlet weak var sliderValue: UISlider!
-    
-    var teamSelected = 1
-    var selectionMade = false
-    var entity1id:  Int?
-    var bet = 50
-    
-    var entity2id:  Int?
-    
-    var outcome1: Outcome?
-    var outcome2: Outcome?
-    
-    var title1 = ""
-    var title2 = ""
+    func rectProgress(incremented : CGFloat){
+        if incremented <= oddsBarView.bounds.width - 10{
+            progressLayer.removeFromSuperlayer()
+            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: CGFloat(5), y: CGFloat(5), width: incremented, height: oddsBarView.bounds.height - 10) , cornerRadius: viewCornerRadius)
+            bezierPathProg.close()
+            progressLayer.path = bezierPathProg.cgPath
+            progressLayer.fillColor = UIColor.white.cgColor
+            borderLayer.addSublayer(progressLayer)
+        }
+    }
     
 
     
@@ -109,20 +133,6 @@ class DetailedBetViewController: UIViewController {
 
     }
     
-    @IBAction func selectedTeam(_ sender: UISegmentedControl) {
-        let outcome1 = event?.outcomes![0] as! Outcome
-        let outcome2 = event?.outcomes![1] as! Outcome
-        switch chooseTeamSegmentedControl.selectedSegmentIndex {
-        case 0:
-            teamSelected = Int(outcome1.id)
-            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome1.pool)" + ":" + "\(outcome2.pool)"
-        case 1:
-            teamSelected = Int(outcome2.id)
-            oddsOfSelectedTeam.text = "Consensus Odds: " + "\(outcome2.pool)" + ":" + "\(outcome1.pool)"
-        default:
-            break
-        }
-    }
     
     
     @IBAction func submitForecast(_ sender: Any) {
@@ -185,7 +195,7 @@ class DetailedBetViewController: UIViewController {
         let outcome2 = event?.outcomes![1] as? Outcome
         
         var winnings = 0
-        var total = Float((outcome1?.pool)!) + Float((outcome2?.pool)!)
+        let total = Float((outcome1?.pool)!) + Float((outcome2?.pool)!)
         if teamSelected == 1{
             winnings = Int((total/Float((outcome1?.pool)!))*Float(bet))
         } else {
@@ -232,6 +242,10 @@ class DetailedBetViewController: UIViewController {
             let outcome2 = event?.outcomes![1] as? Outcome
 
             
+            drawProgressLayer()
+            // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
+            let odds = CGFloat((outcome1?.pool)!)/CGFloat((outcome1?.pool)! + (outcome2?.pool)!)
+            rectProgress(incremented: (odds * (oddsBarView.bounds.width - 10)))
             
             teamSelected = Int(outcome1!.id)
             

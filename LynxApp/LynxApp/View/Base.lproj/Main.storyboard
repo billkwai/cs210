@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14087.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BPF-CG-GQP">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14075.4"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -151,13 +151,13 @@
                                         <rect key="frame" x="4" y="48.666666666666686" width="359" height="42.333333333333343"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Crowdsourcing perspectives on global matters" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fF-o8-Hb3">
-                                                <rect key="frame" x="0.0" y="0.0" width="359" height="22.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="359" height="16.666666666666668"/>
                                                 <fontDescription key="fontDescription" name="Futura-MediumItalic" family="Futura" pointSize="17"/>
                                                 <color key="textColor" red="0.65490196078431373" green="0.61176470588235299" blue="0.65490196078431373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Swipe left to learn more" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IfV-xG-znS">
-                                                <rect key="frame" x="0.0" y="28.333333333333314" width="359" height="14"/>
+                                                <rect key="frame" x="0.0" y="22.666666666666629" width="359" height="19.666666666666671"/>
                                                 <fontDescription key="fontDescription" name="Futura-MediumItalic" family="Futura" pointSize="15"/>
                                                 <color key="textColor" red="0.40392156862745099" green="0.38039215686274508" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
@@ -776,6 +776,7 @@
                         <outlet property="entity2Button" destination="FXJ-wc-vrn" id="r7v-aX-njX"/>
                         <outlet property="eventImage" destination="6nY-Rf-3bx" id="VgM-NG-4ws"/>
                         <outlet property="eventTitle" destination="a2z-Xk-HP1" id="QET-bv-tIT"/>
+                        <outlet property="oddsBarView" destination="6UR-FZ-0HL" id="9e3-fw-RhV"/>
                         <outlet property="poolSize" destination="ShA-Yc-8Vu" id="LrY-sU-dLe"/>
                         <outlet property="sliderLabel" destination="wLA-Lm-l2u" id="MaL-HG-3p3"/>
                         <outlet property="sliderValue" destination="qgV-5A-kTP" id="GoB-Xk-Ize"/>
