@@ -535,11 +535,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LynxApp/LynxApp.entitlements;
-				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
+				DEVELOPMENT_TEAM = CR83RUC9S8;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.foresight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stanford.foresight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -551,11 +551,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LynxApp/LynxApp.entitlements;
-				DEVELOPMENT_TEAM = 3PHM8K6QXJ;
+				DEVELOPMENT_TEAM = CR83RUC9S8;
 				INFOPLIST_FILE = "$(SRCROOT)/LynxApp/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Lynx.foresight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stanford.foresight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
