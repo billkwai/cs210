@@ -85,34 +85,50 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
     }
 
     
+    private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {
+        return (seconds / 86400, (seconds % 86400) / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.UserEventCell, for: indexPath) as! UserEventCell
         let event = self.fetchedResultsController.object(at: indexPath)
-        let outcome1 = event.outcomes![0] as? Outcome
-        let outcome2 = event.outcomes![1] as? Outcome
+        cell.eventTitleLabel.text = event.eventTitle
+        let outcome1 = event.outcomes![0] as! Outcome
+        let outcome2 = event.outcomes![1] as! Outcome
+        cell.outcome1Label.text = outcome1.title
+        cell.outcome2Label.text = outcome2.title
+        cell.wagerLabel.text = "You wagered " + String(event.betSize) + " coins"
         
-        switch (event.pickedOutcomeId) {
-                
-        case (outcome1?.id)!:
-                cell.pickEntity.text = outcome1?.title //"\(outcome1!.title)"
-                break
-            
-        case (outcome2?.id)!:
-                cell.pickEntity.text = outcome2?.title //"\(outcome2?.title)"
-                break
-            default:
-                break
-                
-            }
-            
-            cell.wagerAmount.text = "\(event.betSize)" + "\u{A2}"
-            cell.eventTitle.text = event.eventTitle
-    
+        // Time labels
+        let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event.expiresIn))
+        if (times.0 > 0) {
+            cell.timeNumberLabel.text = "\(times.0)"
+            cell.timeUnitLabel.text = "Days"
+        } else if (times.1 > 1) {
+            cell.timeNumberLabel.text = "\(times.1)"
+            cell.timeUnitLabel.text = "Hours"
+        } else if (times.1 > 0) {
+            cell.timeNumberLabel.text = "\(times.1)"
+            cell.timeUnitLabel.text = "Hour"
+        }
+        else if (times.2 > 0) {
+            cell.timeNumberLabel.text = "\(times.2)"
+            cell.timeUnitLabel.text = "Mins"
+        } else {
+            cell.timeNumberLabel.text = "1"
+            cell.timeUnitLabel.text = "Min"
+        }
+        
+        if (!cell.drawn) {
+            cell.drawProgressLayer()
+            // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
+            let odds = CGFloat((outcome1.pool))/CGFloat(outcome1.pool + outcome2.pool)
+            cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
+        }
+        cell.drawn = true
         cell.layer.borderWidth = 0.25
         cell.layer.borderColor = StoryboardConstants.tintColor.cgColor
-        cell.contentView.backgroundColor = StoryboardConstants.backgroundColor1
         
         return cell
     }

@@ -69,7 +69,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         let user = self.fetchedResultsController.object(at: indexPath)
 
         cell.rankLabel.text = String(indexPath.row + 1) // right now assumes users ordered from greatest to least
-        cell.nameLabel.text = user.username
+        cell.nameLabel.text = String(user.firstName![user.firstName!.startIndex]) + ". " + user.lastName!
         cell.coinsLabel.text = String(user.coins)
         
         return cell

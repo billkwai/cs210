@@ -247,6 +247,7 @@ class DatabaseService {
         }
         do {
             // Executes `asynchronousFetchRequest`
+            // crashes here after being active for long enough!
             try privateContext.execute(asyncFetchRequest)
         } catch let error {
             print("NSAsynchronousFetchRequest error: \(error)")

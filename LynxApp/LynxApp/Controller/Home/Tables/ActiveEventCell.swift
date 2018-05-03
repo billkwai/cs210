@@ -13,6 +13,19 @@ class ActiveEventCell: UITableViewCell {
     @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var oddsBarView: UIView!
     
+    @IBOutlet weak var outcome1Label: UILabel!
+    
+    @IBOutlet weak var outcome2Label: UILabel!
+    
+    @IBOutlet weak var timeNumberLabel: UILabel!
+    
+    @IBOutlet weak var timeUnitLabel: UILabel!
+    
+    @IBOutlet weak var categoryImage: UIImageView!
+    
+    @IBOutlet weak var poolSizeLabel: UILabel!
+    
+    
     var drawn: Bool = false
     
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
