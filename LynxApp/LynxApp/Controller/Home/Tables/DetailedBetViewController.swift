@@ -71,9 +71,10 @@ class DetailedBetViewController: UIViewController {
     
     @IBOutlet weak var sliderValue: UISlider!
     
-    var teamSelected: Int?
-    
+    var teamSelected = 1
+    var selectionMade = false
     var entity1id:  Int?
+    var bet = 50
     
     var entity2id:  Int?
     
@@ -89,6 +90,11 @@ class DetailedBetViewController: UIViewController {
         entity1Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity2Button.backgroundColor = hexStringToUIColor(hex: "555555")
         decisionLabel.text = "You think " +  title1 + " will win"
+        
+        teamSelected = 1
+        selectionMade = true
+        updateWinning()
+
     }
     
     @IBAction func entity2Clicked(_ sender: Any) {
@@ -96,6 +102,10 @@ class DetailedBetViewController: UIViewController {
         entity2Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity1Button.backgroundColor = hexStringToUIColor(hex: "555555")
         decisionLabel.text = "You think " +  title2 + " will win"
+        
+        teamSelected = 2
+        selectionMade = true
+        updateWinning()
 
     }
     
@@ -117,10 +127,10 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         
-        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected!, event: event!,
+        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
             
-            event?.pickedOutcomeId = Int32(teamSelected!)
+            event?.pickedOutcomeId = Int32(teamSelected)
             do {
                 // Saves the entry updated
                 try SessionState.coreDataManager.persistentContainer.viewContext.save()
@@ -157,13 +167,33 @@ class DetailedBetViewController: UIViewController {
     
     
     @IBAction func wagerSlider(_ sender: UISlider) {
-        let bet = Int(round(sender.value/50))*50
+        bet = Int(round(sender.value/50))*50
         if ((SessionState.currentUser?.coins)! < bet) {
             setSubmitStatus(canSubmit: false)
         } else {
             setSubmitStatus(canSubmit: true)
         }
         sliderLabel.text = "Your Wager: " + String(bet)
+        if selectionMade{
+            updateWinning()
+        }
+
+    }
+    
+    private func updateWinning(){
+        let outcome1 = event?.outcomes![0] as? Outcome
+        let outcome2 = event?.outcomes![1] as? Outcome
+        
+        var winnings = 0
+        var total = Float((outcome1?.pool)!) + Float((outcome2?.pool)!)
+        if teamSelected == 1{
+            winnings = Int((total/Float((outcome1?.pool)!))*Float(bet))
+        } else {
+         winnings = Int((total/Float((outcome2?.pool)!))*Float(bet))
+        }
+        
+        userBalance.text = "You stand to earn " + String(winnings) + " coins if correct"
+        
     }
     
     private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {
