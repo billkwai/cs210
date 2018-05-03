@@ -14,9 +14,9 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
     var fetchedResultsController: NSFetchedResultsController<Event>!
 
     var categoryImageArray: [UIImage] = [
-        UIImage (named: "explore-politics")!,
-        UIImage (named: "explore-popculture")!,
-        UIImage (named: "explore-sports")!,
+        UIImage (named: "politics")!,
+        UIImage (named: "popculture")!,
+        UIImage (named: "sports")!,
         ]
     
     override func viewDidLoad() {
