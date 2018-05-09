@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */; };
-		3B12F82C209AB78B002AF4D4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B12F82B209AB78B002AF4D4 /* SettingsTableViewController.swift */; };
-		3B28361220376249001FBEFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361120376249001FBEFC /* LoginViewController.swift */; };
 		3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2836182037CE9B001FBEFC /* HomePageViewController.swift */; };
 		3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */; };
 		3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */; };
@@ -43,8 +41,6 @@
 /* Begin PBXFileReference section */
 		31F3D26816E459EB7157654A /* Pods-LynxApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.release.xcconfig"; sourceTree = "<group>"; };
 		38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBetViewController.swift; sourceTree = "<group>"; };
-		3B12F82B209AB78B002AF4D4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
-		3B28361120376249001FBEFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3B2836182037CE9B001FBEFC /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsTableViewController.swift; sourceTree = "<group>"; };
 		3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventsTableViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +136,6 @@
 		3B28360E203761D6001FBEFC /* Log in */ = {
 			isa = PBXGroup;
 			children = (
-				3B28361120376249001FBEFC /* LoginViewController.swift */,
 				3B737A932092707900373AF3 /* AutoLoginViewController.swift */,
 				3B8CC2BA209417DD002374AF /* LoginPageViewController.swift */,
 			);
@@ -150,7 +145,6 @@
 		3B28361320376280001FBEFC /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				3B12F82B209AB78B002AF4D4 /* SettingsTableViewController.swift */,
 				B33E8A0F1ED869E500E5A503 /* MenuViewController.swift */,
 				3B2836182037CE9B001FBEFC /* HomePageViewController.swift */,
 				6575250A20984EC100191441 /* Collections */,
@@ -397,13 +391,11 @@
 				6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */,
 				3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */,
 				3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */,
-				3B12F82C209AB78B002AF4D4 /* SettingsTableViewController.swift in Sources */,
 				B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */,
 				38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */,
 				3BAE4BCA207FDDC200DF1B42 /* DataModel.xcdatamodeld in Sources */,
 				3B3F06372038FAF7000FE334 /* UserEventCell.swift in Sources */,
 				3B2836242037D9C4001FBEFC /* AppTheme.swift in Sources */,
-				3B28361220376249001FBEFC /* LoginViewController.swift in Sources */,
 				3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */,
 				3B8E02932052620100830D16 /* Just.swift in Sources */,
 				3B737A942092707900373AF3 /* AutoLoginViewController.swift in Sources */,

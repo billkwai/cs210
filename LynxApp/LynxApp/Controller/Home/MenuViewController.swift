@@ -12,10 +12,9 @@ import CoreData
 class MenuViewController: UIViewController {
     
     
+    @IBOutlet weak var logoutLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var coinBalanceLabel: UILabel!
-    @IBOutlet weak var profileLabel: UIImageView!
-    @IBOutlet weak var settingsLabel: UIImageView!
     let maxBlackViewAlpha: CGFloat = 0.5
     let animationDuration: TimeInterval = 0.3
     var isLeftToRight = true
@@ -29,34 +28,32 @@ class MenuViewController: UIViewController {
                 // TODO: make this async
                 SessionState.currentUser = user
                 nameLabel.text = user.firstName
-                coinBalanceLabel.text = String(user.coins)
+                coinBalanceLabel.text = String(user.coins) + " coins"
                 
             }
             DatabaseService.updateEventData(id: String(SessionState.userId!))
             DatabaseService.updateSocialData()
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapSettings))
-        settingsLabel.isUserInteractionEnabled = true
-        settingsLabel.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapLogout))
+        logoutLabel.isUserInteractionEnabled = true
+        logoutLabel.addGestureRecognizer(tap)
         
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapProfile))
-        profileLabel.isUserInteractionEnabled = true
-        profileLabel.addGestureRecognizer(tap2)
         
         updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
 
         
     }
     
-    @objc func tapSettings(sender: AnyObject) {
-        self.performSegue(withIdentifier: StoryboardConstants.MenuToSettings, sender: self)
+    @objc func tapLogout(sender: AnyObject) {
+        let _ = KeychainWrapper.standard.removeAllKeys()
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginPageVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
+        UIApplication.shared.keyWindow?.rootViewController = loginPageVC
+        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
 
     }
     
-    @objc func tapProfile(sender: AnyObject) {
-        print("It works from code too!")
-    }
     
     private func fetchUser(id: Int) -> User? {
         let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
@@ -82,7 +79,7 @@ class MenuViewController: UIViewController {
             DispatchQueue.main.async {
                 if let user = SessionState.currentUser {
 
-                    self.coinBalanceLabel.text = String(user.coins)
+                    self.coinBalanceLabel.text = String(user.coins) + " coins"
                 }
             }
         }
