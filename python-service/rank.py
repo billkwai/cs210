@@ -1,6 +1,8 @@
 import pymysql
 import numpy as np
 import math
+import sys
+from pympler import asizeof
 
 def creatConnection():
     connectString = '129.150.120.63:/mydatabase'
@@ -25,8 +27,8 @@ cur.execute('''SELECT MAX(id) AS max FROM PLAYERS''')
 max = cur.fetchone()['max']
 #print (max)#(len(result))
 
-PLAYERS_AT_ONCE_PICKS = 100
-PLAYERS_AT_ONCE_PERCENTILE = 10
+PLAYERS_AT_ONCE_PICKS = 100000
+PLAYERS_AT_ONCE_PERCENTILE = 1000
 
 i = 0
 while (i < max):
@@ -47,6 +49,8 @@ while (i < max):
     scores = np.zeros((min(PLAYERS_AT_ONCE_PICKS, max - i), 3))
 
     #print (len(rv))
+    print(asizeof.asizeof(rv))
+    #   print(rv[2])
     for j in range(0, len(rv)):
         pick = rv[j]
         #if (pick['player_id'] == 67):
@@ -124,7 +128,7 @@ if rv != None:
             percentiles[i][0] = percentile
             percentiles[i][1] = player['id']
             index += 1
-        print(percentiles)
+        #print(percentiles)
 
         update_str = '''UPDATE PLAYERS SET percentile = (CASE id'''
         second_part_str = ""
