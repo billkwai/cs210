@@ -422,9 +422,9 @@ def create_app(config_name):
       cur_string = '''  SELECT ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 1)
       AS correct_ever, ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 0) AS incorrect_ever,
       ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 0
-      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7) AS correct_weekly,
+      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7) AS incorrect_weekly,
       ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 1
-      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7)  AS incorrect_weekly;  '''
+      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7)  AS correct_weekly;  '''
 
       cur.execute(cur_string, (player_id, player_id, player_id, player_id));
 
