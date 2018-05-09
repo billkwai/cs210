@@ -408,8 +408,32 @@ def create_app(config_name):
          # WHERE PICKS.event_id IS NULL; ''' % (player_id))
 
       rv = cur.fetchall()
+
+      cur.close()
+      conn.close()
+
       return jsonify(rv)
 
+  @app.route('/players/<int:player_id>/picks/stats', methods =['GET'])
+  def get_picks_stats(player_id):
+      conn = creatConnection()
+      cur = conn.cursor()
+
+      cur_string = '''  SELECT ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 1)
+      AS correct_ever, ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 0) AS incorrect_ever,
+      ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 0
+      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7) AS correct_weekly,
+      ( SELECT COUNT(*) FROM PICKS WHERE player_id = %s AND pick_correct = 1
+      AND TIMESTAMPDIFF(DAY,pick_timestamp, UTC_TIMESTAMP()) < 7)  AS incorrect_weekly;  '''
+
+      cur.execute(cur_string, (player_id, player_id, player_id, player_id));
+
+      rv = cur.fetchone()
+
+      cur.close()
+      conn.close()
+
+      return jsonify(rv)
 
   @app.route('/events/<int:event_id>/broadcast_result', methods = ['POST'])
   def broadcast_event_result(event_id):
