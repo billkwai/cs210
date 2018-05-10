@@ -54,6 +54,9 @@ class DetailedBetViewController: UIViewController {
     var title1 = ""
     var title2 = ""
     
+    var userCoins = 0
+    var userId = 0
+    
     private func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
@@ -138,7 +141,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         
-        if (DatabaseService.makePick(id: String(SessionState.currentUser!.id), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected, event: event!,
+        if (DatabaseService.makePick(id: String(userId), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
             
             event?.pickedOutcomeId = Int32(teamSelected)
@@ -179,7 +182,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func wagerSlider(_ sender: UISlider) {
         bet = Int(round(sender.value/50))*50
-        if ((SessionState.currentUser?.coins)! < bet) {
+        if (userCoins < bet) {
             setSubmitStatus(canSubmit: false)
         } else {
             setSubmitStatus(canSubmit: true)
@@ -222,13 +225,26 @@ class DetailedBetViewController: UIViewController {
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tap)
         
+        if let id = SessionState.userNSObjectId {
+            do {
+                if let user = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: id) as? User {
+                    
+                    userCoins = Int(user.coins)
+                    userId = Int(user.id)
+
+                }
+            } catch let error {
+                print("NSObject not found from id error: \(error)")
+            }
+        }
+        
         do {
             event = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: eventManagedId!) as? Event
             
             if let image = categoryImage {
                 eventImage.image = image
             }
-            if (SessionState.currentUser?.coins == 0) {
+            if (userCoins == 0) {
                 setSubmitStatus(canSubmit: false)
             }
             let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))

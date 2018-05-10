@@ -23,7 +23,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<User> = User.fetchRequest()
         
-        request.predicate = NSPredicate(format: "id != %ld", SessionState.userId!)
+        //request.predicate = NSPredicate(format: "score > 0")
         let scoreSort = NSSortDescriptor(key: "score", ascending: false)
         request.sortDescriptors = [scoreSort]
         request.fetchLimit = 50
@@ -88,15 +88,6 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         }
     }
     
-    
-    // alternate row colors
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = AppTheme.fadedPurple
-        } else {
-            cell.backgroundColor = UIColor.white
-        }
-    }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

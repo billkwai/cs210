@@ -152,33 +152,44 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
         DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,first_name, last_name", completion: { (values) -> Void in
             if let email = values["email"] as? String {
                 if let id = DatabaseService.checkIfUserExists(name: email) {
-                    SessionState.userId = id
-                    DatabaseService.getUser(id: String(id))
-                    let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                    if (saveUserId) {
-                        DispatchQueue.main.async {
-                            self.toMenu()
-                        }
-                    } else {
-                        // TODO: report keychain error
-                    }
+                    self.performLogin(id: id)
                 } else {
                     // save user to cloud database
                     if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
                         
                         if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
-                            SessionState.userId = id
-                            DatabaseService.getUser(id: String(id))
-                            let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
-                            if (saveUserId) {
-                                DispatchQueue.main.async {
-                                    self.toMenu()
-                                }
-                            } else {
-                                // keychain error
-                            }
+                            self.performLogin(id: id)
                         }
                     }
+                }
+            }
+            
+        })
+    }
+    
+    private func performLogin(id: Int) {
+        SessionState.userId = id
+        
+        DatabaseService.getUser(id: String(id), completion: { successGetUser in
+            
+            if successGetUser {
+                let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
+                if (saveUserId) {
+                    DatabaseService.updateEventData(id: String(SessionState.userId!), completion: { successGetEvents in
+                        if successGetEvents {
+                            // NOT CORRECTLY WAITING!
+                            DatabaseService.updateSocialData(completion: { successGetSocialData in
+                                if successGetSocialData {
+                                    DispatchQueue.main.async {
+                                        self.toMenu()
+                                    }
+                                }
+                            })
+
+                        }
+                    })
+                } else {
+                    // TODO: report keychain error
                 }
             }
             

@@ -12,12 +12,13 @@ import FacebookCore
 
 struct SessionState {
     
-    static var currentUser: User?
+    //static var currentUser: User?
     static var accessToken: AccessToken?
     static var userId: Int?
+    static var userNSObjectId: NSManagedObjectID?
         
     static let coreDataManager = CoreDataManager(modelName: "DataModel")
-
+    
     
     
 }

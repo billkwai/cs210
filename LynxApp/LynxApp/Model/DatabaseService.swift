@@ -84,24 +84,27 @@ class DatabaseService {
         
     }
     
-    
-    // TO DO - shouldn't be passing the actual user, pass user id!!!
-    
-    static func getUser(id: String) {
-        let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
-
-        let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
         
-        if let json = response.json as? [String: Any] {
-            updateUser(json: json, privateContext: privateContext)
+    static func getUser(id: String, completion: @escaping(Bool) -> ()) {
+        
+        Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey]) { (response) in
+            if let json = response.json as? [String: Any] {
+                let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+                updateUser(json: json, privateContext: privateContext, completion: { successUpdateUser in
+                    completion(successUpdateUser)
+                })
+            }
+            
         }
     }
     
     
-    private static func getUserStats(id: Int32, privateContext: NSManagedObjectContext) {
+    private static func getUserStats(id: Int32, privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + String(id) + "/picks/stats", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [String: Any] {
-                updateUserStats(id: id, json: json, privateContext: privateContext)
+                updateUserStats(id: id, json: json, privateContext: privateContext, completion: { successUpdateUserStats in
+                    completion(successUpdateUserStats)
+                })
             }
             
         }
@@ -130,31 +133,48 @@ class DatabaseService {
     
     // Event Related Requests
     
-    static func updateEventData(id: String) {
-        let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
-        getActiveEvents(id: id, privateContext: privateContext)
-        getUserEvents(id: id, privateContext: privateContext)
+    static func updateEventData(id: String, completion: @escaping(Bool) -> ()) {
+        let privateContextActive = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+        let privateContextUser = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+        getUserEvents(id: id, privateContext: privateContextUser, completion: { successUserEvents in
+            if successUserEvents {
+                getActiveEvents(id: id, privateContext: privateContextActive, completion: { successActiveEvents in
+                    completion(successActiveEvents)
+                })
+            }
+        })
 
     }
     
     
     
-    private static func getUserEvents(id: String, privateContext: NSManagedObjectContext) {
+    private static func getUserEvents(id: String, privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + id + "/picks", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
+                let updateCount = AtomicInteger()
                 for entry in json {
-                    updateEvent(json: entry, privateContext: privateContext)
+                    updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
+                        if updateCount.incrementAndGet() == json.count {
+                            completion(successUpdateEvent)
+                        }
+                    })
                 }
             }
             
         }
     }
     
-    private static func getActiveEvents(id: String, privateContext: NSManagedObjectContext) {
+    private static func getActiveEvents(id: String, privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + id + "/events/current", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
+                let updateCount = AtomicInteger()
                 for entry in json {
-                    updateEvent(json: entry, privateContext: privateContext)
+                    updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
+                        if updateCount.incrementAndGet() == json.count {
+                            completion(successUpdateEvent)
+                        }
+
+                    })
                 }
             }
 
@@ -187,22 +207,36 @@ class DatabaseService {
     
     // Leaderboard Related Requests
     
-    static func updateSocialData() {
-        let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
-        getLeaderboard(privateContext: privateContext)
-        if let userId = SessionState.userId {
-            getUserStats(id: Int32(userId), privateContext: privateContext)
-        }
-
+    static func updateSocialData(completion: @escaping(Bool) -> ()) {
+        let privateContextSocial = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+        getLeaderboard(privateContext: privateContextSocial, completion: { successUpdateLeaderboard in
+            
+            if successUpdateLeaderboard {
+                if let userId = SessionState.userId {
+                    let privateContextStats = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+                    getUserStats(id: Int32(userId), privateContext: privateContextStats, completion: { successUpdateUserStats in
+                        
+                        completion(successUpdateUserStats)
+                        
+                    })
+                }
+            }
+            
+        })
         
     }
     
-    private static func getLeaderboard(privateContext: NSManagedObjectContext) {
+    private static func getLeaderboard(privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         
         Just.get(baseUrl + requests.userpath + "/leaderboard/all", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
+                let updateCount = AtomicInteger()
                 for entry in json {
-                    let _ = updateUser(json: entry, privateContext: privateContext)
+                    updateUser(json: entry, privateContext: privateContext, completion: { successUpdateUser in
+                        if updateCount.incrementAndGet() == json.count {
+                            completion(successUpdateUser)
+                        }
+                    })
                 }
             }
             
@@ -215,7 +249,7 @@ class DatabaseService {
     // CoreData save/update/access
     
     
-    private static func updateEvent(json: [String: Any], privateContext: NSManagedObjectContext) {
+    private static func updateEvent(json: [String: Any], privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
     
         let id = json["event_id"] as? Int
         if id == nil {
@@ -231,7 +265,7 @@ class DatabaseService {
             DispatchQueue.main.async {
                 let events: [Event] = result.lazy
                     .flatMap { $0.objectID } // Retrives all the objectsID
-                    .compactMap { SessionState.coreDataManager.persistentContainer.viewContext.object(with: $0) as? Event }
+                    .compactMap { privateContext.object(with: $0) as? Event }
                 
                 if events.count > 0 {
                     self.updateEventFields(event: events.first!, json: json, privateContext: privateContext)
@@ -249,10 +283,13 @@ class DatabaseService {
                             do {
                                 // Saves the data from the child to the main context to be stored properly
                                 try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                                completion(true)
                             } catch {
                                 fatalError("Failure to save context: \(error)")
                             }
                         }
+                    } else {
+                        completion(true)
                     }
                 } catch {
                     fatalError("Failure to save context: \(error)")
@@ -390,7 +427,7 @@ class DatabaseService {
         }
     }
     
-    private static func updateUser(json: [String: Any], privateContext: NSManagedObjectContext) {
+    private static func updateUser(json: [String: Any], privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
 
         let id = json["id"] as? Int32
         if id == nil {
@@ -406,7 +443,7 @@ class DatabaseService {
             DispatchQueue.main.async {
                 let users: [User] = result.lazy
                     .flatMap { $0.objectID } // Retrives all the objectsID
-                    .compactMap { SessionState.coreDataManager.persistentContainer.viewContext.object(with: $0) as? User }
+                    .compactMap { privateContext.object(with: $0) as? User }
                 
                 if users.count > 0 {
                     self.updateUserFields(user: users.first!, json: json, privateContext: privateContext)
@@ -424,10 +461,13 @@ class DatabaseService {
                             do {
                                 // Saves the data from the child to the main context to be stored properly
                                 try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                                completion(true)
                             } catch {
                                 fatalError("Failure to save context: \(error)")
                             }
                         }
+                    } else {
+                        completion(true)
                     }
                 } catch {
                     fatalError("Failure to save context: \(error)")
@@ -496,7 +536,7 @@ class DatabaseService {
     }
     
     
-    private static func updateUserStats(id: Int32, json: [String: Any], privateContext: NSManagedObjectContext) {
+    private static func updateUserStats(id: Int32, json: [String: Any], privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         
 
         let userStatsFetch = NSFetchRequest<UserStats>(entityName: "UserStats")
@@ -508,7 +548,7 @@ class DatabaseService {
             DispatchQueue.main.async {
                 let userStats: [UserStats] = result.lazy
                     .flatMap { $0.objectID } // Retrives all the objectsID
-                    .compactMap { SessionState.coreDataManager.persistentContainer.viewContext.object(with: $0) as? UserStats }
+                    .compactMap { privateContext.object(with: $0) as? UserStats }
                 
                 if userStats.count > 0 {
                     self.updateUserStatsFields(userStats: userStats.first!, json: json, privateContext: privateContext)
@@ -526,10 +566,13 @@ class DatabaseService {
                             do {
                                 // Saves the data from the child to the main context to be stored properly
                                 try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                                completion(true)
                             } catch {
                                 fatalError("Failure to save context: \(error)")
                             }
                         }
+                    } else {
+                        completion(true)
                     }
                 } catch {
                     fatalError("Failure to save context: \(error)")
@@ -590,7 +633,16 @@ class DatabaseService {
             userStats.incorrectWeekly = incorrectWeekly
         }
         userStats.userId = id
+        
+        if let id = SessionState.userNSObjectId {
+            do {
+                if let user = try privateContext.existingObject(with: id) as? User {
+                    userStats.user = user
+                }
+            } catch let error {
+                print("NSObject not found from id error: \(error)")
+            }
+        }
     }
-    
 
 }

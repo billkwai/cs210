@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             if let user = fetchUser(id: id) {
-                SessionState.currentUser = user
+                SessionState.userNSObjectId = user.objectID
                 let autoLoginVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.AutoLoginVC) as! AutoLoginViewController
                 self.window?.rootViewController = autoLoginVC
                 

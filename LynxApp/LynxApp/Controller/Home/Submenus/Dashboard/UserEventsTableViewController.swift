@@ -111,6 +111,9 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         } else if (times.0 > 0) {
             cell.timeNumberLabel.text = "\(times.0)"
             cell.timeUnitLabel.text = "Days"
+            if times.0 >= 1000 {
+                cell.timeNumberLabel.font = cell.timeUnitLabel.font.withSize(14)
+            }
         } else if (times.1 > 1) {
             cell.timeNumberLabel.text = "\(times.1)"
             cell.timeUnitLabel.text = "Hours"
@@ -121,9 +124,13 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         else if (times.2 > 0) {
             cell.timeNumberLabel.text = "\(times.2)"
             cell.timeUnitLabel.text = "Mins"
-        } else {
+        } else if (times.3 > 0) {
             cell.timeNumberLabel.text = "1"
             cell.timeUnitLabel.text = "Min"
+        } else {
+            cell.timeNumberLabel.font = cell.timeUnitLabel.font.withSize(10)
+            cell.timeNumberLabel.text = "Expired"
+            cell.timeUnitLabel.text = ""
         }
         
         if (!cell.drawn) {

@@ -44,11 +44,11 @@ class SocialScreenViewController: UIViewController {
     }
     
     private func setEmpty() {
-        allWinsLabel.text = "..."
-        weeklyWinsLabel.text = "..."
+        allWinsLabel.text = "0"
+        weeklyWinsLabel.text = "0"
         
-        accuracyLabel.text = "..."
-        rankLabel.text = "..."
+        accuracyLabel.text = "0.0"
+        rankLabel.text = "0"
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,7 +72,7 @@ class SocialScreenViewController: UIViewController {
                 
                 if let user = fetchUser(id: id) {
                     rankLabel.fadeTransition(0.4)
-                    rankLabel.text = String(user.id)
+                    rankLabel.text = String(user.score)
                 }
                 
             } else {

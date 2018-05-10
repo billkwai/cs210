@@ -25,17 +25,7 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = StoryboardConstants.backgroundColor1
 
-        if let id = SessionState.userId {
-            if let user = fetchUser(id: id) {
-                // TODO: make this async
-                SessionState.currentUser = user
-                nameLabel.text = user.firstName
-                coinBalanceLabel.text = String(user.coins) + " coins"
-                
-            }
-            DatabaseService.updateEventData(id: String(SessionState.userId!))
-            DatabaseService.updateSocialData()
-        }
+        updateUI()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapLogout))
         logoutLabel.isUserInteractionEnabled = true
@@ -61,6 +51,7 @@ class MenuViewController: UIViewController {
         let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         userFetch.predicate = NSPredicate(format: "id == %ld",id)
         
+        
         do {
             let fetchedUsers = try SessionState.coreDataManager.persistentContainer.viewContext.fetch (userFetch) as! [User]
             if fetchedUsers.count > 0 {
@@ -73,18 +64,48 @@ class MenuViewController: UIViewController {
         return nil
     }
     
-    
-    @objc func updateData() {
-        if let id = SessionState.userId {
-            DatabaseService.updateEventData(id: String(id))
-            DatabaseService.updateSocialData()
+    private func updateUI() {
+        if let user = getUser() {
             DispatchQueue.main.async {
-                if let user = SessionState.currentUser {
-
-                    self.coinBalanceLabel.text = String(user.coins) + " coins"
+                
+                self.nameLabel.text = user.firstName
+                self.coinBalanceLabel.text = String(user.coins) + " coins"
+            }
+        }
+    }
+    
+    private func getUser() -> User? {
+        if SessionState.userNSObjectId == nil {
+            if let id = SessionState.userId {
+                if let user = fetchUser(id: id) {
+                    SessionState.userNSObjectId = user.objectID
+                    return user
                 }
             }
         }
+        do {
+            if let user = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: SessionState.userNSObjectId!) as? User {
+                    return user
+
+            }
+        } catch let error {
+            print("NSObject not found from id error: \(error)")
+        }
+        return nil
+    }
+    
+    
+    @objc func updateData() {
+        DatabaseService.updateEventData(id: String(SessionState.userId!), completion: { successGetEvents in
+            if successGetEvents {
+                DatabaseService.updateSocialData(completion: { successGetSocialData in
+                    if successGetSocialData {
+                        self.updateUI()
+                    }
+                })
+                    
+            }
+        })
     }
     
     

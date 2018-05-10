@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */; };
+		3B18814220A4DB0700FE80F6 /* AtomicInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18814120A4DB0700FE80F6 /* AtomicInteger.swift */; };
 		3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2836182037CE9B001FBEFC /* HomePageViewController.swift */; };
 		3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */; };
 		3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		31F3D26816E459EB7157654A /* Pods-LynxApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.release.xcconfig"; sourceTree = "<group>"; };
 		38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBetViewController.swift; sourceTree = "<group>"; };
+		3B18814120A4DB0700FE80F6 /* AtomicInteger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicInteger.swift; sourceTree = "<group>"; };
 		3B2836182037CE9B001FBEFC /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsTableViewController.swift; sourceTree = "<group>"; };
 		3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventsTableViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				3BD05B2520392AF9008AE7C5 /* SessionState.swift */,
 				3BAE4BC8207FDDC200DF1B42 /* DataModel.xcdatamodeld */,
 				3B5D04FC2093BB0600F4A313 /* CoreDataManager.swift */,
+				3B18814120A4DB0700FE80F6 /* AtomicInteger.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				3BD05B2620392AF9008AE7C5 /* SessionState.swift in Sources */,
 				3B28362A2037E1E6001FBEFC /* ModelConstants.swift in Sources */,
 				3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */,
+				3B18814220A4DB0700FE80F6 /* AtomicInteger.swift in Sources */,
 				3B28362C2037E51A001FBEFC /* DatabaseService.swift in Sources */,
 				6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */,
 				3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */,
