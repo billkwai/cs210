@@ -105,14 +105,17 @@ class MenuViewController: UIViewController {
     
     
     @objc func updateData() {
-        DatabaseService.updateEventData(id: String(SessionState.userId!), completion: { successGetEvents in
-            if successGetEvents {
-                DatabaseService.updateSocialData(completion: { successGetSocialData in
-                    if successGetSocialData {
-                        self.updateUI()
+        DatabaseService.updateUserEventData(id: String(SessionState.userId!), completion: { successGetUserEvents in
+            if successGetUserEvents {
+                DatabaseService.updateActiveEventData(id: String(SessionState.userId!), completion: { successGetActiveEvents in
+                    if successGetActiveEvents {
+                        DatabaseService.updateSocialData(completion: { successGetSocialData in
+                            if successGetSocialData {
+                                self.updateUI()
+                            }
+                        })
                     }
                 })
-                    
             }
         })
     }

@@ -144,16 +144,16 @@ class DetailedBetViewController: UIViewController {
         if (DatabaseService.makePick(id: String(userId), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
             
-            event?.pickedOutcomeId = Int32(teamSelected)
-            do {
-                // Saves the entry updated
-                try SessionState.coreDataManager.persistentContainer.viewContext.save()
-
-            } catch {
-                fatalError("Failure to save context: \(error)")
+            SessionState.coreDataManager.persistentContainer.viewContext.perform {
+                self.event?.pickedOutcomeId = Int32(self.teamSelected)
+                do {
+                    // Saves the data from the child to the main context to be stored properly
+                    try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                    self.dismiss(animated: true, completion: nil)
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
             }
-            _ = navigationController?.popViewController(animated: true)
-            
         } else {
             
             // report error

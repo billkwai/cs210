@@ -133,14 +133,21 @@ class DatabaseService {
     
     // Event Related Requests
     
-    static func updateEventData(id: String, completion: @escaping(Bool) -> ()) {
-        let privateContextActive = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
-        let privateContextUser = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
-        getUserEvents(id: id, privateContext: privateContextUser, completion: { successUserEvents in
-            if successUserEvents {
-                getActiveEvents(id: id, privateContext: privateContextActive, completion: { successActiveEvents in
-                    completion(successActiveEvents)
-                })
+    static func updateUserEventData(id: String, completion: @escaping(Bool) -> ()) {
+        let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+        getUserEvents(id: id, privateContext: privateContext, completion: { success in
+            if success {
+                completion(success)
+            }
+        })
+        
+    }
+    
+    static func updateActiveEventData(id: String, completion: @escaping(Bool) -> ()) {
+        let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
+        getActiveEvents(id: id, privateContext: privateContext, completion: { success in
+            if success {
+                completion(success)
             }
         })
 
@@ -151,13 +158,17 @@ class DatabaseService {
     private static func getUserEvents(id: String, privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + id + "/picks", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
-                let updateCount = AtomicInteger()
-                for entry in json {
-                    updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
-                        if updateCount.incrementAndGet() == json.count {
-                            completion(successUpdateEvent)
-                        }
-                    })
+                if json.count == 0 {
+                    completion(true)
+                } else {
+                    let updateCount = AtomicInteger()
+                    for entry in json {
+                        updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
+                            if updateCount.incrementAndGet() == json.count {
+                                completion(successUpdateEvent)
+                            }
+                        })
+                    }
                 }
             }
             
@@ -167,14 +178,18 @@ class DatabaseService {
     private static func getActiveEvents(id: String, privateContext: NSManagedObjectContext, completion: @escaping(Bool) -> ()) {
         Just.get(baseUrl + requests.userpath + "/" + id + "/events/current", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
-                let updateCount = AtomicInteger()
-                for entry in json {
-                    updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
-                        if updateCount.incrementAndGet() == json.count {
-                            completion(successUpdateEvent)
-                        }
+                if json.count == 0 {
+                    completion(true)
+                } else {
+                    let updateCount = AtomicInteger()
+                    for entry in json {
+                        updateEvent(json: entry, privateContext: privateContext, completion: { successUpdateEvent in
+                            if updateCount.incrementAndGet() == json.count {
+                                completion(successUpdateEvent)
+                            }
 
-                    })
+                        })
+                    }
                 }
             }
 
@@ -230,14 +245,19 @@ class DatabaseService {
         
         Just.get(baseUrl + requests.userpath + "/leaderboard/all", headers:["Authentication":"Basic " + apiKey]) { (response) in
             if let json = response.json as? [[String: Any]] {
-                let updateCount = AtomicInteger()
-                for entry in json {
-                    updateUser(json: entry, privateContext: privateContext, completion: { successUpdateUser in
-                        if updateCount.incrementAndGet() == json.count {
-                            completion(successUpdateUser)
-                        }
-                    })
+                if json.count == 0 {
+                    completion(true)
+                } else {
+                    let updateCount = AtomicInteger()
+                    for entry in json {
+                        updateUser(json: entry, privateContext: privateContext, completion: { successUpdateUser in
+                            if updateCount.incrementAndGet() == json.count {
+                                completion(successUpdateUser)
+                            }
+                        })
+                    }
                 }
+
             }
             
         }
@@ -582,8 +602,6 @@ class DatabaseService {
             
         }
         do {
-            // Executes `asynchronousFetchRequest`
-            // error also happening here
             try privateContext.execute(asyncFetchRequest)
         } catch let error {
             print("NSAsynchronousFetchRequest error: \(error)")

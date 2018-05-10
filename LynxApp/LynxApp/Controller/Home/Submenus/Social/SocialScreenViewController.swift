@@ -70,10 +70,13 @@ class SocialScreenViewController: UIViewController {
                 accuracyLabel.fadeTransition(0.4)
                 accuracyLabel.text = String(Float(userStats.correctEver)/Float(userStats.incorrectEver + userStats.correctEver))
                 
-                if let user = fetchUser(id: id) {
+                if let user = userStats.user {
                     rankLabel.fadeTransition(0.4)
                     rankLabel.text = String(user.score)
+                } else {
+                    rankLabel.text = "0"
                 }
+                
                 
             } else {
                 setEmpty()
@@ -85,7 +88,7 @@ class SocialScreenViewController: UIViewController {
     }
     private func fetchUserStats(id: Int) -> UserStats? {
         let userStatsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserStats")
-        userStatsFetch.predicate = NSPredicate(format: "userId == %ld",id)
+        userStatsFetch.predicate = NSPredicate(format: "user.id == %ld",id)
         
         do {
             let fetchedUserStats = try SessionState.coreDataManager.persistentContainer.viewContext.fetch (userStatsFetch) as! [UserStats]
