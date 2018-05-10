@@ -137,8 +137,8 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // TODO: check if needed permissions are satisfied and handle case where they are not
                 
-                if grantedPermissions.contains("public_profile") && grantedPermissions.contains("email") &&
-                    grantedPermissions.contains("user_friends") {
+                if grantedPermissions.contains("public_profile") && grantedPermissions.contains("email") {
+                    // && grantedPermissions.contains("user_friends") { this permission currently does not work and is denied
                     self.attemptLogin(accessToken: accessToken)
                 } else {
                     self.informUserPermissionsNeeded()
