@@ -143,6 +143,9 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         cell.layer.borderWidth = 0.25
         cell.layer.borderColor = StoryboardConstants.tintColor.cgColor
         
+        // makes cells unselectable until we implement functionality for this feature
+        cell.isUserInteractionEnabled = false
+        
         return cell
     }
     

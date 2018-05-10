@@ -69,6 +69,9 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         cell.nameLabel.text = String(user.firstName![user.firstName!.startIndex]) + ". " + user.lastName!
         cell.scoreLabel.text = String(user.score)
         cell.percentileLabel.text = String(user.percentile)
+        
+        // makes cells unselectable until we implement functionality for this feature
+        cell.isUserInteractionEnabled = false
 
         return cell
     }
