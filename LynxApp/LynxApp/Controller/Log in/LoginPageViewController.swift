@@ -135,10 +135,9 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             case .cancelled:
                 print("User cancelled login.")
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                // TODO: check if needed permissions are satisfied and handle case where they are not
+                // TODO: user_friends permission not being registered for some reason
                 
                 if grantedPermissions.contains("public_profile") && grantedPermissions.contains("email") {
-                    // && grantedPermissions.contains("user_friends") { this permission currently does not work and is denied
                     self.attemptLogin(accessToken: accessToken)
                 } else {
                     self.informUserPermissionsNeeded()
@@ -178,17 +177,20 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             if successGetUser {
                 let saveUserId = KeychainWrapper.standard.set(id, forKey: ModelConstants.keychainUserId)
                 if (saveUserId) {
-                    DatabaseService.updateEventData(id: String(SessionState.userId!), completion: { successGetEvents in
-                        if successGetEvents {
-                            // NOT CORRECTLY WAITING!
-                            DatabaseService.updateSocialData(completion: { successGetSocialData in
-                                if successGetSocialData {
-                                    DispatchQueue.main.async {
-                                        self.toMenu()
-                                    }
+                    DatabaseService.updateUserEventData(id: String(SessionState.userId!), completion: { successGetUserEvents in
+                        if successGetUserEvents {
+                            DatabaseService.updateActiveEventData(id: String(SessionState.userId!), completion: { successGetActiveEvents in
+                                if successGetActiveEvents {
+                                    // NOT CORRECTLY WAITING!
+                                    DatabaseService.updateSocialData(completion: { successGetSocialData in
+                                        if successGetSocialData {
+                                            DispatchQueue.main.async {
+                                                self.toMenu()
+                                            }
+                                        }
+                                    })
                                 }
                             })
-
                         }
                     })
                 } else {

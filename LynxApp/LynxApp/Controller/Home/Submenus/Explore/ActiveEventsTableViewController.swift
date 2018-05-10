@@ -40,7 +40,7 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<Event> = Event.fetchRequest()
 
-        request.predicate = NSPredicate(format: "pickTimestamp == nil && categoryName == %@", categoryName.uppercased())
+        request.predicate = NSPredicate(format: "pickedOutcomeId == 0 && categoryName == %@", categoryName.uppercased())
 //        request.predicate = NSPredicate(format: "betSize == nil && expiresIn > 0 && categoryName == %@", categoryName)
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]

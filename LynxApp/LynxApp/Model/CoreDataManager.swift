@@ -20,6 +20,7 @@ class CoreDataManager {
                 fatalError("Failed to load Core Data stack: \(error)")
             }
         }
+        self.persistentContainer.viewContext.automaticallyMergesChangesFromParent = true
     }
     
     
