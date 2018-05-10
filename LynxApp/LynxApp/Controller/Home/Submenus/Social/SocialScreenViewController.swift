@@ -68,7 +68,12 @@ class SocialScreenViewController: UIViewController {
                 weeklyWinsLabel.text = String(userStats.correctWeekly)
                 
                 accuracyLabel.fadeTransition(0.4)
-                accuracyLabel.text = String(Float(userStats.correctEver)/Float(userStats.incorrectEver + userStats.correctEver))
+                if userStats.incorrectEver + userStats.correctEver == 0 {
+                    accuracyLabel.text = "0.0"
+
+                } else {
+                    accuracyLabel.text = String(Float(userStats.correctEver)/Float(userStats.incorrectEver + userStats.correctEver))
+                }
                 
                 if let user = userStats.user {
                     rankLabel.fadeTransition(0.4)

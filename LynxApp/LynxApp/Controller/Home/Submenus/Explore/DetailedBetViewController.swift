@@ -140,12 +140,13 @@ class DetailedBetViewController: UIViewController {
     
     
     @IBAction func submitForecast(_ sender: Any) {
-        
-        if (DatabaseService.makePick(id: String(userId), betSize: (Int(round(sliderValue.value/50))*50), pickId: teamSelected, event: event!,
+        let betSize = Int(round(sliderValue.value/50))*50
+        if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!,
                                      id1: Int(entity1id!), id2: Int(entity2id!))) {
             
             SessionState.coreDataManager.persistentContainer.viewContext.perform {
                 self.event?.pickedOutcomeId = Int32(self.teamSelected)
+                self.event?.betSize = Int32(betSize)
                 do {
                     // Saves the data from the child to the main context to be stored properly
                     try SessionState.coreDataManager.persistentContainer.viewContext.save()
