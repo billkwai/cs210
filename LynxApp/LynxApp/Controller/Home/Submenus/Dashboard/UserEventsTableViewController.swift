@@ -61,9 +61,6 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Your Picks"
-    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Adds a label when user has no picks and table is empty
@@ -104,6 +101,8 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         cell.outcome1Label.text = outcome1.title
         cell.outcome2Label.text = outcome2.title
         cell.wagerLabel.text = "You wagered " + String(event.betSize) + " coins"
+        cell.backgroundColor = StoryboardConstants.backgroundColor1
+
         
         switch (event.categoryName) {
         case "POLITICS": cell.categoryImage.image = categoryImageArray[0]

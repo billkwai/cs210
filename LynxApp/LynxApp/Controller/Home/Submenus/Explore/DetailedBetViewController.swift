@@ -14,6 +14,7 @@ class DetailedBetViewController: UIViewController {
     var event: Event?
     var categoryImage: UIImage?
     
+    @IBOutlet weak var backLabel: UILabel!
     
     @IBOutlet weak var poolSize: UILabel!
     
@@ -211,9 +212,16 @@ class DetailedBetViewController: UIViewController {
 
     }
     
+    @objc func tapBack() {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapBack))
+        backLabel.isUserInteractionEnabled = true
+        backLabel.addGestureRecognizer(tap)
+        
         do {
             event = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: eventManagedId!) as? Event
             

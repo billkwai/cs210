@@ -422,6 +422,7 @@ class DatabaseService {
         }
         do {
             // Executes `asynchronousFetchRequest`
+            // error also happening here
             try privateContext.execute(asyncFetchRequest)
         } catch let error {
             print("NSAsynchronousFetchRequest error: \(error)")

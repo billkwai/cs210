@@ -28,6 +28,11 @@
 		3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */; };
 		3BD05B2620392AF9008AE7C5 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD05B2520392AF9008AE7C5 /* SessionState.swift */; };
 		3BEAF8062036B5CA00398079 /* ActiveEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */; };
+		3BFC8DEA20A3BA7200E62B6F /* SocialScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */; };
+		3BFC8DEF20A3C47800E62B6F /* DashboardScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DEE20A3C47800E62B6F /* DashboardScreenViewController.swift */; };
+		3BFC8DF120A3C48C00E62B6F /* ExploreScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DF020A3C48C00E62B6F /* ExploreScreenViewController.swift */; };
+		3BFC8DF320A3CAAC00E62B6F /* ParentExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DF220A3CAAC00E62B6F /* ParentExploreViewController.swift */; };
+		3BFC8DF520A3CFDC00E62B6F /* CategoryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DF420A3CFDC00E62B6F /* CategoryScreenViewController.swift */; };
 		6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */; };
 		6575250E20984F0E00191441 /* ExploreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */; };
 		B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */; };
@@ -62,6 +67,11 @@
 		3BD05B212039237D008AE7C5 /* StoryboardConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardConstants.swift; sourceTree = "<group>"; };
 		3BD05B2520392AF9008AE7C5 /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventCell.swift; sourceTree = "<group>"; };
+		3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialScreenViewController.swift; sourceTree = "<group>"; };
+		3BFC8DEE20A3C47800E62B6F /* DashboardScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreenViewController.swift; sourceTree = "<group>"; };
+		3BFC8DF020A3C48C00E62B6F /* ExploreScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreScreenViewController.swift; sourceTree = "<group>"; };
+		3BFC8DF220A3CAAC00E62B6F /* ParentExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentExploreViewController.swift; sourceTree = "<group>"; };
+		3BFC8DF420A3CFDC00E62B6F /* CategoryScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryScreenViewController.swift; sourceTree = "<group>"; };
 		6450F7173278311FE0E889DF /* Pods-LynxApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventsCollectionViewController.swift; sourceTree = "<group>"; };
 		6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -147,8 +157,7 @@
 			children = (
 				B33E8A0F1ED869E500E5A503 /* MenuViewController.swift */,
 				3B2836182037CE9B001FBEFC /* HomePageViewController.swift */,
-				6575250A20984EC100191441 /* Collections */,
-				3B3F063A2038FB25000FE334 /* Tables */,
+				3B3F063A2038FB25000FE334 /* Submenus */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -162,18 +171,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		3B3F063A2038FB25000FE334 /* Tables */ = {
+		3B3F063A2038FB25000FE334 /* Submenus */ = {
 			isa = PBXGroup;
 			children = (
-				3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */,
-				3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */,
-				38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */,
-				3B28361E2037D8A3001FBEFC /* LeaderboardTableViewController.swift */,
-				3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */,
-				3B3F06362038FAF7000FE334 /* UserEventCell.swift */,
-				3B3F06382038FB15000FE334 /* LeaderboardCell.swift */,
+				3BFC8DEB20A3C40400E62B6F /* Explore */,
+				3BFC8DEC20A3C41B00E62B6F /* Dashboard */,
+				3BFC8DED20A3C42F00E62B6F /* Social */,
 			);
-			path = Tables;
+			path = Submenus;
 			sourceTree = "<group>";
 		};
 		3BEAF8072036B5E800398079 /* Supporting Files */ = {
@@ -185,13 +190,39 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6575250A20984EC100191441 /* Collections */ = {
+		3BFC8DEB20A3C40400E62B6F /* Explore */ = {
 			isa = PBXGroup;
 			children = (
 				6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */,
 				6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */,
+				38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */,
+				3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */,
+				3BEAF8052036B5CA00398079 /* ActiveEventCell.swift */,
+				3BFC8DF020A3C48C00E62B6F /* ExploreScreenViewController.swift */,
+				3BFC8DF220A3CAAC00E62B6F /* ParentExploreViewController.swift */,
+				3BFC8DF420A3CFDC00E62B6F /* CategoryScreenViewController.swift */,
 			);
-			path = Collections;
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		3BFC8DEC20A3C41B00E62B6F /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */,
+				3B3F06362038FAF7000FE334 /* UserEventCell.swift */,
+				3BFC8DEE20A3C47800E62B6F /* DashboardScreenViewController.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		3BFC8DED20A3C42F00E62B6F /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				3B28361E2037D8A3001FBEFC /* LeaderboardTableViewController.swift */,
+				3B3F06382038FB15000FE334 /* LeaderboardCell.swift */,
+				3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */,
+			);
+			path = Social;
 			sourceTree = "<group>";
 		};
 		B33E89991ED67A3B00E5A503 = {
@@ -382,6 +413,7 @@
 				3B61D0182054C11A006A3BD4 /* KeychainWrapper.swift in Sources */,
 				3B28361F2037D8A3001FBEFC /* LeaderboardTableViewController.swift in Sources */,
 				3BEAF8062036B5CA00398079 /* ActiveEventCell.swift in Sources */,
+				3BFC8DEA20A3BA7200E62B6F /* SocialScreenViewController.swift in Sources */,
 				3B8CC2BB209417DD002374AF /* LoginPageViewController.swift in Sources */,
 				3B5D04FD2093BB0600F4A313 /* CoreDataManager.swift in Sources */,
 				3BD05B2620392AF9008AE7C5 /* SessionState.swift in Sources */,
@@ -391,11 +423,15 @@
 				6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */,
 				3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */,
 				3BD05B222039237D008AE7C5 /* StoryboardConstants.swift in Sources */,
+				3BFC8DF120A3C48C00E62B6F /* ExploreScreenViewController.swift in Sources */,
 				B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */,
+				3BFC8DEF20A3C47800E62B6F /* DashboardScreenViewController.swift in Sources */,
 				38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */,
 				3BAE4BCA207FDDC200DF1B42 /* DataModel.xcdatamodeld in Sources */,
 				3B3F06372038FAF7000FE334 /* UserEventCell.swift in Sources */,
+				3BFC8DF520A3CFDC00E62B6F /* CategoryScreenViewController.swift in Sources */,
 				3B2836242037D9C4001FBEFC /* AppTheme.swift in Sources */,
+				3BFC8DF320A3CAAC00E62B6F /* ParentExploreViewController.swift in Sources */,
 				3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */,
 				3B8E02932052620100830D16 /* Just.swift in Sources */,
 				3B737A942092707900373AF3 /* AutoLoginViewController.swift in Sources */,

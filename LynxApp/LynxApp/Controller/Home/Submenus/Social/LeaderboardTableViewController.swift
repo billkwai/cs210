@@ -15,6 +15,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = StoryboardConstants.backgroundColor1
         initializeFetchedResultsController()
     }
     
@@ -52,9 +53,6 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Leaderboard"
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sections = fetchedResultsController.sections else {
@@ -70,10 +68,26 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
 
         cell.rankLabel.text = String(indexPath.row + 1) // right now assumes users ordered from greatest to least
         cell.nameLabel.text = String(user.firstName![user.firstName!.startIndex]) + ". " + user.lastName!
-        cell.coinsLabel.text = String(user.coins)
+        cell.scoreLabel.text = String(user.coins)
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.LeaderboardHeaderCell)
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0,2:
+            return 45
+        default:
+            return 60
+        }
+    }
+    
     
     // alternate row colors
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

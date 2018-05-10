@@ -25,6 +25,9 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
         super.viewDidLoad()
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.navigationController?.isNavigationBarHidden = false
+        self.view.backgroundColor = StoryboardConstants.backgroundColor1
+
         self.title = displayName
         initializeFetchedResultsController()
 

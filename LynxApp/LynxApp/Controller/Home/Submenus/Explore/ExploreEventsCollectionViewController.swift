@@ -55,6 +55,8 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationController?.navigationBar.isTranslucent = false
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
