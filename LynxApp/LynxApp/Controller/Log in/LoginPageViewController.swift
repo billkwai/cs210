@@ -137,10 +137,13 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // TODO: check if needed permissions are satisfied and handle case where they are not
                 
-                self.attemptLogin(accessToken: accessToken)
-                
-                // if didn't allow needed permissions, abort
-                
+                if grantedPermissions.contains("public_profile") && grantedPermissions.contains("email") &&
+                    grantedPermissions.contains("user_friends") {
+                    self.attemptLogin(accessToken: accessToken)
+                } else {
+                    self.informUserPermissionsNeeded()
+                }
+
                 
             }
         }
@@ -199,7 +202,24 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     private func toMenu() {
         let vc = self.view?.window?.rootViewController
         let menuvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
+        
+        // add simple login animation
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionReveal
+        transition.subtype = kCATransitionFromRight
+        self.view.window!.layer.add(transition, forKey: nil)
         self.dismiss(animated: false, completion: nil)
-        vc?.present(menuvc, animated: true, completion: nil)
+        vc?.present(menuvc, animated: false, completion: nil)
+    }
+    
+    
+    private func informUserPermissionsNeeded() {
+        OperationQueue.main.addOperation {
+            let alert = UIAlertController(title: "Permissions not Given", message: "To make foresight's social predictions fun and effective, we require permissions to log in.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

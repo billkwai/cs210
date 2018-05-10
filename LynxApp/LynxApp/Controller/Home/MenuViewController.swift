@@ -42,7 +42,16 @@ class MenuViewController: UIViewController {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let loginPageVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
         UIApplication.shared.keyWindow?.rootViewController = loginPageVC
-        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        
+        // add simple logout animation
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionReveal
+        transition.subtype = kCATransitionFromLeft
+        self.view.window!.layer.add(transition, forKey: nil)
+        
+        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
 
     }
     

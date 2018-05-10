@@ -65,6 +65,19 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
 
     
     // MARK: - Navigation
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "fromCategorySegue" {
+            guard let cell = sender as? ExploreEventCollectionViewCell else {
+                assertionFailure("Failed to unwrap sender. Try to set a breakpoint here and check what sender is")
+                return false
+            }
+            if cell.categoryName == "locked" {
+                return false
+            }
+        }
+        return true
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
