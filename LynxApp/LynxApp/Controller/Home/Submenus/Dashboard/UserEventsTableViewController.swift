@@ -77,14 +77,6 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
     }
     
     
-    // Alternates the row colors
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row % 2 == 0 {
-            cell.backgroundColor = AppTheme.fadedPurple
-        } else {
-            cell.backgroundColor = UIColor.white
-        }
-    }
 
     
     private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {

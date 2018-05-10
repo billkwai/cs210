@@ -21,9 +21,28 @@ class CategoryScreenViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapBack))
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tap)
-        
 
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let parentVC = self.parent as? ActiveEventsTableViewController {
+            switch (parentVC.categoryName) {
+            case "politics" :
+                categoryTitleLabel.text = "Politics"
+                subtitleLabel.text = "Find political events to wager on."
+                break
+            case "popculture" :
+                categoryTitleLabel.text = "Pop Culture"
+                subtitleLabel.text = "Find popular culture related events to wager on."
+                break
+            case "sports" :
+                categoryTitleLabel.text = "Sports"
+                subtitleLabel.text = "Find sports related events to wager on."
+                break
+            default:
+                break
+            }
+        }
     }
     
     @objc func tapBack() {

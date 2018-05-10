@@ -15,7 +15,7 @@ struct SessionState {
     static var currentUser: User?
     static var accessToken: AccessToken?
     static var userId: Int?
-    
+        
     static let coreDataManager = CoreDataManager(modelName: "DataModel")
 
     

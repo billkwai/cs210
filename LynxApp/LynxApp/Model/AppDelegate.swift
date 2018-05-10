@@ -42,14 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 let loginPageVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
                 self.window?.rootViewController = loginPageVC
-//                let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
-//                self.window?.rootViewController = loginVC
+
             }
         } else {
             let loginPageVC: LoginPageViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
             self.window?.rootViewController = loginPageVC
-//            let loginVC: LoginViewController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginVC) as! LoginViewController
-//            self.window?.rootViewController = loginVC
+
             
         }
         self.window?.makeKeyAndVisible()

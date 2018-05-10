@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14094.4" systemVersion="17E160e" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E160e" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="betSize" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="categoryName" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,12 +28,24 @@
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="percentile" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="score" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pickedEvents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Event" syncable="YES"/>
+        <relationship name="userStats" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserStats" inverseName="user" inverseEntity="UserStats" syncable="YES"/>
+    </entity>
+    <entity name="UserStats" representedClassName="UserStats" syncable="YES" codeGenerationType="class">
+        <attribute name="correctEver" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="correctWeekly" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="incorrectEver" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="incorrectWeekly" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userStats" inverseEntity="User" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-10089" positionY="-4203" width="128" height="225"/>
+        <element name="Event" positionX="-10217" positionY="-4156" width="128" height="223"/>
         <element name="Outcome" positionX="-10377" positionY="-4104" width="128" height="120"/>
-        <element name="User" positionX="-9767" positionY="-4113" width="128" height="165"/>
+        <element name="User" positionX="-9999" positionY="-4158" width="128" height="208"/>
+        <element name="UserStats" positionX="-9776" positionY="-4167" width="128" height="133"/>
     </elements>
 </model>

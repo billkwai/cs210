@@ -20,14 +20,13 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
     }
     
     
-    
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<User> = User.fetchRequest()
         
-        //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
         request.predicate = NSPredicate(format: "id != %ld", SessionState.userId!)
-        let coinSort = NSSortDescriptor(key: "coins", ascending: false)
-        request.sortDescriptors = [coinSort]
+        let scoreSort = NSSortDescriptor(key: "score", ascending: false)
+        request.sortDescriptors = [scoreSort]
+        request.fetchLimit = 50
         
         let moc = SessionState.coreDataManager.persistentContainer.viewContext
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
@@ -68,15 +67,16 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
 
         cell.rankLabel.text = String(indexPath.row + 1) // right now assumes users ordered from greatest to least
         cell.nameLabel.text = String(user.firstName![user.firstName!.startIndex]) + ". " + user.lastName!
-        cell.scoreLabel.text = String(user.coins)
-        
+        cell.scoreLabel.text = String(user.score)
+        cell.percentileLabel.text = String(user.percentile)
+
         return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.LeaderboardHeaderCell)
         
-        return cell
+        return cell?.contentView
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

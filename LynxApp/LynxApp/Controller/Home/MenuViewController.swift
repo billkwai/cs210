@@ -23,6 +23,8 @@ class MenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = StoryboardConstants.backgroundColor1
+
         if let id = SessionState.userId {
             if let user = fetchUser(id: id) {
                 // TODO: make this async

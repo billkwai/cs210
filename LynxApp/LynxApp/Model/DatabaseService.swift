@@ -91,9 +91,21 @@ class DatabaseService {
         let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
 
         let response = Just.get(baseUrl + requests.userpath + "/" + id, headers:["Authentication":"Basic " + apiKey])
+        
         if let json = response.json as? [String: Any] {
             updateUser(json: json, privateContext: privateContext)
         }
+    }
+    
+    
+    private static func getUserStats(id: Int32, privateContext: NSManagedObjectContext) {
+        Just.get(baseUrl + requests.userpath + "/" + String(id) + "/picks/stats", headers:["Authentication":"Basic " + apiKey]) { (response) in
+            if let json = response.json as? [String: Any] {
+                updateUserStats(id: id, json: json, privateContext: privateContext)
+            }
+            
+        }
+        
     }
     
     static func createUser(firstName: String, lastName: String, email: String) -> Bool {
@@ -178,6 +190,9 @@ class DatabaseService {
     static func updateSocialData() {
         let privateContext = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
         getLeaderboard(privateContext: privateContext)
+        if let userId = SessionState.userId {
+            getUserStats(id: Int32(userId), privateContext: privateContext)
+        }
 
         
     }
@@ -194,6 +209,7 @@ class DatabaseService {
         }
         
     }
+
     
     
     // CoreData save/update/access
@@ -436,6 +452,16 @@ class DatabaseService {
                 user.coins = coins
             }
         }
+        if let score = json["score"] as? Float {
+            if user.score != score {
+                user.score = score
+            }
+        }
+        if let percentile = json["percentile"] as? Float {
+            if user.percentile != percentile {
+                user.percentile = percentile
+            }
+        }
         
     }
     
@@ -459,10 +485,112 @@ class DatabaseService {
         if let lastName = json["lastname"] as? String {
             user.lastName = lastName
         }
+        if let score = json["score"] as? Float {
+            user.score = score
+        }
+        if let percentile = json["percentile"] as? Float {
+            user.percentile = percentile
+        }
         user.id = id
     
     }
     
+    
+    private static func updateUserStats(id: Int32, json: [String: Any], privateContext: NSManagedObjectContext) {
+        
+
+        let userStatsFetch = NSFetchRequest<UserStats>(entityName: "UserStats")
+        userStatsFetch.predicate = NSPredicate(format: "user.id == %ld", id)
+        
+        let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: userStatsFetch) {
+            asyncResult in
+            guard let result = asyncResult.finalResult else { return }
+            DispatchQueue.main.async {
+                let userStats: [UserStats] = result.lazy
+                    .flatMap { $0.objectID } // Retrives all the objectsID
+                    .compactMap { SessionState.coreDataManager.persistentContainer.viewContext.object(with: $0) as? UserStats }
+                
+                if userStats.count > 0 {
+                    self.updateUserStatsFields(userStats: userStats.first!, json: json, privateContext: privateContext)
+                    
+                } else {
+                    self.addUserStatsFields(id: id, json: json, privateContext: privateContext)
+                }
+                do {
+                    // Saves the entry updated
+                    if privateContext.hasChanges {
+                        try privateContext.save()
+                        
+                        // Performs a task in the main queue and wait until this tasks finishes
+                        SessionState.coreDataManager.persistentContainer.viewContext.performAndWait {
+                            do {
+                                // Saves the data from the child to the main context to be stored properly
+                                try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                            } catch {
+                                fatalError("Failure to save context: \(error)")
+                            }
+                        }
+                    }
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
+                
+            }
+            
+        }
+        do {
+            // Executes `asynchronousFetchRequest`
+            // error also happening here
+            try privateContext.execute(asyncFetchRequest)
+        } catch let error {
+            print("NSAsynchronousFetchRequest error: \(error)")
+        }
+    }
+    
+    private static func updateUserStatsFields(userStats: UserStats, json: [String: Any], privateContext: NSManagedObjectContext) {
+        if let correctEver = json["correct_ever"] as? Int32 {
+            if userStats.correctEver != correctEver {
+                userStats.correctEver = correctEver
+            }
+        }
+        if let correctWeekly = json["correct_weekly"] as? Int32 {
+            if userStats.correctWeekly != correctWeekly {
+                userStats.correctWeekly = correctWeekly
+            }
+        }
+        
+        if let incorrectEver = json["incorrect_ever"] as? Int32 {
+            if userStats.incorrectEver != incorrectEver {
+                userStats.incorrectEver = incorrectEver
+            }
+        }
+        
+        if let incorrectWeekly = json["incorrect_weekly"] as? Int32 {
+            if userStats.incorrectWeekly != incorrectWeekly {
+                userStats.incorrectWeekly = incorrectWeekly
+            }
+        }
+    }
+    
+    private static func addUserStatsFields(id: Int32, json: [String: Any], privateContext: NSManagedObjectContext) {
+        let userStats = UserStats(context: privateContext)
+        
+        if let correctEver = json["correct_ever"] as? Int32 {
+            userStats.correctEver = correctEver
+        }
+        if let correctWeekly = json["correct_weekly"] as? Int32 {
+            userStats.correctWeekly = correctWeekly
+        }
+        
+        if let incorrectEver = json["incorrect_ever"] as? Int32 {
+            userStats.incorrectEver = incorrectEver
+        }
+        
+        if let incorrectWeekly = json["incorrect_weekly"] as? Int32 {
+            userStats.incorrectWeekly = incorrectWeekly
+        }
+        userStats.userId = id
+    }
     
 
 }
