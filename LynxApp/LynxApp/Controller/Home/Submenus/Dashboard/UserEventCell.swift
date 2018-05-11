@@ -22,7 +22,7 @@ class UserEventCell: UITableViewCell {
     var drawn: Bool = false
     
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
-    let viewCornerRadius : CGFloat = 5
+    let viewCornerRadius : CGFloat = 10
     var borderLayer : CAShapeLayer = CAShapeLayer()
     let progressLayer : CAShapeLayer = CAShapeLayer()
     
@@ -46,10 +46,16 @@ class UserEventCell: UITableViewCell {
     func rectProgress(incremented : CGFloat){
         if incremented <= oddsBarView.bounds.width - 10{
             progressLayer.removeFromSuperlayer()
-            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: CGFloat(5), y: CGFloat(5), width: incremented, height: oddsBarView.bounds.height - 10) , cornerRadius: viewCornerRadius)
+            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: incremented, height: oddsBarView.bounds.height) , cornerRadius: viewCornerRadius)
             bezierPathProg.close()
             progressLayer.path = bezierPathProg.cgPath
-            progressLayer.fillColor = UIColor.white.cgColor
+            if (incremented > oddsBarView.bounds.width - incremented) {
+                progressLayer.fillColor = UIColor.purple.cgColor
+                borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+            } else {
+                progressLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+                borderLayer.fillColor = UIColor.purple.cgColor
+            }
             borderLayer.addSublayer(progressLayer)
         }
     }
@@ -58,6 +64,7 @@ class UserEventCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.contentView.backgroundColor =  StoryboardConstants.backgroundColor1
+        self.oddsBarView.backgroundColor = StoryboardConstants.backgroundColor1
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

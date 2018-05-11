@@ -80,7 +80,7 @@ class DetailedBetViewController: UIViewController {
     }
     
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
-    let viewCornerRadius : CGFloat = 5
+    let viewCornerRadius : CGFloat = 10
     var borderLayer : CAShapeLayer = CAShapeLayer()
     let progressLayer : CAShapeLayer = CAShapeLayer()
     
@@ -104,10 +104,16 @@ class DetailedBetViewController: UIViewController {
     func rectProgress(incremented : CGFloat){
         if incremented <= oddsBarView.bounds.width - 10{
             progressLayer.removeFromSuperlayer()
-            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: CGFloat(5), y: CGFloat(5), width: incremented, height: oddsBarView.bounds.height - 10) , cornerRadius: viewCornerRadius)
+            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: incremented, height: oddsBarView.bounds.height) , cornerRadius: viewCornerRadius)
             bezierPathProg.close()
             progressLayer.path = bezierPathProg.cgPath
-            progressLayer.fillColor = UIColor.white.cgColor
+            if (incremented > oddsBarView.bounds.width - incremented) {
+                progressLayer.fillColor = UIColor.purple.cgColor
+                borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+            } else {
+                progressLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+                borderLayer.fillColor = UIColor.purple.cgColor
+            }
             borderLayer.addSublayer(progressLayer)
         }
     }
@@ -140,24 +146,28 @@ class DetailedBetViewController: UIViewController {
     
     
     @IBAction func submitForecast(_ sender: Any) {
-        let betSize = Int(round(sliderValue.value/50))*50
-        if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!,
-                                     id1: Int(entity1id!), id2: Int(entity2id!))) {
-            
-            SessionState.coreDataManager.persistentContainer.viewContext.perform {
-                self.event?.pickedOutcomeId = Int32(self.teamSelected)
-                self.event?.betSize = Int32(betSize)
-                do {
-                    // Saves the data from the child to the main context to be stored properly
-                    try SessionState.coreDataManager.persistentContainer.viewContext.save()
-                    self.dismiss(animated: true, completion: nil)
-                } catch {
-                    fatalError("Failure to save context: \(error)")
+        if Reachability.isInternetAvailable() {
+            let betSize = Int(round(sliderValue.value/50))*50
+            if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!,
+                                         id1: Int(entity1id!), id2: Int(entity2id!))) {
+                
+                SessionState.coreDataManager.persistentContainer.viewContext.perform {
+                    self.event?.pickedOutcomeId = Int32(self.teamSelected)
+                    self.event?.betSize = Int32(betSize)
+                    do {
+                        // Saves the data from the child to the main context to be stored properly
+                        try SessionState.coreDataManager.persistentContainer.viewContext.save()
+                        self.dismiss(animated: true, completion: nil)
+                    } catch {
+                        fatalError("Failure to save context: \(error)")
+                    }
                 }
+            } else {
+                
+                // report error
             }
         } else {
-            
-            // report error
+            informUserNoInternet()
         }
         
         
@@ -225,6 +235,8 @@ class DetailedBetViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapBack))
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tap)
+        self.oddsBarView.backgroundColor = StoryboardConstants.backgroundColor1
+
         
         if let id = SessionState.userNSObjectId {
             do {
@@ -306,6 +318,15 @@ class DetailedBetViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    private func informUserNoInternet() {
+        OperationQueue.main.addOperation {
+            let alert = UIAlertController(title: "No internet", message: "Make sure your device is connected to the internet and try again.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 

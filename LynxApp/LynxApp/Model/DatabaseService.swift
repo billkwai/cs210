@@ -44,7 +44,6 @@ class DatabaseService {
             case .success(let response):
                 completion(response.dictionaryValue!)
             case .failed( _):
-                print(result)
                 print("failed")
             }
         }
@@ -368,6 +367,10 @@ class DatabaseService {
             }
         }
         
+        if let pickCorrect = json["pick_correct"] as? Int32 {
+            event.pickCorrect = pickCorrect
+        }
+        
         if let poolOutcome1 = json["entity1_pool"] as? Int32 {
             if outcome1.pool != poolOutcome1 {
                 outcome1.pool = poolOutcome1
@@ -379,6 +382,7 @@ class DatabaseService {
                 outcome2.pool = poolOutcome2
             }
         }
+        
     }
 
     static private func addEventFields(id: Int, json: [String: Any], privateContext: NSManagedObjectContext) {
@@ -397,6 +401,10 @@ class DatabaseService {
         if let eventTime = json["event_time"] as? String {
             event.eventTime = eventTime
         }
+        
+        event.pickCorrect = -1
+        
+        
         event.addToOutcomes(outcome1)
         event.addToOutcomes(outcome2)
         
@@ -569,7 +577,7 @@ class DatabaseService {
                 let userStats: [UserStats] = result.lazy
                     .flatMap { $0.objectID } // Retrives all the objectsID
                     .compactMap { privateContext.object(with: $0) as? UserStats }
-                
+            
                 if userStats.count > 0 {
                     self.updateUserStatsFields(userStats: userStats.first!, json: json, privateContext: privateContext)
                     

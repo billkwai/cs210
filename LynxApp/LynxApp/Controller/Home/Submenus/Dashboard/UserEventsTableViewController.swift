@@ -92,6 +92,16 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let outcome2 = event.outcomes![1] as! Outcome
         cell.outcome1Label.text = outcome1.title
         cell.outcome2Label.text = outcome2.title
+        if (event.pickedOutcomeId == outcome1.id) {
+            cell.outcome1Label.textColor = UIColor.purple
+            cell.outcome1Label.font = UIFont(name:"Futura-Bold", size: cell.outcome1Label.font.pointSize)
+
+        } else {
+            cell.outcome2Label.textColor = UIColor.purple
+            cell.outcome2Label.font = UIFont(name:"Futura-Bold", size: cell.outcome2Label.font.pointSize)
+        }
+            
+        
         cell.wagerLabel.text = "You wagered " + String(event.betSize) + " coins"
         cell.backgroundColor = StoryboardConstants.backgroundColor1
 
@@ -128,9 +138,31 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
             cell.timeNumberLabel.text = "1"
             cell.timeUnitLabel.text = "Min"
         } else {
-            cell.timeNumberLabel.font = cell.timeUnitLabel.font.withSize(10)
-            cell.timeNumberLabel.text = "Expired"
+            cell.timeNumberLabel.font = cell.timeNumberLabel.font.withSize(10)
             cell.timeUnitLabel.text = ""
+            // label and color based on whether pick was correct
+            if (event.pickCorrect != -1) {
+                if (event.pickedOutcomeId == outcome1.id) {
+                    if (event.pickCorrect == 1) {
+                        cell.timeNumberLabel.text = "Correct!"
+                        cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
+                    } else {
+                        cell.timeNumberLabel.text = "Wrong!"
+                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                    }
+                } else {
+                    if (event.pickCorrect == 1) {
+                        cell.timeNumberLabel.text = "Correct!"
+                        cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
+                    } else {
+                        cell.timeNumberLabel.text = "Wrong!"
+                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                    }
+                }
+            } else {
+                cell.timeNumberLabel.text = "Pending"
+            }
+
         }
         
         if (!cell.drawn) {

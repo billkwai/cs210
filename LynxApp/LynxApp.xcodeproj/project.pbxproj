@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */; };
 		3B18814220A4DB0700FE80F6 /* AtomicInteger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18814120A4DB0700FE80F6 /* AtomicInteger.swift */; };
+		3B18814420A6381900FE80F6 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B18814320A6381800FE80F6 /* Reachability.swift */; };
 		3B2836192037CE9B001FBEFC /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2836182037CE9B001FBEFC /* HomePageViewController.swift */; };
 		3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */; };
 		3B28361D2037D895001FBEFC /* ActiveEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */; };
@@ -48,6 +49,7 @@
 		31F3D26816E459EB7157654A /* Pods-LynxApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.release.xcconfig"; sourceTree = "<group>"; };
 		38A45F8B2056190C00D2450F /* DetailedBetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBetViewController.swift; sourceTree = "<group>"; };
 		3B18814120A4DB0700FE80F6 /* AtomicInteger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicInteger.swift; sourceTree = "<group>"; };
+		3B18814320A6381800FE80F6 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3B2836182037CE9B001FBEFC /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEventsTableViewController.swift; sourceTree = "<group>"; };
 		3B28361C2037D895001FBEFC /* ActiveEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventsTableViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				3B61D0152054C11A006A3BD4 /* KeychainItemAccessibility.swift */,
 				3B61D0162054C11A006A3BD4 /* KeychainWrapper.swift */,
+				3B18814320A6381800FE80F6 /* Reachability.swift */,
 				B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */,
 				3B2836202037D955001FBEFC /* TestData.swift */,
 				3B8E02922052620100830D16 /* Just.swift */,
@@ -438,6 +441,7 @@
 				3BFC8DF320A3CAAC00E62B6F /* ParentExploreViewController.swift in Sources */,
 				3B28361B2037D882001FBEFC /* UserEventsTableViewController.swift in Sources */,
 				3B8E02932052620100830D16 /* Just.swift in Sources */,
+				3B18814420A6381900FE80F6 /* Reachability.swift in Sources */,
 				3B737A942092707900373AF3 /* AutoLoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
