@@ -1,18 +1,16 @@
-FROM ubuntu:latest
+FROM python:3
+
 MAINTAINER Neel Bedekar "neel.bedekar@gmail.com"
-RUN apt-get update -y
-RUN apt-get install -y python3-pip python-dev build-essential
-RUN apt-get install -y python python-pip python-virtualenv gunicorn
 
 
 ENV APP_SETTINGS=production
 ENV FLASK_APP=/app/run.py
 COPY . /app
-RUN pip3 install -r requirements.txt
-WORKDIR /app
 COPY gunicorn_config.py /app
+WORKDIR /app
+RUN pip install -r requirements.txt
 
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD ["/usr/bin/gunicorn", "--config", "/app/gunicorn_config.py", "app:app"]
+CMD ["gunicorn", "--config", "/app/gunicorn_config.py", "run:app"]

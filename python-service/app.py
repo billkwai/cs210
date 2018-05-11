@@ -357,13 +357,14 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       try:
-          entity1_pool = request.json['entity1_pool']
-          entity2_pool = request.json['entity2_pool']
-          bet_size = request.json['bet_size']
-          event_id = request.json['event_id']
-          picked_entity = request.json['picked_entity']
-          entity1_id = request.json['entity1_id']
-          entity2_id = request.json['entity2_id']
+          json_arr = request.get_json()
+          entity1_pool = json_arr['entity1_pool']
+          entity2_pool = json_arr['entity2_pool']
+          bet_size = json_arr['bet_size']
+          event_id = json_arr['event_id']
+          picked_entity = json_arr['picked_entity']
+          entity1_id = json_arr['entity1_id']
+          entity2_id = json_arr['entity2_id']
           denom =  entity1_pool if (picked_entity == entity1_id) else entity2_pool
           payout = (float(entity1_pool + entity2_pool) / float(denom)) * bet_size
 
@@ -439,7 +440,8 @@ def create_app(config_name):
   def broadcast_event_result(event_id):
       conn = creatConnection()
       cur = conn.cursor()
-      winning_entity = request.json['winning_entity']
+      json_arr = request.get_json()
+      winning_entity = json_arr['winning_entity']
       #print ("The id is %d and entity1_won is %d"%(event_id, winning_entity))
       try:
           cur.execute(''' UPDATE EVENTS SET event_active = 0, winning_entity = %d WHERE id = %d;''' % (winning_entity, event_id))
@@ -497,9 +499,9 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       print ("Trying to create player")
-
-      ret_username_exists = username_or_email_exists_helper(request.json['username'])
-      ret_email_exists = username_or_email_exists_helper(request.json['email'])
+      json_arr = request.get_json()
+      ret_username_exists = username_or_email_exists_helper(json_arr['username'])
+      ret_email_exists = username_or_email_exists_helper(json_arr['email'])
 
       field_taken = not (ret_username_exists['status'] == USERNAME_INVALID and 
                             ret_email_exists['status'] == USERNAME_INVALID)
@@ -520,7 +522,7 @@ def create_app(config_name):
               #ph = PasswordHasher()
               #hash = ph.hash(request.json['password'])
               #hashed_pw = bcrypt.hashpw(bytes(request.json['password'], encoding='utf-8'), bcrypt.gensalt())
-              bytes_pass = bytes(request.json['password'], encoding='utf-8')
+              bytes_pass = bytes(json_arr['password'], encoding='utf-8')
               hashed_pw = bcrypt.hashpw(bytes_pass, bcrypt.gensalt())
 
 
@@ -539,9 +541,9 @@ def create_app(config_name):
                           EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
                           VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 
-              cur.execute(cmd_str, (request.json['firstName'],request.json['lastName'],request.json['username'],
-                              hashed_pw_db, 'salted_db', request.json['email'],request.json['phone'],
-                              request.json['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))
+              cur.execute(cmd_str, (json_arr['firstName'],json_arr['lastName'],json_arr['username'],
+                              hashed_pw_db, 'salted_db', json_arr['email'],json_arr['phone'],
+                              json_arr['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))
 
               # report back the id of the new player that was just added for integration testing purposes
               if app.config['TESTING']:
@@ -592,7 +594,8 @@ def create_app(config_name):
 
   @app.route('/players/username_exists', methods=['POST'])
   def username_exists():
-      return jsonify(username_or_email_exists_helper(request.json['username']))
+      json_arr = request.get_json()
+      return jsonify(username_or_email_exists_helper(json_arr['username']))
 
   def username_or_email_exists_helper(username):
       conn = creatConnection()
@@ -622,7 +625,8 @@ def create_app(config_name):
   def loginPlayer(player_id):
       conn = creatConnection()
       cur = conn.cursor()
-      password = request.json['password']
+      json_arr = request.get_json()
+      password = json_arr['password']
       #print("Reached login endpoint with username %s and password %s"%( username, password))
       try:
 
@@ -666,11 +670,12 @@ def create_app(config_name):
       conn = creatConnection()
       cur = conn.cursor()
       try:
+          json_arr = request.get_json()
           # Since all fields are specified here, an update either needs to contain all the previous information of unchanged fields in the request or
           # generate a MYSQL command that only updates new fields
           cur.execute('''UPDATE PLAYERS SET FIRSTNAME='%s', LASTNAME='%s', PASSWORD='%s', EMAIL='%s', PHONE='%s', BIRTHDATE='%s' 
-                     WHERE ID=%s '''%(request.json['firstName'],request.json['lastName'], request.json['password'],
-                     request.json['email'],request.json['phone'],request.json['birthDate'],player_id)) # request.json['college'],request.json['company']
+                     WHERE ID=%s '''%(json_arr['firstName'],json_arr['lastName'], json_arr['password'],
+                     json_arr['email'],json_arr['phone'],json_arr['birthDate'],player_id)) # request.json['college'],request.json['company']
           conn.commit()
           message = {'status': PUT_SUCCESSFUL, 'message': 'The player record is updated succesfully'}
           cur.close()  
