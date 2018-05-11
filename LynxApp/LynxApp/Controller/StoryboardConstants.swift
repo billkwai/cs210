@@ -29,6 +29,9 @@ struct StoryboardConstants {
     static var LoginVC1 = "loginViewController1"
     static var LoginVC2 = "loginViewController2"
     static var LoginVC3 = "loginViewController3"
+    static var LoginVC4 = "loginViewController4"
+    static var LoginVC5 = "loginViewController5"
+    
     
     static var ExploreEventsParentVC = "exploreEventsParent"
 

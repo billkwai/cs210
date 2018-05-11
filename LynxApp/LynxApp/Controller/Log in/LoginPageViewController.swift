@@ -18,7 +18,7 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     // MARK: UIPageViewControllerDataSource
     
     lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newVc(viewController: StoryboardConstants.LoginVC1), self.newVc(viewController: StoryboardConstants.LoginVC2), self.newVc(viewController: StoryboardConstants.LoginVC3)]
+        return [self.newVc(viewController: StoryboardConstants.LoginVC1), self.newVc(viewController: StoryboardConstants.LoginVC2), self.newVc(viewController: StoryboardConstants.LoginVC3), self.newVc(viewController: StoryboardConstants.LoginVC4), self.newVc(viewController: StoryboardConstants.LoginVC5)]
     }()
     
     override func viewDidLoad() {
