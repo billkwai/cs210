@@ -25,9 +25,7 @@ class ActiveEventCell: UITableViewCell {
     
     @IBOutlet weak var poolSizeLabel: UILabel!
     
-    
-    var drawn: Bool = false
-    
+        
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
     let viewCornerRadius : CGFloat = 10
     var borderLayer : CAShapeLayer = CAShapeLayer()
@@ -35,7 +33,7 @@ class ActiveEventCell: UITableViewCell {
 
     func drawProgressLayer(){
         
-        let bezierPath = UIBezierPath(roundedRect: oddsBarView.bounds, cornerRadius: viewCornerRadius)
+        let bezierPath = UIBezierPath(roundedRect: CGRect(x: 10, y: 5, width: oddsBarView.bounds.width - 20, height: oddsBarView.bounds.height - 5), cornerRadius: viewCornerRadius)
         bezierPath.close()
         borderLayer.path = bezierPath.cgPath
         borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
@@ -53,20 +51,23 @@ class ActiveEventCell: UITableViewCell {
     func rectProgress(incremented : CGFloat){
         if incremented <= oddsBarView.bounds.width - 10{
             progressLayer.removeFromSuperlayer()
-            let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: incremented, height: oddsBarView.bounds.height) , cornerRadius: viewCornerRadius)
-            bezierPathProg.close()
-            progressLayer.path = bezierPathProg.cgPath
-            if (incremented > oddsBarView.bounds.width - incremented) {
+            if (incremented >= oddsBarView.bounds.width - 20 - incremented) {
+                let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: 10, y: 5, width: incremented, height: oddsBarView.bounds.height - 5) , cornerRadius: viewCornerRadius)
+                bezierPathProg.close()
+                progressLayer.path = bezierPathProg.cgPath
                 progressLayer.fillColor = UIColor.purple.cgColor
-                borderLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
+                borderLayer.addSublayer(progressLayer)
             } else {
-                progressLayer.fillColor = UIColor(red:0.51, green:0.53, blue:0.54, alpha:1.0).cgColor
-                borderLayer.fillColor = UIColor.purple.cgColor
+                let bezierPathProg = UIBezierPath(roundedRect: CGRect(x: 10 + incremented, y: 5, width: oddsBarView.bounds.width - 20 - incremented, height: oddsBarView.bounds.height - 5) , cornerRadius: viewCornerRadius)
+                bezierPathProg.close()
+                progressLayer.path = bezierPathProg.cgPath
+                progressLayer.fillColor = UIColor.purple.cgColor
+                oddsBarView.layer.addSublayer(progressLayer)
+                
             }
-            borderLayer.addSublayer(progressLayer)
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.backgroundColor =  StoryboardConstants.backgroundColor1

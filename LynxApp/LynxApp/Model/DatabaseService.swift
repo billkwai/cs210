@@ -332,7 +332,7 @@ class DatabaseService {
         let outcome2 = event.outcomes![1] as! Outcome
         
         if let expiresIn = json["expires_in"] as? Int32 {
-            if event.expiresIn != expiresIn {
+            if event.expiresIn != expiresIn && expiresIn > 0 {
                 event.expiresIn = expiresIn
             }
         }
@@ -368,7 +368,9 @@ class DatabaseService {
         }
         
         if let pickCorrect = json["pick_correct"] as? Int32 {
-            event.pickCorrect = pickCorrect
+            if (event.pickCorrect != pickCorrect) {
+                event.pickCorrect = pickCorrect
+            }
         }
         
         if let poolOutcome1 = json["entity1_pool"] as? Int32 {
@@ -403,7 +405,6 @@ class DatabaseService {
         }
         
         event.pickCorrect = -1
-        
         
         event.addToOutcomes(outcome1)
         event.addToOutcomes(outcome2)
@@ -568,7 +569,7 @@ class DatabaseService {
         
 
         let userStatsFetch = NSFetchRequest<UserStats>(entityName: "UserStats")
-        userStatsFetch.predicate = NSPredicate(format: "user.id == %ld", id)
+        userStatsFetch.predicate = NSPredicate(format: "userId == %ld", id)
         
         let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: userStatsFetch) {
             asyncResult in
@@ -660,15 +661,15 @@ class DatabaseService {
         }
         userStats.userId = id
         
-        if let id = SessionState.userNSObjectId {
-            do {
-                if let user = try privateContext.existingObject(with: id) as? User {
-                    userStats.user = user
-                }
-            } catch let error {
-                print("NSObject not found from id error: \(error)")
-            }
-        }
+//        if let id = SessionState.userNSObjectId {
+//            do {
+//                if let user = try privateContext.existingObject(with: id) as? User {
+//                    userStats.user = user
+//                }
+//            } catch let error {
+//                print("NSObject not found from id error: \(error)")
+//            }
+//        }
     }
 
 }

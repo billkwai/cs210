@@ -165,13 +165,10 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
 
         }
         
-        if (!cell.drawn) {
-            cell.drawProgressLayer()
-            // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
-            let odds = CGFloat((outcome1.pool))/CGFloat(outcome1.pool + outcome2.pool)
-            cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 10)))
-        }
-        cell.drawn = true
+        cell.drawProgressLayer()
+        // incremented is how much the progress bar shows based on team 1's pool size relative to the whole pool
+        let odds = CGFloat((outcome1.pool))/CGFloat(outcome1.pool + outcome2.pool)
+        cell.rectProgress(incremented: (odds * (cell.oddsBarView.bounds.width - 20)))
         cell.layer.borderWidth = 0.25
         cell.layer.borderColor = StoryboardConstants.tintColor.cgColor
         

@@ -93,7 +93,7 @@ class SocialScreenViewController: UIViewController {
     }
     private func fetchUserStats(id: Int) -> UserStats? {
         let userStatsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserStats")
-        userStatsFetch.predicate = NSPredicate(format: "user.id == %ld",id)
+        userStatsFetch.predicate = NSPredicate(format: "userId == %ld",id)
         
         do {
             let fetchedUserStats = try SessionState.coreDataManager.persistentContainer.viewContext.fetch (userStatsFetch) as! [UserStats]
