@@ -45,8 +45,8 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
         self.pageControl.numberOfPages = orderedViewControllers.count
         self.pageControl.currentPage = 0
         self.pageControl.tintColor = UIColor.black
-        self.pageControl.pageIndicatorTintColor = UIColor.white
-        self.pageControl.currentPageIndicatorTintColor = UIColor.black
+        self.pageControl.pageIndicatorTintColor = UIColor.black
+        self.pageControl.currentPageIndicatorTintColor = UIColor.white
         self.view.addSubview(pageControl)
     }
     
