@@ -30,9 +30,15 @@ class AutoLoginViewController: UIViewController {
     
     private func toMenu() {
         let vc = self.view?.window?.rootViewController
-        let ViewControllernew1 = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
+        let menuvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionReveal
+        transition.subtype = kCATransitionFade
+        menuvc.modalTransitionStyle = .crossDissolve
         self.dismiss(animated: false, completion: nil)
-        vc?.present(ViewControllernew1, animated: false, completion: nil)
+        vc?.present(menuvc, animated: true, completion: nil)
 
     }
 

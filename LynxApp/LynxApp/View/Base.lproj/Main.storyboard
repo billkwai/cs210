@@ -108,21 +108,6 @@
             </objects>
             <point key="canvasLocation" x="2148" y="493"/>
         </scene>
-        <!--Auto Login View Controller-->
-        <scene sceneID="rXv-Xj-MJb">
-            <objects>
-                <viewController storyboardIdentifier="autoLoginViewController" id="pdb-Ba-laV" customClass="AutoLoginViewController" customModule="LynxApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="F1B-wn-C6E">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="mtz-ih-62b"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="K4T-fz-7LI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="283" y="-258"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="6Eq-2h-Bfu">
             <objects>
@@ -1402,6 +1387,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gWi-mt-FZT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5316" y="-155"/>
+        </scene>
+        <!--Auto Login View Controller-->
+        <scene sceneID="cWg-e5-S7W">
+            <objects>
+                <viewController storyboardIdentifier="autoLoginViewController" id="aJD-Bm-J2J" customClass="AutoLoginViewController" customModule="LynxApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Bkg-vQ-6oe"/>
+                        <viewControllerLayoutGuide type="bottom" id="49x-Oc-XRk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="puo-7d-aCP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="MYs-HF-b47"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UpP-qZ-l5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="283" y="-234"/>
         </scene>
     </scenes>
     <resources>
