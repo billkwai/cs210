@@ -230,7 +230,7 @@ class DatabaseService {
                     let privateContextStats = SessionState.coreDataManager.persistentContainer.newBackgroundContext()
                     getUserStats(id: Int32(userId), privateContext: privateContextStats, completion: { successUpdateUserStats in
                         
-                        completion(successUpdateUserStats)
+                            completion(successUpdateUserStats)
                         
                     })
                 }

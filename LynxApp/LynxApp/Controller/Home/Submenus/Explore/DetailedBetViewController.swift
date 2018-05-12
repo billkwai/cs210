@@ -126,7 +126,7 @@ class DetailedBetViewController: UIViewController {
     @IBAction func entity1Clicked(_ sender: Any) {
         entity1Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity2Button.backgroundColor = hexStringToUIColor(hex: "555555")
-        decisionLabel.text = "You think " +  title1 + " will win"
+        decisionLabel.text = "You think " +  title1
         
         teamSelected = 1
         selectionMade = true
@@ -138,7 +138,7 @@ class DetailedBetViewController: UIViewController {
         
         entity2Button.backgroundColor = hexStringToUIColor(hex: "7D1A7D")
         entity1Button.backgroundColor = hexStringToUIColor(hex: "555555")
-        decisionLabel.text = "You think " +  title2 + " will win"
+        decisionLabel.text = "You think " +  title2
         
         teamSelected = 2
         selectionMade = true

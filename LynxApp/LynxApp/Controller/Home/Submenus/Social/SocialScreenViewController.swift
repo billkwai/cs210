@@ -46,9 +46,10 @@ class SocialScreenViewController: UIViewController {
     private func setEmpty() {
         allWinsLabel.text = "0"
         weeklyWinsLabel.text = "0"
-        
+
         accuracyLabel.text = "0.0"
         rankLabel.text = "0"
+
     }
 
     override func didReceiveMemoryWarning() {

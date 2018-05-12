@@ -23,7 +23,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
     func initializeFetchedResultsController() {
         let request: NSFetchRequest<User> = User.fetchRequest()
         
-        //request.predicate = NSPredicate(format: "score > 0")
+        request.predicate = NSPredicate(format: "score >= 0")
         let scoreSort = NSSortDescriptor(key: "score", ascending: false)
         request.sortDescriptors = [scoreSort]
         request.fetchLimit = 50
