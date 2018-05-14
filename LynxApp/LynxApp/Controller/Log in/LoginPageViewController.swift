@@ -72,9 +72,9 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
         // User is on the first view controller and swiped left to loop to
         // the last view controller.
         guard previousIndex >= 0 else {
-            // return orderedViewControllers.last
+             return orderedViewControllers.last
             // Uncommment the line below, remove the line above if you don't want the page control to loop.
-            return nil
+           // return nil
         }
         
         guard orderedViewControllers.count > previousIndex else {
@@ -115,7 +115,7 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
         // Added our own Facebook Login image - Basel
         let btnImage = UIImage(named: "fb-button")
         loginButton.setImage(btnImage, for: UIControlState.normal)
-        loginButton.center = CGPoint(x:view.center.x, y:view.center.y + 250);
+        loginButton.center = CGPoint(x:view.center.x, y:view.center.y + 200);
         //        loginButton.setTitle("Login with Facebook", for: .normal)
         // Handle clicks on the button
         loginButton.addTarget(self, action: #selector(self.loginButtonClicked), for: .touchUpInside)
