@@ -328,8 +328,13 @@ class DatabaseService {
     }
     
     static private func updateEventFields(event: Event, json: [String: Any], privateContext: NSManagedObjectContext) {
-        let outcome1 = event.outcomes![0] as! Outcome
-        let outcome2 = event.outcomes![1] as! Outcome
+        
+        guard let outcome1 = event.outcomes![0] as? Outcome else { return }
+        guard let outcome2 = event.outcomes![1] as? Outcome else { return }
+        
+        guard let threadSafeOutcome1 = privateContext.object(with: outcome1.objectID) as? Outcome else { return }
+        guard let threadSafeOutcome2 = privateContext.object(with: outcome2.objectID) as? Outcome else { return }
+
         
         if let expiresIn = json["expires_in"] as? Int32 {
             if event.expiresIn != expiresIn && expiresIn > 0 {
@@ -374,14 +379,14 @@ class DatabaseService {
         }
         
         if let poolOutcome1 = json["entity1_pool"] as? Int32 {
-            if outcome1.pool != poolOutcome1 {
-                outcome1.pool = poolOutcome1
+            if threadSafeOutcome1.pool != poolOutcome1 {
+                threadSafeOutcome1.pool = poolOutcome1
             }
         }
         
         if let poolOutcome2 = json["entity2_pool"] as? Int32 {
-            if outcome2.pool != poolOutcome2 {
-                outcome2.pool = poolOutcome2
+            if threadSafeOutcome2.pool != poolOutcome2 {
+                threadSafeOutcome2.pool = poolOutcome2
             }
         }
         

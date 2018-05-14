@@ -9,11 +9,23 @@
 import UIKit
 
 class ExploreScreenViewController: UIViewController {
-
+    @IBOutlet weak var rightMenuLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = StoryboardConstants.backgroundColor1
+        
+        let tapRight = UITapGestureRecognizer(target: self, action: #selector(self.tapRightMenu))
+        rightMenuLabel.isUserInteractionEnabled = true
+        rightMenuLabel.addGestureRecognizer(tapRight)
 
+    }
+    
+    @objc func tapRightMenu() {
+        if let pageController = self.parent?.parent as? HomePageViewController {
+            pageController.presentRightView()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

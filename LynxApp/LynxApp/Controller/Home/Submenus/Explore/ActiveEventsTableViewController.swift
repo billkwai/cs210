@@ -38,9 +38,22 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
 
     
     func initializeFetchedResultsController() {
+        
+        var categoryDescriptor = ""
+        switch  categoryName {
+            case "politics" : categoryDescriptor = "POLITICS"
+            break
+            case "sports" : categoryDescriptor = "SPORTS"
+            break
+            case "popculture" : categoryDescriptor = "POP_CULTURE"
+            break
+        default:
+            break
+            
+        }
+        
         let request: NSFetchRequest<Event> = Event.fetchRequest()
-
-        request.predicate = NSPredicate(format: "expiresIn > 0 && pickedOutcomeId == 0 && categoryName == %@", categoryName.uppercased())
+        request.predicate = NSPredicate(format: "expiresIn > 0 && pickedOutcomeId == 0 && categoryName == %@", categoryDescriptor)
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]
         let moc = SessionState.coreDataManager.persistentContainer.viewContext

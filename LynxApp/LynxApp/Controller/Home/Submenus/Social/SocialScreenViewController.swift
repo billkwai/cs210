@@ -21,7 +21,9 @@ extension UIView {
 }
 
 class SocialScreenViewController: UIViewController {
-
+    @IBOutlet weak var rightMenuLabel: UILabel!
+    @IBOutlet weak var leftMenuLabel: UILabel!
+    
     @IBOutlet weak var weeklyWinsLabel: UILabel!
     
     @IBOutlet weak var allWinsLabel: UILabel!
@@ -37,6 +39,16 @@ class SocialScreenViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = StoryboardConstants.backgroundColor1
+        
+        let tapLeft = UITapGestureRecognizer(target: self, action: #selector(self.tapLeftMenu))
+        leftMenuLabel.isUserInteractionEnabled = true
+        leftMenuLabel.addGestureRecognizer(tapLeft)
+        
+        let tapRight = UITapGestureRecognizer(target: self, action: #selector(self.tapRightMenu))
+        rightMenuLabel.isUserInteractionEnabled = true
+        rightMenuLabel.addGestureRecognizer(tapRight)
+
+        
         
         updateTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(self.getStats), userInfo: nil, repeats: true)
         
@@ -92,6 +104,22 @@ class SocialScreenViewController: UIViewController {
             setEmpty()
         }
     }
+    
+    @objc func tapRightMenu() {
+        if let pageController = self.parent?.parent as? HomePageViewController {
+            pageController.presentRightView()
+        }
+
+    }
+    
+    @objc func tapLeftMenu() {
+        if let pageController = self.parent?.parent as? HomePageViewController {
+            pageController.presentLeftView()
+        }
+
+    }
+    
+    
     private func fetchUserStats(id: Int) -> UserStats? {
         let userStatsFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "UserStats")
         userStatsFetch.predicate = NSPredicate(format: "userId == %ld",id)

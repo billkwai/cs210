@@ -38,16 +38,39 @@ class HomePageViewController: UIPageViewController, UIPageViewControllerDelegate
         // Do any additional setup after loading the view.
     }
     
+    func presentLeftView() {
+        let currentIndex = pageControl.currentPage
+        if currentIndex == 0 {
+            return
+        }
+        self.setViewControllers([orderedViewControllers[currentIndex - 1]], direction: .reverse, animated: true, completion: nil)
+        
+        pageControl.currentPage = currentIndex - 1
+    }
+    
+    func presentRightView() {
+        let currentIndex = pageControl.currentPage
+        if currentIndex == orderedViewControllers.count + 1 {
+            return
+        }
+        self.setViewControllers([orderedViewControllers[currentIndex + 1]], direction: .forward, animated: true, completion: nil)
+        
+        pageControl.currentPage = currentIndex + 1
+        
+    }
+    
+    
     func configurePageControl() {
         // The total number of pages that are available is based on how many available colors we have.
         pageControl = UIPageControl(frame: CGRect(x: 0,y: UIScreen.main.bounds.maxY - 50,width: UIScreen.main.bounds.width,height: 50))
         self.pageControl.numberOfPages = orderedViewControllers.count
-        self.pageControl.currentPage = 0
+        self.pageControl.currentPage = 1
         self.pageControl.tintColor = UIColor.black
         self.pageControl.pageIndicatorTintColor = UIColor.white
         self.pageControl.currentPageIndicatorTintColor = UIColor.black
         self.view.addSubview(pageControl)
     }
+    
     
     func newVc(viewController: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)

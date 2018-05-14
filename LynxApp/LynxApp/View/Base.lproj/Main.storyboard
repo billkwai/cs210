@@ -1171,7 +1171,9 @@
                     <connections>
                         <outlet property="accuracyLabel" destination="59d-Fr-hDc" id="yTN-RS-Zhq"/>
                         <outlet property="allWinsLabel" destination="gBJ-BM-v3N" id="62C-aZ-fRd"/>
+                        <outlet property="leftMenuLabel" destination="VNH-Qg-PeK" id="yUb-1c-AlA"/>
                         <outlet property="rankLabel" destination="oWn-ES-Esv" id="jIu-nr-Ig5"/>
+                        <outlet property="rightMenuLabel" destination="76L-WI-tQ8" id="6Ml-P3-8Et"/>
                         <outlet property="weeklyWinsLabel" destination="GSl-Uo-Pdx" id="KXi-0y-HYd"/>
                     </connections>
                 </viewController>
@@ -1244,6 +1246,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8iS-8h-eHa"/>
                     </view>
+                    <connections>
+                        <outlet property="leftScreenLabel" destination="bIF-wK-OAZ" id="GGo-A6-E0m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nAs-mL-6FL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1314,6 +1319,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vyx-Ps-E89"/>
                     </view>
+                    <connections>
+                        <outlet property="rightMenuLabel" destination="BAq-Dl-HRO" id="gXB-xI-POx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4zP-cH-eNA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
