@@ -22,10 +22,9 @@ class ActiveEventCell: UITableViewCell {
     @IBOutlet weak var timeUnitLabel: UILabel!
     
     @IBOutlet weak var categoryImage: UIImageView!
-    
+        
     @IBOutlet weak var poolSizeLabel: UILabel!
     
-        
     //citation link: https://stackoverflow.com/questions/39215050/how-to-make-a-custom-progress-bar-in-swift-ios
     let viewCornerRadius : CGFloat = 10
     var borderLayer : CAShapeLayer = CAShapeLayer()
