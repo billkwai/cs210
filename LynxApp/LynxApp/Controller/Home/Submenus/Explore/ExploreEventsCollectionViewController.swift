@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ExploreEventsCollectionViewController: UICollectionViewController {
     
@@ -75,6 +76,8 @@ class ExploreEventsCollectionViewController: UICollectionViewController {
             if cell.categoryName == "locked" {
                 return false
             }
+            // Tracking selection of categories
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterContentType: "explore-category", AnalyticsParameterItemID: cell.categoryName])
         }
         return true
     }
