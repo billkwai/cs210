@@ -9,6 +9,7 @@
 import UIKit
 import FacebookCore
 import FacebookLogin
+import FirebaseAnalytics
 
 class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
@@ -137,6 +138,9 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             case .success(let grantedPermissions, let declinedPermissions, let accessToken):
                 // TODO: user_friends permission not being registered for some reason
                 
+                // Track if user attempted to login
+                Analytics.logEvent("loginAttempted", parameters: nil)
+                
                 if grantedPermissions.contains("public_profile") && grantedPermissions.contains("email") {
                     self.attemptLogin(accessToken: accessToken)
                 } else {
@@ -158,6 +162,10 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
                 } else {
                     // save user to cloud database
                     if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
+                        
+                        // Track user signups
+                        // currently only includes Facebook signups
+                        Analytics.logEvent(AnalyticsEventSignUp, parameters: [AnalyticsParameterSignUpMethod: "facebook"])
                         
                         if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
                             self.performLogin(id: id)
@@ -184,6 +192,10 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
                                     // NOT CORRECTLY WAITING!
                                     DatabaseService.updateSocialData(completion: { successGetSocialData in
                                         if successGetSocialData {
+                                            
+                                            // Track successful login
+                                            Analytics.logEvent(AnalyticsEventLogin, parameters: nil)
+                                            
                                             DispatchQueue.main.async {
                                                 self.toMenu()
                                             }
