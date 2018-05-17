@@ -41,6 +41,8 @@ def create_app(config_name):
   NUM_LEADERBOARD_ALL = 100
   EMAIL_EXISTS = -4
   USERNAME_EXISTS = -5
+  USER_FOUND = 1
+  USER_NOT_FOUND = -1
 
 
   #DB_NAME = 'employees'
@@ -194,9 +196,10 @@ def create_app(config_name):
                     id INTEGER NOT NULL AUTO_INCREMENT,
                     firstname VARCHAR(255) NOT NULL,
                     lastname VARCHAR(255) NOT NULL,
-                    username VARCHAR(255) NOT NULL,
-                    password VARCHAR(255) NOT NULL,
-                    salted VARCHAR(255) NOT NULL,
+                    fbuserid  BIGINT  NOT NULL,
+                    username VARCHAR(255),
+                    password VARCHAR(255),
+                    salted VARCHAR(255),
                     email VARCHAR(255),
                     phone VARCHAR(255),
                     birthdate VARCHAR(10),
@@ -500,6 +503,7 @@ def create_app(config_name):
       cur = conn.cursor()
       print ("Trying to create player")
       json_arr = request.get_json()
+      user_exists = 
       ret_username_exists = username_or_email_exists_helper(json_arr['username'])
       ret_email_exists = username_or_email_exists_helper(json_arr['email'])
 
@@ -598,6 +602,34 @@ def create_app(config_name):
   def username_exists():
       json_arr = request.get_json()
       return jsonify(username_or_email_exists_helper(json_arr['username']))
+
+  @app.route('/players/fb_user_exists', methods=['POST'])
+  def fb_user_exists():
+      json_arr = request.get_json()
+      return jsonify(fb_user_exists_helper(json_arr['fb_user_id']))
+
+
+  def fb_user_exists_helper(fb_user_id):
+      conn = creatConnection()
+      cur = conn.cursor()
+      try:
+          cur.execute('''SELECT id FROM PLAYERS WHERE fbuserid='%s'; '''%(fb_user_id));
+
+          rv = cur.fetchone()
+          if rv is None:
+              message = {'status': USER_NOT_FOUND, 'message': 'No matching user found'}
+          else:
+              message = {'status': USER_FOUND, 'message': 'Matching username/email found', 'id': rv['id']}
+
+      except Exception as e:
+          logging.error('DB exception: %s' % e)
+          message = {'status': DB_EXCEPTION_THROWN, 'message': 'DB Exception thrown'}
+
+      cur.close()
+      conn.close()
+      return message
+
+
 
   def username_or_email_exists_helper(username):
       conn = creatConnection()
