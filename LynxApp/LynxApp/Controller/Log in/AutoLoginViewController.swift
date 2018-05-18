@@ -13,10 +13,7 @@ class AutoLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let accessToken = AccessToken.current {
-            SessionState.accessToken = accessToken
-            toMenu()
-        }
+
 
         // Do any additional setup after loading the view.
     }

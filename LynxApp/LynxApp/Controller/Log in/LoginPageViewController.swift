@@ -181,7 +181,6 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
                         if successGetUserEvents {
                             DatabaseService.updateActiveEventData(id: String(SessionState.userId!), completion: { successGetActiveEvents in
                                 if successGetActiveEvents {
-                                    // NOT CORRECTLY WAITING!
                                     DatabaseService.updateSocialData(completion: { successGetSocialData in
                                         if successGetSocialData {
                                             DispatchQueue.main.async {
