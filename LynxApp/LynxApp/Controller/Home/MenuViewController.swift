@@ -24,8 +24,6 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = StoryboardConstants.backgroundColor1
-
-        updateUI()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(MenuViewController.tapLogout))
         logoutLabel.isUserInteractionEnabled = true
@@ -35,6 +33,10 @@ class MenuViewController: UIViewController {
         updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
 
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        updateUI()
     }
     
     @objc func tapLogout(sender: AnyObject) {
@@ -110,8 +112,12 @@ class MenuViewController: UIViewController {
                 DatabaseService.updateActiveEventData(id: String(SessionState.userId!), completion: { successGetActiveEvents in
                     if successGetActiveEvents {
                         DatabaseService.updateSocialData(completion: { successGetSocialData in
-                            if successGetSocialData {
-                                self.updateUI()
+                            if successGetActiveEvents {
+                                DatabaseService.getUser(id: String(SessionState.userId!), completion: { successGetUser in
+                                    if successGetUser {
+                                        self.updateUI()
+                                    }
+                                })
                             }
                         })
                     }

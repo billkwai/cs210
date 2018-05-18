@@ -51,9 +51,10 @@ class DatabaseService {
     }
     
     
-    static func checkIfUserExists(name: String) -> Int? {
+    static func checkIfUserExistsFb(id: String) -> Int? {
         
-        let response = Just.post(baseUrl + requests.userpath + "/username_exists", json:["username":name])
+        let response = Just.post(baseUrl + requests.userpath + "/fb_user_exists", json:["fb_user_id":id])
+        print(response.json)
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 
@@ -64,6 +65,24 @@ class DatabaseService {
         }
         return nil
     }
+    
+    static func checkIfUserExistsEmail(email: String?) -> Int? {
+        if email == nil {
+            return nil
+        }
+        let response = Just.post(baseUrl + requests.userpath + "/username_exists", json:["username":email])
+        if let json = response.json as? [String: Any] {
+            if let status = json["status"] as! Int? {
+                
+                if status == result_status.USERNAME_VALID {
+                    return json["id"] as? Int
+                }
+            }
+        }
+        return nil
+    }
+    
+    
     
     static func login(id: String, password: String) -> Bool {
         let response = Just.post(baseUrl + requests.userpath + "/" + id + "/login", json:["password":password])
@@ -110,9 +129,9 @@ class DatabaseService {
         
     }
     
-    static func createUser(firstName: String, lastName: String, email: String) -> Bool {
+    static func createUser(firstName: String, lastName: String, email: String?, fbId: String) -> Bool {
         
-        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"username": email, "email": email, "phone": "", "birthDate": "", "password": ""])
+        let response = Just.post(baseUrl + requests.userpath, json:["firstName": firstName, "lastName": lastName,"fb_user_id": fbId, "username": email, "email": email, "phone": "", "birthDate": "", "password": ""])
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 
@@ -520,13 +539,13 @@ class DatabaseService {
     }
     
     private static func updateUserFields(user: User, json: [String: Any], privateContext: NSManagedObjectContext) {
-        
-        if let coins = json["coins"] as? Int32 {
-            if user.coins != coins {
-                user.coins = coins
+        if let coins = json["coins"] as? Double {
+            let coinsInt = Int32(coins)
+            if user.coins != coinsInt {
+                user.coins = coinsInt
             }
         }
-        if let score = json["score"] as? Float {
+        if let score = json["score"] as? Double {
             if user.score != score {
                 user.score = score
             }
@@ -536,6 +555,7 @@ class DatabaseService {
                 user.percentile = percentile
             }
         }
+
         
     }
     
@@ -550,8 +570,8 @@ class DatabaseService {
         if let username = json["username"] as? String {
             user.username = username
         }
-        if let coins = json["coins"] as? Int32 {
-            user.coins = coins
+        if let coins = json["coins"] as? Double {
+            user.coins = Int32(coins)
         }
         if let firstName = json["firstname"] as? String {
             user.firstName = firstName
@@ -559,11 +579,14 @@ class DatabaseService {
         if let lastName = json["lastname"] as? String {
             user.lastName = lastName
         }
-        if let score = json["score"] as? Float {
+        if let score = json["score"] as? Double {
             user.score = score
         }
         if let percentile = json["percentile"] as? Float {
             user.percentile = percentile
+        }
+        if let fbId = json["fb_user_id"] as? Int {
+            user.fbId = String(fbId)
         }
         user.id = id
     

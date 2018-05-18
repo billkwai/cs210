@@ -156,18 +156,21 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     private func attemptLogin(accessToken: AccessToken) {
         DatabaseService.getFacebookFields(accessToken: accessToken, fields: "email,first_name, last_name", completion: { (values) -> Void in
-            if let email = values["email"] as? String {
-                if let id = DatabaseService.checkIfUserExists(name: email) {
+            if let fbId = accessToken.userId {
+                let email = values["email"] as? String
+                if let id = DatabaseService.checkIfUserExistsFb(id: fbId) {
                     self.performLogin(id: id)
-                } else {
+                } else if let id = DatabaseService.checkIfUserExistsEmail(email: email) {
+                    self.performLogin(id: id)
+                }  else {
                     // save user to cloud database
-                    if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email)) {
+                    if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email!, fbId: fbId)) {
                         
                         // Track user signups
                         // currently only includes Facebook signups
                         Analytics.logEvent(AnalyticsEventSignUp, parameters: [AnalyticsParameterSignUpMethod: "facebook"])
                         
-                        if let id = DatabaseService.checkIfUserExists(name: email) { // user created, now fetch info
+                        if let id = DatabaseService.checkIfUserExistsFb(id: fbId) { // user created, now fetch info
                             self.performLogin(id: id)
                         }
                     }
@@ -175,6 +178,10 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
             }
             
         })
+    }
+    
+    private func newUser() {
+        
     }
     
     private func performLogin(id: Int) {

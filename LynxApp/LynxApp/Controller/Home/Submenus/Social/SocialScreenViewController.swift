@@ -59,7 +59,7 @@ class SocialScreenViewController: UIViewController {
         allWinsLabel.text = "0"
         weeklyWinsLabel.text = "0"
 
-        accuracyLabel.text = "0.0"
+        accuracyLabel.text = "50.0"
         rankLabel.text = "0"
 
     }
@@ -82,8 +82,10 @@ class SocialScreenViewController: UIViewController {
                 
                 accuracyLabel.fadeTransition(0.4)
                 if userStats.incorrectEver + userStats.correctEver == 0 {
-                    accuracyLabel.text = "0.0"
+                    accuracyLabel.text = "50.0"
 
+                } else if (userStats.incorrectEver == 0) {
+                    accuracyLabel.text = "100.0"
                 } else {
                     accuracyLabel.text = String(Float(userStats.correctEver)/Float(userStats.incorrectEver + userStats.correctEver))
                 }

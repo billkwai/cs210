@@ -158,6 +158,7 @@ class DetailedBetViewController: UIViewController {
                 SessionState.coreDataManager.persistentContainer.viewContext.perform {
                     self.event?.pickedOutcomeId = Int32(self.teamSelected)
                     self.event?.betSize = Int32(betSize)
+                    self.updateCoins(coinWager: betSize)
                     
                     // Track bet making
                     // AnalyticsParameterValue is the time until experiation in seconds
@@ -182,6 +183,16 @@ class DetailedBetViewController: UIViewController {
         
         
         
+    }
+    
+    private func updateCoins(coinWager: Int) {
+        do {
+            if let user = try SessionState.coreDataManager.persistentContainer.viewContext.existingObject(with: SessionState.userNSObjectId!) as? User {
+                user.coins -= Int32(coinWager)
+            }
+        } catch let error {
+            print("NSObject not found from id error: \(error)")
+        }
     }
     
     @IBOutlet weak var sliderLabel: UILabel!
