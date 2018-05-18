@@ -37,6 +37,7 @@
 		3BFC8DF520A3CFDC00E62B6F /* CategoryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DF420A3CFDC00E62B6F /* CategoryScreenViewController.swift */; };
 		6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */; };
 		6575250E20984F0E00191441 /* ExploreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */; };
+		65DA9ED520AE1CD500569E7C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65DA9ED420AE1CD400569E7C /* GoogleService-Info.plist */; };
 		B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */; };
 		B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33E89A91ED67A3B00E5A503 /* Main.storyboard */; };
 		B33E89AD1ED67A3B00E5A503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B33E89AC1ED67A3B00E5A503 /* Assets.xcassets */; };
@@ -79,6 +80,7 @@
 		6450F7173278311FE0E889DF /* Pods-LynxApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventsCollectionViewController.swift; sourceTree = "<group>"; };
 		6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventCollectionViewCell.swift; sourceTree = "<group>"; };
+		65DA9ED420AE1CD400569E7C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B33E89A21ED67A3B00E5A503 /* LynxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LynxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B33E89AA1ED67A3B00E5A503 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				3B28360B2037618B001FBEFC /* Controller */,
 				3BEAF8072036B5E800398079 /* Supporting Files */,
 				B33E89B11ED67A3B00E5A503 /* Info.plist */,
+				65DA9ED420AE1CD400569E7C /* GoogleService-Info.plist */,
 			);
 			path = LynxApp;
 			sourceTree = "<group>";
@@ -274,7 +277,6 @@
 				B33E899F1ED67A3B00E5A503 /* Frameworks */,
 				B33E89A01ED67A3B00E5A503 /* Resources */,
 				31ADCDE0E09F210ABE6BD99B /* [CP] Embed Pods Frameworks */,
-				836A2B22D5FBA18F14C0BE9E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -333,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B33E89B01ED67A3B00E5A503 /* LaunchScreen.storyboard in Resources */,
+				65DA9ED520AE1CD500569E7C /* GoogleService-Info.plist in Resources */,
 				B33E89AD1ED67A3B00E5A503 /* Assets.xcassets in Resources */,
 				B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */,
 			);
@@ -355,6 +358,8 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -365,25 +370,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		836A2B22D5FBA18F14C0BE9E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A65670524A57AC79F9D37FDA /* [CP] Check Pods Manifest.lock */ = {

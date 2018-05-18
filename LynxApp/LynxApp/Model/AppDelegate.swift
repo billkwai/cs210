@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import FacebookCore
 import FacebookLogin
+import Firebase
 
 
 @UIApplicationMain
@@ -51,6 +52,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         self.window?.makeKeyAndVisible()
+        
+        // configure Firebase Analytics
+        FirebaseApp.configure()
+        
         return SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
