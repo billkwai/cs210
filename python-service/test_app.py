@@ -54,7 +54,7 @@ class FlaskAppTests(unittest.TestCase):
     self.assertEqual(result.data.decode('UTF-8'), "The application is running!")
 
   def test_03_add_new_player(self):
-    result = self.app.post('/players', data=json.dumps(dict(firstName='Bill', lastName='Kwai', username='billkwai', password='password', email='billkwai@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
+    result = self.app.post('/players', data=json.dumps(dict(firstName='Bill', lastName='Kwai', username='billkwai', fb_user_id=4, password='password', email='billkwai@stanford.edu', phone='8888888888', birthDate='1996-01-19')), content_type='application/json')
     json_data = json.loads(result.get_data(as_text=True))
     self.assertEqual(result.status_code, 200)
     self.assertEqual(json_data['status'], 1)
