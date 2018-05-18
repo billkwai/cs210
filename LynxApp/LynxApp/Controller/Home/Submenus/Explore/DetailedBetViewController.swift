@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class DetailedBetViewController: UIViewController {
     
@@ -157,6 +158,12 @@ class DetailedBetViewController: UIViewController {
                 SessionState.coreDataManager.persistentContainer.viewContext.perform {
                     self.event?.pickedOutcomeId = Int32(self.teamSelected)
                     self.event?.betSize = Int32(betSize)
+                    
+                    // Track bet making
+                    // AnalyticsParameterValue is the time until experiation in seconds
+                    // pickedOutcomeId is the side that the user bet on
+                    Analytics.logEvent("betMade", parameters: [AnalyticsParameterItemCategory: self.event?.categoryName! as Any, AnalyticsParameterItemID: self.event?.eventTitle! as Any, AnalyticsParameterContentType: "detail-bet", AnalyticsParameterQuantity: self.event?.betSize as Any, AnalyticsParameterValue: self.event?.expiresIn as Any, AnalyticsParameterIndex: self.event?.pickedOutcomeId as Any])
+                    
                     do {
                         // Saves the data from the child to the main context to be stored properly
                         try SessionState.coreDataManager.persistentContainer.viewContext.save()

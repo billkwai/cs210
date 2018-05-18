@@ -214,7 +214,6 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
                 default: break
                 }
                 destinationVC.eventManagedId = self.fetchedResultsController.object(at: indexPath).objectID
-            
             }
         }
         
