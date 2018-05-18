@@ -503,13 +503,13 @@ def create_app(config_name):
       cur = conn.cursor()
       print ("Trying to create player")
       json_arr = request.get_json()
-      user_exists = 
-      ret_username_exists = username_or_email_exists_helper(json_arr['username'])
-      ret_email_exists = username_or_email_exists_helper(json_arr['email'])
+      user_exists = fb_user_exists_helper(json_arr['fb_user_id'])
+      #ret_username_exists = username_or_email_exists_helper(json_arr['username'])
+      #ret_email_exists = username_or_email_exists_helper(json_arr['email'])
 
-      field_taken = not (ret_username_exists['status'] == USERNAME_INVALID and 
-                            ret_email_exists['status'] == USERNAME_INVALID)
-
+      #field_taken = not (ret_username_exists['status'] == USERNAME_INVALID and 
+       #                     ret_email_exists['status'] == USERNAME_INVALID)
+      field_taken = user_exists['status'] = USER_NOT_FOUND
 
       if (not field_taken):
           try:
@@ -537,15 +537,15 @@ def create_app(config_name):
 
               api_key = binascii.hexlify(os.urandom(API_KEY_LENGTH)).decode('utf-8')
 
-              cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, SALTED'''
+              cmd_str = '''INSERT INTO PLAYERS (FIRSTNAME, LASTNAME, fbuserid, USERNAME, PASSWORD, SALTED'''
               #if (request.json['email'] != None):
 
 
               cmd_str += ''',
-                          EMAIL, PHONE, BIRTHDATE, COINS, API_KEY)# COLLEGE_ID, COMPANY_ID, COINS) 
-                          VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+                          EMAIL, PHONE, BIRTHDATE, COINS, API_KEY, COLLEGE_ID, COMPANY_ID, COINS) 
+                          VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 
-              cur.execute(cmd_str, (json_arr['firstName'],json_arr['lastName'],json_arr['username'],
+              cur.execute(cmd_str, (json_arr['firstName'],json_arr['lastName'], json_arr['fb_user_id'], json_arr['username'],
                               hashed_pw_db, 'salted_db', json_arr['email'],json_arr['phone'],
                               json_arr['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))
 
