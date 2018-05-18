@@ -43,6 +43,7 @@ def create_app(config_name):
   USERNAME_EXISTS = -5
   USER_FOUND = 1
   USER_NOT_FOUND = -1
+  USER_ALREADY_EXISTS = -6
 
 
   #DB_NAME = 'employees'
@@ -509,7 +510,7 @@ def create_app(config_name):
 
       #field_taken = not (ret_username_exists['status'] == USERNAME_INVALID and 
        #                     ret_email_exists['status'] == USERNAME_INVALID)
-      field_taken = user_exists['status'] = USER_NOT_FOUND
+      field_taken = (user_exists['status'] == USER_FOUND)
 
       if (not field_taken):
           try:
@@ -542,13 +543,13 @@ def create_app(config_name):
 
 
               cmd_str += ''',
-                          EMAIL, PHONE, BIRTHDATE, COINS, API_KEY, COLLEGE_ID, COMPANY_ID, COINS) 
+                          EMAIL, PHONE, BIRTHDATE, COINS, API_KEY) 
                           VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
-
+              print("cmd_str is "+cmd_str)
               cur.execute(cmd_str, (json_arr['firstName'],json_arr['lastName'], json_arr['fb_user_id'], json_arr['username'],
                               hashed_pw_db, 'salted_db', json_arr['email'],json_arr['phone'],
                               json_arr['birthDate'], NO_INITIAL_COINS, api_key))#request.json['college_id'], request.json['company_id'], NO_INITIAL_COINS))
-
+              print(cmd_str)
               # report back the id of the new player that was just added for integration testing purposes
               if app.config['TESTING']:
                 cur.fetchall()
@@ -562,6 +563,7 @@ def create_app(config_name):
                 message = {'status': POST_SUCCESSFUL, 'message': 'New player record is created succesfully', 'api_key' : api_key}
               cur.close()
           except Exception as e:
+              print("Exception is "+str(e))
               #logging.error('DB exception: %s' % e)
               exc_type, exc_obj, exc_tb = sys.exc_info()
               fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -569,12 +571,12 @@ def create_app(config_name):
               message = {'status': DB_EXCEPTION_THROWN, 'message': 'The creation of the new player failed. DB exception: %s' % e}
       
       else:
+          message = {'status': USER_ALREADY_EXISTS, 'message': 'FB User already exists'}
+          #if (ret_email_exists['status'] == USERNAME_VALID):
+           #   message = {'status': EMAIL_EXISTS, 'message': 'Email already exists'}
 
-          if (ret_email_exists['status'] == USERNAME_VALID):
-              message = {'status': EMAIL_EXISTS, 'message': 'Email already exists'}
-
-          if (ret_username_exists['status'] == USERNAME_VALID):
-              message = {'status': USERNAME_EXISTS, 'message': 'Username already exists'}
+          #if (ret_username_exists['status'] == USERNAME_VALID):
+           #   message = {'status': USERNAME_EXISTS, 'message': 'Username already exists'}
 
 
       conn.close()
