@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
@@ -72,6 +73,15 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Delegation
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let currentCell = tableView.cellForRow(at: indexPath) as? ActiveEventCell {
+            // Track active event selection
+            Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterContentType: "new-active-event", AnalyticsParameterItemID: currentCell.eventTitleLabel.text!, AnalyticsParameterItemCategory: self.categoryName, AnalyticsParameterValue: currentCell.timeNumberLabel.text! + currentCell.timeUnitLabel.text!])
+        }
     }
 
     // MARK: - Table view data source
@@ -202,10 +212,8 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
                 case "popculture": destinationVC.categoryImage = categoryImageArray[1]
                 case "sports": destinationVC.categoryImage = categoryImageArray[2]
                 default: break
-
                 }
                 destinationVC.eventManagedId = self.fetchedResultsController.object(at: indexPath).objectID
-            
             }
         }
         
