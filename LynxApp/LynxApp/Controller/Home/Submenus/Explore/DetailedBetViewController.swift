@@ -131,7 +131,7 @@ class DetailedBetViewController: UIViewController {
         
         teamSelected = 1
         selectionMade = true
-        updateWinning()
+        updateSubmit()
 
     }
     
@@ -143,7 +143,7 @@ class DetailedBetViewController: UIViewController {
         
         teamSelected = 2
         selectionMade = true
-        updateWinning()
+        updateSubmit()
 
     }
     
@@ -152,13 +152,12 @@ class DetailedBetViewController: UIViewController {
     @IBAction func submitForecast(_ sender: Any) {
         if Reachability.isInternetAvailable() {
             let betSize = Int(round(sliderValue.value/50))*50
-            if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!,
-                                         id1: Int(entity1id!), id2: Int(entity2id!))) {
+            if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!, id1: Int(entity1id!), id2: Int(entity2id!))) {
                 
                 SessionState.coreDataManager.persistentContainer.viewContext.perform {
                     self.event?.pickedOutcomeId = Int32(self.teamSelected)
                     self.event?.betSize = Int32(betSize)
-                    self.updateCoins(coinWager: betSize)
+                    //self.updateCoins(coinWager: betSize)
                     
                     // Track bet making
                     // AnalyticsParameterValue is the time until experiation in seconds
@@ -199,30 +198,40 @@ class DetailedBetViewController: UIViewController {
     
     private func setSubmitStatus(canSubmit: Bool) {
         if (canSubmit) {
-            sliderLabel.textColor = UIColor.white
+            //sliderLabel.textColor = UIColor.white
             submitButton.isEnabled = true
-            submitButton.setTitleColor(AppTheme.detailViewPurple, for: .normal)
+            submitButton.setTitleColor(UIColor.white, for: .normal)
+            submitButton.backgroundColor = UIColor.purple
         } else {
-            sliderLabel.textColor = UIColor.red
+            //sliderLabel.textColor = UIColor.red
             submitButton.isEnabled = false
             submitButton.setTitleColor(AppTheme.lightGrey, for: .normal)
+            submitButton.backgroundColor = UIColor.darkGray
 
             
+        }
+    }
+    
+    private func updateSubmit() {
+        if (userCoins < bet) {
+            sliderLabel.textColor = UIColor.red
+            setSubmitStatus(canSubmit: false)
+        } else if selectionMade {
+            sliderLabel.textColor = UIColor.white
+            setSubmitStatus(canSubmit: true)
+        } else {
+            sliderLabel.textColor = UIColor.white
+        }
+        sliderLabel.text = "Your Wager: " + String(bet)
+        if selectionMade{
+            updateWinning()
         }
     }
     
     
     @IBAction func wagerSlider(_ sender: UISlider) {
         bet = Int(round(sender.value/50))*50
-        if (userCoins < bet) {
-            setSubmitStatus(canSubmit: false)
-        } else {
-            setSubmitStatus(canSubmit: true)
-        }
-        sliderLabel.text = "Your Wager: " + String(bet)
-        if selectionMade{
-            updateWinning()
-        }
+        updateSubmit()
 
     }
     
@@ -257,7 +266,8 @@ class DetailedBetViewController: UIViewController {
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tap)
         self.oddsBarView.backgroundColor = StoryboardConstants.backgroundColor1
-
+        self.submitButton.layer.cornerRadius = 5
+        
         
         if let id = SessionState.userNSObjectId {
             do {
@@ -278,9 +288,7 @@ class DetailedBetViewController: UIViewController {
             if let image = categoryImage {
                 eventImage.image = image
             }
-            if (userCoins == 0) {
-                setSubmitStatus(canSubmit: false)
-            }
+            setSubmitStatus(canSubmit: false)
             let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))
             
             if (times.0 == 1) {

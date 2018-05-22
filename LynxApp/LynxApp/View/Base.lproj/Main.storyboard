@@ -1350,10 +1350,11 @@
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ff6-3S-4j5">
                                         <rect key="frame" x="78" y="484" width="238" height="52"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Futura-MediumItalic" family="Futura" pointSize="30"/>
-                                        <color key="tintColor" red="0.72941176470000002" green="0.2901960784" blue="0.72549019609999998" alpha="0.83516160100000003" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Submit Prediction">
-                                            <color key="titleColor" red="0.80400651690000002" green="0.71585661170000003" blue="0.8156983256" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="submitForecast:" destination="1Kw-hV-PVC" eventType="touchUpInside" id="lxL-CY-SbI"/>
