@@ -67,7 +67,7 @@ class LeaderboardTableViewController: UITableViewController, NSFetchedResultsCon
 
         cell.rankLabel.text = String(indexPath.row + 1) // right now assumes users ordered from greatest to least
         cell.nameLabel.text = String(user.firstName![user.firstName!.startIndex]) + ". " + user.lastName!
-        cell.scoreLabel.text = String(user.score)
+        cell.scoreLabel.text = String(Int(user.score))
         cell.percentileLabel.text = String(user.percentile)
         
         // makes cells unselectable until we implement functionality for this feature

@@ -267,6 +267,8 @@ class DetailedBetViewController: UIViewController {
         backLabel.addGestureRecognizer(tap)
         self.oddsBarView.backgroundColor = StoryboardConstants.backgroundColor1
         self.submitButton.layer.cornerRadius = 5
+        setSubmitStatus(canSubmit: false)
+
         
         
         if let id = SessionState.userNSObjectId {
@@ -275,6 +277,11 @@ class DetailedBetViewController: UIViewController {
                     
                     userCoins = Int(user.coins)
                     userId = Int(user.id)
+                    
+                    if userCoins < 50 {
+                        sliderLabel.textColor = UIColor.red
+                        
+                    }
 
                 }
             } catch let error {
@@ -288,7 +295,6 @@ class DetailedBetViewController: UIViewController {
             if let image = categoryImage {
                 eventImage.image = image
             }
-            setSubmitStatus(canSubmit: false)
             let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event!.expiresIn))
             
             if (times.0 == 1) {
