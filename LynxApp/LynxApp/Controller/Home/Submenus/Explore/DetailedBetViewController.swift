@@ -163,7 +163,7 @@ class DetailedBetViewController: UIViewController {
                     // Track bet making
                     // AnalyticsParameterValue is the time until experiation in seconds
                     // pickedOutcomeId is the side that the user bet on
-                    Analytics.logEvent("betMade", parameters: [AnalyticsParameterItemCategory: self.event?.categoryName! as Any, AnalyticsParameterItemID: self.event?.eventTitle! as Any, AnalyticsParameterContentType: "detail-bet", AnalyticsParameterQuantity: self.event?.betSize as Any, AnalyticsParameterValue: self.event?.expiresIn as Any, AnalyticsParameterIndex: self.event?.pickedOutcomeId as Any])
+                    Analytics.logEvent("betMade", parameters: [AnalyticsParameterItemCategory: self.event?.categoryName! as Any, AnalyticsParameterItemID: self.event?.eventTitle! as Any, AnalyticsParameterContentType: "detail-bet", AnalyticsParameterQuantity: self.event?.expiresIn as Any, AnalyticsParameterValue: self.event?.betSize as Any, AnalyticsParameterIndex: self.event?.pickedOutcomeId as Any])
                     
                     do {
                         // Saves the data from the child to the main context to be stored properly
