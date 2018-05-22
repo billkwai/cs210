@@ -157,7 +157,7 @@ class DetailedBetViewController: UIViewController {
                 SessionState.coreDataManager.persistentContainer.viewContext.perform {
                     self.event?.pickedOutcomeId = Int32(self.teamSelected)
                     self.event?.betSize = Int32(betSize)
-                    //self.updateCoins(coinWager: betSize)
+                    self.updateCoins(coinWager: betSize)
                     
                     // Track bet making
                     // AnalyticsParameterValue is the time until experiation in seconds

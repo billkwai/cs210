@@ -54,7 +54,6 @@ class DatabaseService {
     static func checkIfUserExistsFb(id: String) -> Int? {
         
         let response = Just.post(baseUrl + requests.userpath + "/fb_user_exists", json:["fb_user_id":id])
-        print(response.json)
         if let json = response.json as? [String: Any] {
             if let status = json["status"] as! Int? {
                 
@@ -348,6 +347,7 @@ class DatabaseService {
     
     static private func updateEventFields(event: Event, json: [String: Any], privateContext: NSManagedObjectContext) {
         
+        if (event.outcomes?.count)! < 2 { return }
         guard let outcome1 = event.outcomes![0] as? Outcome else { return }
         guard let outcome2 = event.outcomes![1] as? Outcome else { return }
         
