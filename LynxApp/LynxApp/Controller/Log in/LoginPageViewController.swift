@@ -221,8 +221,8 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     private func toMenu() {
         let vc = self.view?.window?.rootViewController
-        let menuvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC)
-        
+        let menuvc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: StoryboardConstants.MenuVC) as! MenuViewController
+        menuvc.logIn = true
         // add simple login animation
         let transition: CATransition = CATransition()
         transition.duration = 0.5

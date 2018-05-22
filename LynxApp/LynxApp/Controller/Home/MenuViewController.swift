@@ -15,9 +15,14 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var logoutLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var coinBalanceLabel: UILabel!
+    
     let maxBlackViewAlpha: CGFloat = 0.5
     let animationDuration: TimeInterval = 0.3
+    
+    var overlay: UIVisualEffectView?
+    
     var isLeftToRight = true
+    var logIn = false
     
     var updateTimer: Timer!
     
@@ -31,13 +36,16 @@ class MenuViewController: UIViewController {
         
         
         updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
-
         
+        if logIn {
+            addOverlay()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         updateUI()
     }
+    
     
     @objc func tapLogout(sender: AnyObject) {
         let _ = KeychainWrapper.standard.removeAllKeys()
@@ -57,7 +65,64 @@ class MenuViewController: UIViewController {
 
     }
     
+    @objc func tapOverlayButton(sender: AnyObject) {
+        UIView.animate(withDuration: 0.2, animations: {self.overlay?.alpha = 0.0},
+                                   completion: {(value: Bool) in
+                                    self.overlay?.removeFromSuperview()
+        })
+    }
     
+    private func addOverlay() {
+        //only apply the blur if the user hasn't disabled transparency effects
+        if !UIAccessibilityIsReduceTransparencyEnabled() {
+            view.backgroundColor = .clear
+            
+            let blurEffect = UIBlurEffect(style: .dark)
+            overlay = UIVisualEffectView(effect: blurEffect)
+            //always fill the view
+            overlay?.frame = self.view.bounds
+            overlay?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            
+            let buttonHeight: CGFloat = 40
+            let buttonWidth: CGFloat = 200
+            
+            // Add a custom login button to your app
+            let overlayButton = UIButton(type: .custom)
+            overlayButton.backgroundColor = UIColor.purple
+            overlayButton.frame = CGRect(x:view.center.x - buttonWidth/2, y:view.center.y + 8*buttonHeight/2, width:buttonWidth, height:buttonHeight);
+            overlayButton.setTitle("Start Predicting...", for: .normal)
+            overlayButton.titleLabel?.font = nameLabel.font
+            overlayButton.layer.cornerRadius = 5
+            // Handle clicks on the button
+            overlayButton.addTarget(self, action: #selector(self.tapOverlayButton), for: .touchUpInside)
+            overlay?.contentView.addSubview(overlayButton)
+            
+            let labelHeight: CGFloat = 30
+            let labelWidth: CGFloat = 300
+            
+            let labelLeft = UILabel(frame: CGRect(x: view.center.x - labelWidth/2, y: view.center.y - 2*labelHeight/2, width: labelWidth, height: labelHeight))
+            //labelLeft.center = CGPoint(x: 160, y: 285)
+            labelLeft.textAlignment = .center
+            labelLeft.text = "Swipe left to find new events"
+            labelLeft.font = nameLabel.font
+            labelLeft.textColor = UIColor.purple
+            overlay?.contentView.addSubview(labelLeft)
+            
+            let labelRight = UILabel(frame: CGRect(x: view.center.x - labelWidth/2, y: view.center.y + labelHeight/2, width: labelWidth, height: labelHeight))
+            //labelRight.center = CGPoint(x: 160, y: 300)
+            labelRight.textAlignment = .center
+            labelRight.text = "Swipe right to see how you stack up"
+            labelRight.font = nameLabel.font
+            labelRight.textColor = UIColor.purple
+            overlay?.contentView.addSubview(labelRight)
+            
+            view.addSubview(overlay!)
+        } else {
+            view.backgroundColor = .black
+        }
+    }
+    
+
     private func fetchUser(id: Int) -> User? {
         let userFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
         userFetch.predicate = NSPredicate(format: "id == %ld",id)
