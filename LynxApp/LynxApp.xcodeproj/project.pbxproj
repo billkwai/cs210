@@ -277,6 +277,7 @@
 				B33E899F1ED67A3B00E5A503 /* Frameworks */,
 				B33E89A01ED67A3B00E5A503 /* Resources */,
 				31ADCDE0E09F210ABE6BD99B /* [CP] Embed Pods Frameworks */,
+				6511385420B4F2AA00516A44 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -377,6 +378,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		6511385420B4F2AA00516A44 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		A65670524A57AC79F9D37FDA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
