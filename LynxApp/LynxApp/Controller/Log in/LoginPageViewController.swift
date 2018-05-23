@@ -164,7 +164,7 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
                     self.performLogin(id: id)
                 }  else {
                     // save user to cloud database
-                    if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email!, fbId: fbId)) {
+                    if (DatabaseService.createUser(firstName: values["first_name"] as! String, lastName: values["last_name"] as! String, email: email, fbId: fbId)) {
                         
                         // Track user signups
                         // currently only includes Facebook signups
