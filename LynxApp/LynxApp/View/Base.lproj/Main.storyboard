@@ -553,8 +553,31 @@
                             </connections>
                         </containerView>
                         <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userEventsHeaderCell" id="JaP-Nk-aj1">
+                                <rect key="frame" x="0.0" y="268" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JaP-Nk-aj1" id="L5l-2e-nCC">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Predictions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlW-9k-dDt">
+                                            <rect key="frame" x="100" y="11" width="214" height="22"/>
+                                            <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="VlW-9k-dDt" secondAttribute="trailing" constant="100" id="8xY-Pz-OXx"/>
+                                        <constraint firstAttribute="bottom" secondItem="VlW-9k-dDt" secondAttribute="bottom" constant="11" id="Jl2-kg-tkw"/>
+                                        <constraint firstItem="VlW-9k-dDt" firstAttribute="top" secondItem="L5l-2e-nCC" secondAttribute="top" constant="11" id="haR-k5-ick"/>
+                                        <constraint firstItem="VlW-9k-dDt" firstAttribute="leading" secondItem="L5l-2e-nCC" secondAttribute="leading" constant="100" id="mGJ-Ho-yFW"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="userEventCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userEventCell" rowHeight="100" id="Z6u-1m-Zdh" userLabel="userEventCell" customClass="UserEventCell" customModule="LynxApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="268" width="414" height="100"/>
+                                <rect key="frame" x="0.0" y="312" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Z6u-1m-Zdh" id="ekd-Eg-ItO">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -671,7 +694,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yeC-ND-hM8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2892" y="-425.03748125937034"/>
+            <point key="canvasLocation" x="2889.8550724637685" y="-425.54347826086962"/>
         </scene>
         <!--Leaderboard Table View Controller-->
         <scene sceneID="oMM-2p-1Ue">
@@ -846,7 +869,7 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Track your progress and view what events you've wagered on. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7a-Ys-drv">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Track your progress and view what events you've wagered on.  " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7a-Ys-drv">
                                                 <rect key="frame" x="10" y="49" width="374" height="33"/>
                                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="12"/>
                                                 <color key="textColor" red="0.70740518730000002" green="0.65694333780000003" blue="0.72965916450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -895,13 +918,13 @@
                                                 <rect key="frame" x="0.0" y="54" width="334" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Predictive Accuracy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="476-4N-jsG">
-                                                        <rect key="frame" x="0.0" y="3.6666666666666572" width="133.33333333333334" height="19.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="3.6666666666666572" width="222.66666666666666" height="19.666666666666668"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                         <color key="textColor" red="0.45113736389999998" green="0.1532901824" blue="0.47453391550000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="accuracy" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="59d-Fr-hDc">
-                                                        <rect key="frame" x="183.33333333333337" y="3.6666666666666572" width="150.66666666666663" height="19.666666666666668"/>
+                                                        <rect key="frame" x="272.66666666666669" y="3.6666666666666572" width="61.333333333333314" height="19.666666666666668"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                         <color key="textColor" red="0.45113736389999998" green="0.1532901824" blue="0.47453391550000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
@@ -912,13 +935,13 @@
                                                 <rect key="frame" x="0.0" y="81" width="334" height="27"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Current Rank" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQo-9Z-56t">
-                                                        <rect key="frame" x="0.0" y="3.6666666666666572" width="253.66666666666666" height="19.666666666666668"/>
+                                                        <rect key="frame" x="0.0" y="3.6666666666666572" width="89" height="19.666666666666668"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                         <color key="textColor" red="0.45113736389999998" green="0.1532901824" blue="0.47453391550000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="rank" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWn-ES-Esv">
-                                                        <rect key="frame" x="303.66666666666669" y="3.6666666666666572" width="30.333333333333314" height="19.666666666666668"/>
+                                                        <rect key="frame" x="139" y="3.6666666666666572" width="195" height="19.666666666666668"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                         <color key="textColor" red="0.45113736389999998" green="0.1532901824" blue="0.47453391550000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
@@ -1050,13 +1073,13 @@
                                         <rect key="frame" x="20" y="0.0" width="374" height="52.333333333333336"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3M1-uK-slE">
-                                                <rect key="frame" x="0.0" y="1" width="281.33333333333331" height="50"/>
+                                                <rect key="frame" x="0.0" y="1" width="242.33333333333334" height="50"/>
                                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                                 <color key="textColor" red="0.70740518730000002" green="0.65694333780000003" blue="0.72965916450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Dashboard &gt;" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BAq-Dl-HRO">
-                                                <rect key="frame" x="311.33333333333331" y="14.999999999999998" width="62.666666666666686" height="22.333333333333329"/>
+                                                <rect key="frame" x="272.33333333333331" y="14.999999999999998" width="101.66666666666669" height="22.333333333333329"/>
                                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
                                                 <color key="textColor" red="0.70740518730000002" green="0.65694333780000003" blue="0.72965916450000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>

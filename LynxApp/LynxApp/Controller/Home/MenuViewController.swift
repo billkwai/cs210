@@ -103,7 +103,7 @@ class MenuViewController: UIViewController {
             let labelLeft = UILabel(frame: CGRect(x: view.center.x - labelWidth/2, y: view.center.y - 2*labelHeight/2, width: labelWidth, height: labelHeight))
             //labelLeft.center = CGPoint(x: 160, y: 285)
             labelLeft.textAlignment = .center
-            labelLeft.text = "Swipe left to find new events"
+            labelLeft.text = "Swipe right to find new events"
             labelLeft.font = nameLabel.font
             labelLeft.textColor = UIColor.purple
             overlay?.contentView.addSubview(labelLeft)
@@ -111,7 +111,7 @@ class MenuViewController: UIViewController {
             let labelRight = UILabel(frame: CGRect(x: view.center.x - labelWidth/2, y: view.center.y + labelHeight/2, width: labelWidth, height: labelHeight))
             //labelRight.center = CGPoint(x: 160, y: 300)
             labelRight.textAlignment = .center
-            labelRight.text = "Swipe right to see how you stack up"
+            labelRight.text = "Swipe left to see how you stack up"
             labelRight.font = nameLabel.font
             labelRight.textColor = UIColor.purple
             overlay?.contentView.addSubview(labelRight)

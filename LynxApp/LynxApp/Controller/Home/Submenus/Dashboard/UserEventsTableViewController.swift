@@ -185,6 +185,22 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.UserEventsHeaderCell)
+        cell?.contentView.backgroundColor = StoryboardConstants.backgroundColor1
+        return cell?.contentView
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0,2:
+            return 45
+        default:
+            return 60
+        }
+    }
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }

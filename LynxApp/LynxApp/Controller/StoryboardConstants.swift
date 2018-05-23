@@ -24,6 +24,8 @@ struct StoryboardConstants {
     static var UserEventCell = "userEventCell"
     static var LeaderboardCell = "leaderboardCell"
     static var LeaderboardHeaderCell = "leaderboardHeaderCell"
+    static var UserEventsHeaderCell = "userEventsHeaderCell"
+
     
     // ViewController Identifiers
     static var LoginVC1 = "loginViewController1"
