@@ -145,18 +145,25 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
                 if (event.pickedOutcomeId == outcome1.id) {
                     if (event.pickCorrect == 1) {
                         cell.timeNumberLabel.text = "Correct!"
+                        cell.timeNumberLabel.textColor = UIColor.purple
                         cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
                     } else {
                         cell.timeNumberLabel.text = "Wrong!"
+                        cell.timeNumberLabel.textColor = UIColor.red
                         cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                        cell.wagerLabel.textColor = UIColor.red
+
                     }
                 } else {
                     if (event.pickCorrect == 1) {
                         cell.timeNumberLabel.text = "Correct!"
+                        cell.timeNumberLabel.textColor = UIColor.purple
                         cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
                     } else {
                         cell.timeNumberLabel.text = "Wrong!"
+                        cell.timeNumberLabel.textColor = UIColor.red
                         cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                        cell.wagerLabel.textColor = UIColor.red
                     }
                 }
             } else {

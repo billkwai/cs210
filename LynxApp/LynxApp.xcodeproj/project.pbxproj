@@ -216,9 +216,9 @@
 		3BFC8DEC20A3C41B00E62B6F /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */,
 				3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */,
 				3B3F06362038FAF7000FE334 /* UserEventCell.swift */,
-				3BFC8DEE20A3C47800E62B6F /* DashboardScreenViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -228,7 +228,7 @@
 			children = (
 				3B28361E2037D8A3001FBEFC /* LeaderboardTableViewController.swift */,
 				3B3F06382038FB15000FE334 /* LeaderboardCell.swift */,
-				3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */,
+				3BFC8DEE20A3C47800E62B6F /* DashboardScreenViewController.swift */,
 			);
 			path = Social;
 			sourceTree = "<group>";
