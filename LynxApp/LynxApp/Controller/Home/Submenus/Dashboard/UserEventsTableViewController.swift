@@ -24,6 +24,10 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         
         self.tableView?.backgroundColor = StoryboardConstants.backgroundColor1
         initializeFetchedResultsController()
+        
+        let nib = UINib(nibName: "TableSectionHeader", bundle: nil)
+        tableView.delegate = self
+        tableView.register(nib, forHeaderFooterViewReuseIdentifier: "TableSectionHeader")
     }
     
 
@@ -55,6 +59,7 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         // Dispose of any resources that can be recreated.
     }
     
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,9 +80,6 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
-    
-    
-
     
     private func secondsToDaysHoursMinutesSeconds(seconds: Int) -> (Int, Int, Int, Int) {
         return (seconds / 86400, (seconds % 86400) / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
@@ -185,10 +187,29 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         return cell
     }
     
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.UserEventsHeaderCell)
+//        cell?.contentView.backgroundColor = StoryboardConstants.backgroundColor1
+//        return cell?.contentView
+//    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.UserEventsHeaderCell)
-        cell?.contentView.backgroundColor = StoryboardConstants.backgroundColor1
-        return cell?.contentView
+        // Here, we use NSFetchedResultsController
+        // And we simply use the section name as title
+        
+        // Dequeue with the reuse identifier
+        let header = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableSectionHeader") as! TableSectionHeader
+        header.view.backgroundColor = StoryboardConstants.backgroundColor1
+        let attr:NSDictionary = [
+            NSFontAttributeName as NSCopying: UIFont(name: "Futura-Medium", size: 17.0)!,
+            NSForegroundColorAttributeName: StoryboardConstants.textPurpleColor
+            ]
+        header.filterStatusSegment.setTitleTextAttributes(attr as [NSObject : AnyObject], for: .normal)
+        
+        // selected text title color is set to tint color scheme
+        header.filterStatusSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
+        
+        return header
     }
     
     

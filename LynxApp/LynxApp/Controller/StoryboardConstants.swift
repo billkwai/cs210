@@ -51,6 +51,7 @@ struct StoryboardConstants {
     // Theme colors
     static var backgroundColor1 = UIColor(red: 32/255.0, green: 32/255.0, blue: 32/255.0, alpha: 1.0)
     static var tintColor = UIColor(red: 167/255.0, green: 156/255.0, blue: 167/255.0, alpha: 1.0)
+    static var textPurpleColor = UIColor(red: 125/255.0, green: 26/255.0, blue: 125/255.0, alpha: 1.0)
 
 
 

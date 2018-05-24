@@ -37,6 +37,8 @@
 		3BFC8DF520A3CFDC00E62B6F /* CategoryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFC8DF420A3CFDC00E62B6F /* CategoryScreenViewController.swift */; };
 		6575250C20984EE000191441 /* ExploreEventsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */; };
 		6575250E20984F0E00191441 /* ExploreEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */; };
+		65B3CB9C20B6B38E00AA29D7 /* TableSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B3CB9B20B6B38E00AA29D7 /* TableSectionHeader.xib */; };
+		65B3CB9E20B6BA1000AA29D7 /* TableSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3CB9D20B6BA1000AA29D7 /* TableSectionHeader.swift */; };
 		65DA9ED520AE1CD500569E7C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65DA9ED420AE1CD400569E7C /* GoogleService-Info.plist */; };
 		B33E89A61ED67A3B00E5A503 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */; };
 		B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B33E89A91ED67A3B00E5A503 /* Main.storyboard */; };
@@ -80,6 +82,8 @@
 		6450F7173278311FE0E889DF /* Pods-LynxApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LynxApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LynxApp/Pods-LynxApp.debug.xcconfig"; sourceTree = "<group>"; };
 		6575250B20984EE000191441 /* ExploreEventsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventsCollectionViewController.swift; sourceTree = "<group>"; };
 		6575250D20984F0E00191441 /* ExploreEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreEventCollectionViewCell.swift; sourceTree = "<group>"; };
+		65B3CB9B20B6B38E00AA29D7 /* TableSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableSectionHeader.xib; sourceTree = "<group>"; };
+		65B3CB9D20B6BA1000AA29D7 /* TableSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSectionHeader.swift; sourceTree = "<group>"; };
 		65DA9ED420AE1CD400569E7C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B33E89A21ED67A3B00E5A503 /* LynxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LynxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33E89A51ED67A3B00E5A503 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -219,6 +223,8 @@
 				3BFC8DE920A3BA7200E62B6F /* SocialScreenViewController.swift */,
 				3B28361A2037D882001FBEFC /* UserEventsTableViewController.swift */,
 				3B3F06362038FAF7000FE334 /* UserEventCell.swift */,
+				65B3CB9B20B6B38E00AA29D7 /* TableSectionHeader.xib */,
+				65B3CB9D20B6BA1000AA29D7 /* TableSectionHeader.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -338,6 +344,7 @@
 				B33E89B01ED67A3B00E5A503 /* LaunchScreen.storyboard in Resources */,
 				65DA9ED520AE1CD500569E7C /* GoogleService-Info.plist in Resources */,
 				B33E89AD1ED67A3B00E5A503 /* Assets.xcassets in Resources */,
+				65B3CB9C20B6B38E00AA29D7 /* TableSectionHeader.xib in Resources */,
 				B33E89AB1ED67A3B00E5A503 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +449,7 @@
 				38A45F8C2056190C00D2450F /* DetailedBetViewController.swift in Sources */,
 				3BAE4BCA207FDDC200DF1B42 /* DataModel.xcdatamodeld in Sources */,
 				3B3F06372038FAF7000FE334 /* UserEventCell.swift in Sources */,
+				65B3CB9E20B6BA1000AA29D7 /* TableSectionHeader.swift in Sources */,
 				3BFC8DF520A3CFDC00E62B6F /* CategoryScreenViewController.swift in Sources */,
 				3B2836242037D9C4001FBEFC /* AppTheme.swift in Sources */,
 				3BFC8DF320A3CAAC00E62B6F /* ParentExploreViewController.swift in Sources */,
