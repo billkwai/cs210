@@ -25,6 +25,9 @@
                                 <segment title="Active"/>
                                 <segment title="Concluded"/>
                             </segments>
+                            <connections>
+                                <action selector="indexChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="b7P-Rh-0Qv"/>
+                            </connections>
                         </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

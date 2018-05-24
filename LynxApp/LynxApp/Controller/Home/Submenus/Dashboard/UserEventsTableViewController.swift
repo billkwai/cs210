@@ -9,9 +9,11 @@
 import UIKit
 import CoreData
 
-class UserEventsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class UserEventsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, StatusFilterDelegate {
 
     var fetchedResultsController: NSFetchedResultsController<Event>!
+    
+    var currentSelectionIndex: Int!
 
     var categoryImageArray: [UIImage] = [
         UIImage (named: "politics")!,
@@ -187,24 +189,22 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: StoryboardConstants.UserEventsHeaderCell)
-//        cell?.contentView.backgroundColor = StoryboardConstants.backgroundColor1
-//        return cell?.contentView
-//    }
-    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Here, we use NSFetchedResultsController
         // And we simply use the section name as title
         
         // Dequeue with the reuse identifier
         let header = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableSectionHeader") as! TableSectionHeader
+        header.delegate = self
         header.view.backgroundColor = StoryboardConstants.backgroundColor1
         let attr:NSDictionary = [
             NSFontAttributeName as NSCopying: UIFont(name: "Futura-Medium", size: 17.0)!,
             NSForegroundColorAttributeName: StoryboardConstants.textPurpleColor
             ]
         header.filterStatusSegment.setTitleTextAttributes(attr as [NSObject : AnyObject], for: .normal)
+        
+        // Save the current value of the currently selected filter (i.e. 'active' vs 'concluded')
+        currentSelectionIndex = header.filterStatusSegment.selectedSegmentIndex
         
         // selected text title color is set to tint color scheme
         header.filterStatusSegment.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
@@ -256,6 +256,16 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         tableView.endUpdates()
     }
     
-
+    // MARK: StatusFilterDelegate
+    
+    func didChangeSelection(value: Int) {
+        currentSelectionIndex = value
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+        
+        // implement logic for filtering the correct type of events
+        
+        // Reload the table data
+        
+    }
 
 }
