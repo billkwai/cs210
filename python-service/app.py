@@ -495,6 +495,12 @@ def create_app(config_name):
 
       rv = cur.fetchall()
 
+      for i in range(0, len(rv)):
+          #print(rv[i])
+          numerator = rv[i]['entity1_pool'] + rv[i]['entity2_pool']
+          rv[i]['max_entity1_correct'] = int((numerator / rv[i]['entity1_pool']) * 100)
+          rv[i]['max_entity2_correct'] = int((numerator / rv[i]['entity2_pool']) * 100)
+
       return jsonify(rv)
 
 
