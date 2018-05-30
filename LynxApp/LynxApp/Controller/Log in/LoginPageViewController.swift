@@ -129,6 +129,10 @@ class LoginPageViewController: UIPageViewController, UIPageViewControllerDelegat
     
     @objc func loginButtonClicked() {
         let loginManager = LoginManager()
+        
+        // added this logOut() function to fix login issues
+        loginManager.logOut()
+        
         loginManager.logIn(readPermissions: [ .publicProfile, .email, .userFriends ], viewController: self) { loginResult in
             switch loginResult {
             case .failed(let error):
