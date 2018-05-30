@@ -16,36 +16,28 @@ class DetailedBetViewController: UIViewController {
     var categoryImage: UIImage?
     
     @IBOutlet weak var backLabel: UILabel!
-    
     @IBOutlet weak var poolSize: UILabel!
-    
     @IBOutlet weak var decisionLabel: UILabel!
+    @IBOutlet weak var scoreOutcome1Label: UILabel!
+    @IBOutlet weak var scoreOutcome2Label: UILabel!
+    
     
     @IBOutlet weak var entity1Button: UIButton!
-    
     @IBOutlet weak var entity2Button: UIButton!
     
     var eventManagedId: NSManagedObjectID?
 
     @IBOutlet weak var eventTitle: UILabel!
-    
-    
     @IBOutlet weak var betExpirationLabel: UILabel!
-    
     @IBOutlet weak var submitButton: UIButton!
-    
-    
     @IBOutlet weak var userBalance: UILabel!
-    
     @IBOutlet weak var sliderValue: UISlider!
-    
-    
     @IBOutlet weak var oddsBarView: UIView!
     
     var teamSelected = 1
     var selectionMade = false
     var entity1id:  Int?
-    var bet = 50
+    var bet = 5
     
     var entity2id:  Int?
     
@@ -151,7 +143,7 @@ class DetailedBetViewController: UIViewController {
     
     @IBAction func submitForecast(_ sender: Any) {
         if Reachability.isInternetAvailable() {
-            let betSize = Int(round(sliderValue.value/50))*50
+            let betSize = Int(round(sliderValue.value/5))*5
             if (DatabaseService.makePick(id: String(userId), betSize: betSize, pickId: teamSelected, event: event!, id1: Int(entity1id!), id2: Int(entity2id!))) {
                 
                 SessionState.coreDataManager.persistentContainer.viewContext.perform {
@@ -213,24 +205,16 @@ class DetailedBetViewController: UIViewController {
     }
     
     private func updateSubmit() {
-        if (userCoins < bet) {
-            sliderLabel.textColor = UIColor.red
-            setSubmitStatus(canSubmit: false)
-        } else if selectionMade {
-            sliderLabel.textColor = UIColor.white
+        sliderLabel.text = "Confidence: " + String(bet) + "%"
+        if selectionMade {
             setSubmitStatus(canSubmit: true)
-        } else {
-            sliderLabel.textColor = UIColor.white
-        }
-        sliderLabel.text = "Your Wager: " + String(bet)
-        if selectionMade{
             updateWinning()
         }
     }
     
     
     @IBAction func wagerSlider(_ sender: UISlider) {
-        bet = Int(round(sender.value/50))*50
+        bet = Int(round(sender.value/5))*5
         updateSubmit()
 
     }
@@ -239,15 +223,17 @@ class DetailedBetViewController: UIViewController {
         let outcome1 = event?.outcomes![0] as? Outcome
         let outcome2 = event?.outcomes![1] as? Outcome
         
-        var winnings = 0
-        let total = Float((outcome1?.pool)!) + Float((outcome2?.pool)!)
         if teamSelected == 1{
-            winnings = Int((total/Float((outcome1?.pool)!))*Float(bet))
+            scoreOutcome1Label.textColor = UIColor.purple
+            scoreOutcome2Label.textColor = UIColor.gray
+            scoreOutcome1Label.text = "You stand to gain " + String(Int((event?.maxOutcome1Correct)! * Double(bet)/100)) + " Reputation"
+            scoreOutcome2Label.text = "You stand to lose " + String(Int((event?.maxOutcome2Correct)! * Double(bet)/100)) + " Reputation"
         } else {
-         winnings = Int((total/Float((outcome2?.pool)!))*Float(bet))
+            scoreOutcome2Label.textColor = UIColor.purple
+            scoreOutcome1Label.textColor = UIColor.gray
+            scoreOutcome2Label.text = "You stand to gain " + String(Int((event?.maxOutcome2Correct)! * Double(bet)/100)) + " Reputation"
+            scoreOutcome1Label.text = "You stand to lose " + String(Int((event?.maxOutcome1Correct)! * Double(bet)/100)) + " Reputation"
         }
-        
-        userBalance.text = "You stand to earn " + String(winnings) + " coins if correct"
         
     }
     
@@ -266,6 +252,8 @@ class DetailedBetViewController: UIViewController {
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tap)
         self.oddsBarView.backgroundColor = StoryboardConstants.backgroundColor1
+        self.scoreOutcome1Label.textColor = StoryboardConstants.backgroundColor1
+        self.scoreOutcome2Label.textColor = StoryboardConstants.backgroundColor1
         self.submitButton.layer.cornerRadius = 5
         setSubmitStatus(canSubmit: false)
 
@@ -277,11 +265,6 @@ class DetailedBetViewController: UIViewController {
                     
                     userCoins = Int(user.coins)
                     userId = Int(user.id)
-                    
-                    if userCoins < 50 {
-                        sliderLabel.textColor = UIColor.red
-                        
-                    }
 
                 }
             } catch let error {
@@ -336,12 +319,21 @@ class DetailedBetViewController: UIViewController {
             entity1Button.setTitle(outcome1?.title, for: .normal)
             entity2Button.setTitle(outcome2?.title, for: .normal)
             
-                title1 = (outcome1?.title)!
-                title2 = (outcome2?.title)!
+            title1 = (outcome1?.title)!
+            title2 = (outcome2?.title)!
 
 
-        
-            poolSize.text = "Pool Size:  " + String(describing: ((outcome1?.pool)! + (outcome2?.pool)!)) + " coins"
+            let poolTotal = Double((outcome1?.pool)! + (outcome2?.pool)!)
+            if (poolTotal > 0) {
+                var percent1 = Double((outcome1?.pool)!)/poolTotal * 100
+                var percent2 = Double((outcome2?.pool)!)/poolTotal * 100
+                percent1.round()
+                percent2.round()
+
+                poolSize.text = "\(Int(percent1))% \(title1) - \(Int(percent2))% \(title2)"
+            } else {
+                poolSize.text = "50% \(title1) - 50% \(title2)"
+            }
             
             eventTitle.text = event?.eventTitle
 

@@ -145,7 +145,12 @@ class MenuViewController: UIViewController {
             DispatchQueue.main.async {
                 
                 self.nameLabel.text = user.firstName
-                self.coinBalanceLabel.text = String(user.coins) + " coins"
+                self.coinBalanceLabel.text = String(Int(user.score)) + " Reputation"
+                if user.score > 0 {
+                    self.coinBalanceLabel.textColor = UIColor.green
+                } else if user.score < 0 {
+                    self.coinBalanceLabel.textColor = UIColor.red
+                }
             }
         }
     }

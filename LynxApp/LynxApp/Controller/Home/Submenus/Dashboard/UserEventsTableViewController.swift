@@ -130,7 +130,7 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         }
             
         
-        cell.wagerLabel.text = "You wagered " + String(event.betSize) + " coins"
+        cell.wagerLabel.text = "You were " + String(event.betSize) + "% confident"
         cell.backgroundColor = StoryboardConstants.backgroundColor1
 
         
@@ -174,11 +174,11 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
                     if (event.pickCorrect == 1) {
                         cell.timeNumberLabel.text = "Correct!"
                         cell.timeNumberLabel.textColor = UIColor.purple
-                        cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
+                        cell.wagerLabel.text = "You gained " + String(event.correctPayout) + " Reputation"
                     } else {
                         cell.timeNumberLabel.text = "Wrong!"
                         cell.timeNumberLabel.textColor = UIColor.red
-                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " Reputation"
                         cell.wagerLabel.textColor = UIColor.red
 
                     }
@@ -186,11 +186,11 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
                     if (event.pickCorrect == 1) {
                         cell.timeNumberLabel.text = "Correct!"
                         cell.timeNumberLabel.textColor = UIColor.purple
-                        cell.wagerLabel.text = "You won " + String(event.correctPayout) + " coins"
+                        cell.wagerLabel.text = "You gained " + String(event.correctPayout) + " Reputation"
                     } else {
                         cell.timeNumberLabel.text = "Wrong!"
                         cell.timeNumberLabel.textColor = UIColor.red
-                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " coins"
+                        cell.wagerLabel.text = "You lost " + String(event.betSize) + " Reputation"
                         cell.wagerLabel.textColor = UIColor.red
                     }
                 }

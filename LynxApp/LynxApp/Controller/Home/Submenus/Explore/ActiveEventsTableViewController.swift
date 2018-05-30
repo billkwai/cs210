@@ -113,7 +113,21 @@ class ActiveEventsTableViewController: UITableViewController, NSFetchedResultsCo
         let outcome2 = event.outcomes![1] as! Outcome
         cell.outcome1Label.text = outcome1.title
         cell.outcome2Label.text = outcome2.title
+        
         cell.poolSizeLabel.text = "Pool Size: " + String(outcome1.pool + outcome2.pool)
+        
+        let title1 = (outcome1.title)!
+        let title2 = (outcome2.title)!
+        let poolTotal = Double((outcome1.pool) + (outcome2.pool))
+        if (poolTotal > 0) {
+            var percent1 = Double((outcome1.pool))/poolTotal * 100
+            var percent2 = Double((outcome2.pool))/poolTotal * 100
+            percent1.round()
+            percent2.round()
+            cell.poolSizeLabel.text = "\(Int(percent1))% \(title1) - \(Int(percent2))% \(title2)"
+        } else {
+            cell.poolSizeLabel.text = "50% \(title1) - 50% \(title2)"
+        }
         
         switch (categoryName) {
         case "politics": cell.categoryImage.image = categoryImageArray[0]

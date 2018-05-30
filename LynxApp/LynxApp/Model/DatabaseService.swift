@@ -380,6 +380,20 @@ class DatabaseService {
                 event.betSize = betSize
             }
         }
+        
+        if let maxOutcome1Correct = json["max_entity1_correct"] as? Double {
+            if event.maxOutcome1Correct != maxOutcome1Correct {
+                event.maxOutcome1Correct = maxOutcome1Correct
+            }
+        }
+
+        
+        if let maxOutcome2Correct = json["max_entity2_correct"] as? Double {
+            if event.maxOutcome2Correct != maxOutcome2Correct {
+                event.maxOutcome2Correct = maxOutcome2Correct
+            }
+        }
+        
         if let pickedOutcome = json["picked_entity"] as? Int32 {
             if event.pickedOutcomeId != pickedOutcome {
                 event.pickedOutcomeId = pickedOutcome
@@ -469,6 +483,15 @@ class DatabaseService {
         }
         if let correctPayout = json["correct_payout"] as? Double {
             event.correctPayout = correctPayout
+        }
+        
+        if let maxOutcome1Correct = json["max_entity1_correct"] as? Double {
+            event.maxOutcome1Correct = maxOutcome1Correct
+        }
+        
+        
+        if let maxOutcome2Correct = json["max_entity2_correct"] as? Double {
+            event.maxOutcome2Correct = maxOutcome2Correct
         }
         
         if let poolOutcome1 = json["entity1_pool"] as? Int32 {

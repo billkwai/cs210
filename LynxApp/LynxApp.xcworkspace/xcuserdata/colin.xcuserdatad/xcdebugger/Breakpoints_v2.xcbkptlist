@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Model/DatabaseService.swift"
-            timestampString = "548788840.742779"
+            timestampString = "549349267.2743241"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "185"
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Controller/Home/Submenus/Dashboard/UserEventsTableViewController.swift"
-            timestampString = "548788840.742864"
+            timestampString = "548984230.5548331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
             endingLineNumber = "221"
-            landmarkName = "controller(_:didChange:at:for:newIndexPath:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LynxApp/Controller/Home/Submenus/Dashboard/UserEventsTableViewController.swift"
-            timestampString = "548788840.743248"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
-            landmarkName = "controller(_:didChange:atSectionIndex:for:)"
+            landmarkName = "tableView(_:heightForHeaderInSection:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Controller/Home/Submenus/Dashboard/UserEventCell.swift"
-            timestampString = "547774685.038886"
+            timestampString = "548982789.259764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
@@ -74,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Controller/Home/Submenus/Dashboard/UserEventCell.swift"
-            timestampString = "547774685.038946"
+            timestampString = "548982789.25982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Controller/Home/Submenus/Explore/DetailedBetViewController.swift"
-            timestampString = "548712275.074267"
+            timestampString = "549328875.422398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "wagerSlider(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LynxApp/Controller/Home/Submenus/Explore/DetailedBetViewController.swift"
-            timestampString = "548712275.07432"
+            timestampString = "549328875.422451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "updateWinning()"
             landmarkType = "7">
          </BreakpointContent>
@@ -118,32 +102,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LynxApp/Controller/Home/Submenus/Explore/DetailedBetViewController.swift"
-            timestampString = "548712275.074368"
+            filePath = "LynxApp/Model/DatabaseService.swift"
+            timestampString = "549349267.275067"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
-            landmarkName = "updateSubmit()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LynxApp/Controller/Home/Submenus/Explore/DetailedBetViewController.swift"
-            timestampString = "548712275.0744129"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
-            landmarkName = "updateWinning()"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
+            landmarkName = "addEventFields(id:json:privateContext:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
