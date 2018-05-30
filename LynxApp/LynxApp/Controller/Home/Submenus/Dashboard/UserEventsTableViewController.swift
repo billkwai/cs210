@@ -40,7 +40,7 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let request: NSFetchRequest<Event> = Event.fetchRequest()
         
         //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
-        request.predicate = NSPredicate(format: "pickedOutcomeId != 0")
+        request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 1")
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]
         
@@ -59,12 +59,12 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let request: NSFetchRequest<Event> = Event.fetchRequest()
         
         if (type == 0) { // active events
-            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && expiresIn > 0")
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 1")
             let timeSort = NSSortDescriptor(key: "expiresIn", ascending: true)
             request.sortDescriptors = [timeSort]
         }
         else { // expired events
-            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && expiresIn <= 0")
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 0")
             let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
             request.sortDescriptors = [timeSort]
         }
