@@ -55,6 +55,30 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         }
     }
     
+    func refetchUserEvents(with type: Int) {
+        let request: NSFetchRequest<Event> = Event.fetchRequest()
+        
+        if (type == 0) { // active events
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && expiresIn > 0")
+            let timeSort = NSSortDescriptor(key: "expiresIn", ascending: true)
+            request.sortDescriptors = [timeSort]
+        }
+        else { // expired events
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && expiresIn <= 0")
+            let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
+            request.sortDescriptors = [timeSort]
+        }
+        let moc = SessionState.coreDataManager.persistentContainer.viewContext
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+            tableView.reloadData()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -262,10 +286,8 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         currentSelectionIndex = value
         self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
         
-        // implement logic for filtering the correct type of events
-        
-        // Reload the table data
-        
+        // refetch the correct type of event
+        refetchUserEvents(with: value)
     }
 
 }
