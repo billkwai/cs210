@@ -110,6 +110,8 @@ class DatabaseService {
                 updateUser(json: json, privateContext: privateContext, completion: { successUpdateUser in
                     completion(successUpdateUser)
                 })
+            } else {
+                completion(true)
             }
             
         }
@@ -122,6 +124,8 @@ class DatabaseService {
                 updateUserStats(id: id, json: json, privateContext: privateContext, completion: { successUpdateUserStats in
                     completion(successUpdateUserStats)
                 })
+            } else {
+                completion(true)
             }
             
         }
@@ -187,6 +191,8 @@ class DatabaseService {
                         })
                     }
                 }
+            } else {
+                completion(true)
             }
             
         }
@@ -208,6 +214,8 @@ class DatabaseService {
                         })
                     }
                 }
+            } else {
+                completion(true)
             }
 
         }
@@ -274,9 +282,7 @@ class DatabaseService {
                         })
                     }
                 }
-
             }
-            
         }
         
     }

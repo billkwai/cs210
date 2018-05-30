@@ -35,7 +35,7 @@ class MenuViewController: UIViewController {
         logoutLabel.addGestureRecognizer(tap)
         
         
-        updateTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
         
         if logIn {
             addOverlay()
@@ -49,6 +49,9 @@ class MenuViewController: UIViewController {
     
     @objc func tapLogout(sender: AnyObject) {
         let _ = KeychainWrapper.standard.removeAllKeys()
+        
+        updateTimer.invalidate()
+        
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let loginPageVC = mainStoryboard.instantiateViewController(withIdentifier: StoryboardConstants.LoginPageVC) as! LoginPageViewController
         UIApplication.shared.keyWindow?.rootViewController = loginPageVC
@@ -60,8 +63,7 @@ class MenuViewController: UIViewController {
         transition.type = kCATransitionReveal
         transition.subtype = kCATransitionFromLeft
         self.view.window!.layer.add(transition, forKey: nil)
-        
-        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+        self.view.removeFromSuperview()
 
     }
     
