@@ -40,7 +40,7 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let request: NSFetchRequest<Event> = Event.fetchRequest()
         
         //request.predicate = NSPredicate(format: "expiresIn > 0 && pickTimestamp == nil")
-        request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 1")
+        request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && pickCorrect == -1")
         let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
         request.sortDescriptors = [timeSort]
         
@@ -59,12 +59,12 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         let request: NSFetchRequest<Event> = Event.fetchRequest()
         
         if (type == 0) { // active events
-            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 1")
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && pickCorrect == -1")
             let timeSort = NSSortDescriptor(key: "expiresIn", ascending: true)
             request.sortDescriptors = [timeSort]
         }
         else { // expired events
-            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && eventActive = 0")
+            request.predicate = NSPredicate(format: "pickedOutcomeId != 0 && pickCorrect != -1")
             let timeSort = NSSortDescriptor(key: "expiresIn", ascending: false)
             request.sortDescriptors = [timeSort]
         }
@@ -143,6 +143,10 @@ class UserEventsTableViewController: UITableViewController, NSFetchedResultsCont
         
         // Time labels
         let times = secondsToDaysHoursMinutesSeconds(seconds: Int(event.expiresIn))
+        
+        cell.wagerLabel.textColor = UIColor.white
+        cell.timeNumberLabel.textColor = UIColor.white
+        
         if (times.0 == 1) {
             cell.timeNumberLabel.text = "\(times.0)"
             cell.timeUnitLabel.text = "Day"
