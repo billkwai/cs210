@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import FacebookLogin
 
 class MenuViewController: UIViewController {
     
@@ -49,6 +50,9 @@ class MenuViewController: UIViewController {
     
     @objc func tapLogout(sender: AnyObject) {
         let _ = KeychainWrapper.standard.removeAllKeys()
+        
+        // added this logOut() function to fix login issues
+        LoginManager().logOut()
         
         updateTimer.invalidate()
         
